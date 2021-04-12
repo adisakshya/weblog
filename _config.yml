@@ -9,6 +9,7 @@ defaults:
       read_time: true
       share: true
       related: true
+      author_profile: true
 
 compress_html:
   clippings: all
@@ -30,6 +31,25 @@ search: true
 remote_theme: "mmistakes/minimal-mistakes@4.22.0"
 plugins:
   - jekyll-include-cache
+
+author:
+  name: "Adisakshya Chauhan"
+  avatar: "assets/images/avatar.jpg"
+  bio: "A student developer who loves learning new things and proactively seek new concepts every day"
+  location: "28.6245° N, 77.0914° E"
+  links:
+    - label: "Adisakshya Codes"
+      icon: "fas fa-fw fa-link"
+      url: "https://adisakshya.codes"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/adisakshya"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/adisakshya"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/adisakshya"
 
 footer:
   links:

@@ -65,3 +65,6 @@ footer:
     - label: "Email"
       icon: "fab fa-fw fa-google"
       url: "mailto:hi@adisakshya.codes"
+
+include: ["_pages"]
+exclude: ["README.md"]

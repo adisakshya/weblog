@@ -1,0 +1,17 @@
+.page__footer {
+    border: 3px solid #f2f3f3;
+    background-color: #fff;
+}
+.page__footer ul.social-icons {
+    float: right;
+}
+.footer-pages li {
+    font-size: 0.7em;
+}
+.footer-pages li:hover {
+    color: #111;
+    text-decoration: underline;
+}
+.social-icons li a i {
+    font-size: 1em;
+}

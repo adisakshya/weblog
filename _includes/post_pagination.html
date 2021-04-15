@@ -1,0 +1,27 @@
+{% if page.previous or page.next %}
+  <nav class="pagination">
+    {% if page.previous %}
+      <a rel="prev" href="{{ page.previous.url | relative_url }}" class="pagination--pager" >
+        <span>←</span>
+        <span class="prev-post-title">{{ page.previous.title | markdownify | strip_html }}</span>
+      </a>
+    {% else %}
+      <a rel="prev" href="#" class="pagination--pager" >
+        <!-- <span>🠑</span> -->
+        <span class="prev-post-title">Top</span>
+      </a>
+    {% endif %}
+
+    {% if page.next %}
+      <a rel="next" href="{{ page.next.url | relative_url }}" class="pagination--pager" >
+        <span class="next-post-title">{{ page.next.title | markdownify | strip_html }}</span>
+        <span>→</span>
+      </a>
+    {% else %}
+      <a rel="next" href="#" class="pagination--pager" >
+        <span class="next-post-title">Top</span>
+        <!-- <span>🠑</span> -->
+      </a>
+    {% endif %}
+  </nav>
+{% endif %}

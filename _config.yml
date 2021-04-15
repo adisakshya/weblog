@@ -8,8 +8,8 @@ defaults:
       show_date: true
       read_time: true
       share: true
-      related: true
-      author_profile: true
+      related: false
+      author_profile: false
 
 compress_html:
   clippings: all

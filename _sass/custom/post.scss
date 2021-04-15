@@ -1,0 +1,79 @@
+.page__inner-wrap header {
+    text-align: center;
+}
+.page__inner-wrap .page__meta {
+    margin-bottom: 0.5em;
+}
+.tag-list {
+    text-align: center;
+}
+header h1.page__title {
+    font-size: 2.25em;
+}
+header h1.page__title:before {
+    content: "";
+    display: block;
+    margin: 1rem auto 1rem;
+    width: 40px;
+    height: 3px;
+    background-color: #111;
+}
+.pagination--pager:first-child {
+    text-align: left;
+}
+.pagination--pager:last-child {
+    text-align: right;
+}
+.pagination--pager {
+    display: block;
+    padding: 1em;
+    float: left;
+    width: 50%;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    color: #646769;
+}
+.pagination--pager:hover {
+    background-color: #fff;
+    color: #000;
+}
+span.next-post-title:hover, span.prev-post-title:hover {
+    text-decoration: underline;
+}
+.page__share {
+    text-align: center;
+}
+.page__content:after {
+    content: "";
+    display: block;
+    margin: 1rem auto 1rem;
+    width: 40px;
+    height: 3px;
+    background-color: #111;
+}
+@media (min-width: 80em) {
+    .page {
+        width: calc(100% - 90px);
+        padding-right: 90px;
+    }
+}
+@media (min-width: 64em) {
+    .page {
+        width: calc(100% - 90px);
+        padding-right: 90px;
+    }
+}
+.page .page__inner-wrap .page__content, .page .page__inner-wrap .page__meta, .page .page__inner-wrap .comment__date, .page .page__inner-wrap .page__share {
+    float: none;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media (max-width: 750px) {
+    .page .page__inner-wrap .page__content, .page .page__inner-wrap .page__meta, .page .page__inner-wrap .comment__date, .page .page__inner-wrap .page__share {
+        width: 100%;
+    }
+}

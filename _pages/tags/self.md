@@ -5,4 +5,4 @@ permalink: /tags/self/
 taxonomy: self
 ---
 
-Sample post listing for the tag `self`.
+Post listing for the tag `self`.

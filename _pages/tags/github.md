@@ -1,8 +1,8 @@
 ---
-title: GitHub
+title: "#github"
 layout: tag
 permalink: /tags/github/
 taxonomy: github
 ---
 
-Sample post listing for the tag `github`.
+Post listing for the tag `github`.

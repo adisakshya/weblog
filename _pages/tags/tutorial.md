@@ -1,8 +1,8 @@
 ---
-title: Tutorial
+title: "#tutorial"
 layout: tag
 permalink: /tags/tutorial/
 taxonomy: tutorial
 ---
 
-Sample post listing for the tag `tutorial`.
+Post listing for the tag `tutorial`.

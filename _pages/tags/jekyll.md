@@ -1,8 +1,8 @@
 ---
-title: Jekyll
+title: "#jekyll"
 layout: tag
 permalink: /tags/jekyll/
 taxonomy: jekyll
 ---
 
-Sample post listing for the tag `jekyll`.
+Post listing for the tag `jekyll`.

@@ -25,7 +25,7 @@ header h1.page__title:before {
     text-align: right;
 }
 .pagination--pager {
-    display: block;
+    display: inline-table;
     padding: 1em;
     float: left;
     width: 50%;
@@ -39,6 +39,10 @@ header h1.page__title:before {
 .pagination--pager:hover {
     background-color: #fff;
     color: #000;
+}
+.pagination-icon {
+    font-size: 2em;
+    margin: 0.1em;
 }
 span.next-post-title:hover, span.prev-post-title:hover {
     text-decoration: underline;

@@ -2,7 +2,8 @@
   <nav class="pagination">
     {% if page.previous %}
       <a rel="prev" href="{{ page.previous.url | relative_url }}" class="pagination--pager" >
-        <span>←</span>
+        <span class="pagination-icon">←</span>
+        <br/>
         <span class="prev-post-title">{{ page.previous.title | markdownify | strip_html }}</span>
       </a>
     {% else %}
@@ -15,7 +16,8 @@
     {% if page.next %}
       <a rel="next" href="{{ page.next.url | relative_url }}" class="pagination--pager" >
         <span class="next-post-title">{{ page.next.title | markdownify | strip_html }}</span>
-        <span>→</span>
+        <br/>
+        <span class="pagination-icon">→</span>
       </a>
     {% else %}
       <a rel="next" href="#" class="pagination--pager" >

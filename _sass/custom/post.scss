@@ -77,3 +77,13 @@ span.next-post-title:hover, span.prev-post-title:hover {
         width: 100%;
     }
 }
+@media (max-width: 830px) {
+    body.layout--single div#main {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    header, div.tag-list, section.page__content, nav.pagination {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+}

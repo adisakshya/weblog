@@ -60,17 +60,17 @@ author:
 
 footer:
   links:
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
+    - label: "github"
+      icon: "fab fa-github"
       url: "https://github.com/adisakshya"
-    - label: "LinkedIn"
+    - label: "linkedin"
       icon: "fab fa-linkedin"
       url: "https://www.linkedin.com/in/adisakshya/"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
+    - label: "twitter"
+      icon: "fab fa-twitter"
       url: "https://twitter.com/adisakshya"
-    - label: "Email"
-      icon: "fab fa-fw fa-google"
+    - label: "google"
+      icon: "fab fa-google"
       url: "mailto:hi@adisakshya.codes"
 
 include: ["_pages"]

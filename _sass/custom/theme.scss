@@ -1,0 +1,72 @@
+.archive__subtitle mark {
+    color: var(--bg-color);
+    background-color: var(--font-color);
+    padding: 0.55em;
+    border-radius: 0.1em;
+}
+h2.archive__item-title a {
+    color: var(--font-color)!important;
+    font-weight: 600;
+}
+a.site-title {
+    color: var(--font-color);
+    font-weight: 700;
+}
+a.site-title:hover {
+    color: var(--font-color);
+    font-weight: 900;
+}
+@media (min-width: 420px) {
+    a.site-title {
+        font-size: 1.5em;
+    }
+}
+/* ICONS */
+
+.icon-button i {
+    color: var(--bg-color)!important;
+    border-radius: 1.4rem;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.7rem;
+    height: 1.4rem;
+    line-height: 1.4rem;
+    position: relative;
+    text-align: center;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 1.4rem;
+    margin: 0 5px 10px;
+    transition: 0.2s ease-in;
+}
+.linkedin i {
+    background-color: #0e76a8;
+}
+.github i {
+    background-color: #333;
+}
+.google i {
+    background-color: #ea4335;
+}
+.twitter i {
+    background-color: #1da1f2;
+}
+.medium i {
+    background-color: #000;
+}
+.mobile i {
+    background-color: #f48024;
+}
+.instagram i {
+    background-color: #c13584;
+}
+.github i:hover,
+.google i:hover,
+.instagram i:hover,
+.linkedin i:hover,
+.medium i:hover,
+.mobile i:hover,
+.twitter i:hover {
+    background-color: var(--font-color);
+}

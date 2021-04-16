@@ -5,7 +5,7 @@
     }
 }
 .archive__subtitle {
-    border-bottom: 1px solid #111;
+    border-bottom: 1px solid var(--font-color);
 }
 .archive__item-excerpt {
     margin-top: 0.5em;
@@ -15,4 +15,10 @@ p {
 }
 .masthead {
     border-bottom: none;
+}
+.taxonomy__count {
+    background-color: #f5f5f6;
+    width: fit-content;
+    padding: 0.1em;
+    text-align: center;
 }

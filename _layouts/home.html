@@ -7,7 +7,7 @@ layout: archive
 {% include intro.html %}
 {% include tag-list.html %}
 
-<h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
+<h3 class="archive__subtitle"><mark>{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</mark></h3>
 
 {% if paginator %}
   {% assign posts = paginator.posts %}

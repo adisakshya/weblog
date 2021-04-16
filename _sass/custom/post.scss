@@ -17,7 +17,7 @@ header h1.page__title:before {
     margin: 1rem auto 1rem;
     width: 40px;
     height: 3px;
-    background-color: #111;
+    background-color: var(--font-color);
 }
 .pagination--pager:first-child {
     text-align: left;
@@ -38,8 +38,8 @@ header h1.page__title:before {
     color: #646769;
 }
 .pagination--pager:hover {
-    background-color: #fff;
-    color: #000;
+    background-color: var(--bg-color);
+    color: var(--font-color);
 }
 .pagination-icon {
     font-size: 2em;
@@ -57,7 +57,7 @@ span.next-post-title:hover, span.prev-post-title:hover {
     margin: 1rem auto 1rem;
     width: 40px;
     height: 3px;
-    background-color: #111;
+    background-color: var(--font-color);
 }
 @media (min-width: 80em) {
     .page {

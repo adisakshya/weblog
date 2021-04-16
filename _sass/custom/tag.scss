@@ -11,6 +11,6 @@ a.tag {
     text-decoration: none;
 }
 a.tag:hover {
-    color: #000;
+    color: var(--font-color);
     text-decoration: underline;
 }

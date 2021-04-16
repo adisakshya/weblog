@@ -28,14 +28,18 @@
       {% if site.footer.links %}
         {% for link in site.footer.links %}
           {% if link.label and link.url %}
-            <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i></a></li>
+            <li>
+              <a href="{{ link.url }}" rel="nofollow noopener noreferrer" class="icon-button {{ link.label }}">
+                <i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i>
+              </a>
+            </li>
           {% endif %}
         {% endfor %}
       {% endif %}
 
-      {% unless site.atom_feed.hide %}
+      <!-- {% unless site.atom_feed.hide %}
         <li><a href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i></a></li>
-      {% endunless %}
+      {% endunless %} -->
     </ul>
   </div>
 </div>

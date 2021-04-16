@@ -1,6 +1,6 @@
 .page__footer {
     border: 3px solid #f2f3f3;
-    background-color: #fff;
+    background-color: var(--bg-color);
 }
 .page__footer ul.social-icons {
     float: right;
@@ -8,12 +8,9 @@
 .footer-pages li {
     font-size: 0.7em;
 }
-.footer-pages li:hover {
-    color: #111;
+.footer-pages li a:hover {
+    color: var(--font-color);
     text-decoration: underline;
-}
-.social-icons li a i {
-    font-size: 1em;
 }
 /* Create two equal columns that floats next to each other */
 .column {
@@ -40,6 +37,9 @@ ul.footer-pages-list li:not(:last-child):after {
 }
 .page__footer-follow a {
     padding-right: 0px;
+}
+.page__footer-copyright {
+    text-align: center;
 }
 @media (max-width: 730px) {
     footer {

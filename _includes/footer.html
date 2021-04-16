@@ -1,34 +1,43 @@
-<div class="page__footer-follow">
-  <ul class="footer-pages">
-    <li>
-      <a href="{{ '/contact/' | relative_url }}" rel="nofollow noopener noreferrer">
-        Contact
-      </a>
-    </li>
-    <li>
-      <a href="{{ '/terms/' | relative_url }}" rel="nofollow noopener noreferrer">
+<div class="page__footer-follow row">
+  <div class="footer-pages row">
+    <ul class="footer-pages-list">
+      <li>
+        <a href="#" rel="nofollow noopener noreferrer">
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="{{ '/contact/' | relative_url }}" rel="nofollow noopener noreferrer">
+          Contact
+        </a>
+      </li>
+      <li>
+        <a href="{{ '/terms/' | relative_url }}" rel="nofollow noopener noreferrer">
         Terms & policies
-      </a>
-    </li>
-  </ul>
+        </a>
+      </li>
+    </ul>
+  </div>
 
-  <ul class="social-icons">
-    {% if site.data.ui-text[site.locale].follow_label %}
-      <li><strong>{{ site.data.ui-text[site.locale].follow_label }}</strong></li>
-    {% endif %}
+  <div class="social-icons row">
+    <ul class="social-icons-list">
+      {% if site.data.ui-text[site.locale].follow_label %}
+        <li><strong>{{ site.data.ui-text[site.locale].follow_label }}</strong></li>
+      {% endif %}
 
-    {% if site.footer.links %}
-      {% for link in site.footer.links %}
-        {% if link.label and link.url %}
-          <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i></a></li>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+      {% if site.footer.links %}
+        {% for link in site.footer.links %}
+          {% if link.label and link.url %}
+            <li><a href="{{ link.url }}" rel="nofollow noopener noreferrer"><i class="{{ link.icon | default: 'fas fa-link' }}" aria-hidden="true"></i></a></li>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
 
-    {% unless site.atom_feed.hide %}
-      <li><a href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i></a></li>
-    {% endunless %}
-  </ul>
+      {% unless site.atom_feed.hide %}
+        <li><a href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i></a></li>
+      {% endunless %}
+    </ul>
+  </div>
 </div>
 
 <div class="page__footer-copyright">

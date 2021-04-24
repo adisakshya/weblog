@@ -39,6 +39,12 @@ remote_theme: "mmistakes/minimal-mistakes@4.22.0"
 plugins:
   - jekyll-include-cache
 
+staticman_url: https://adisakshya-staticman.herokuapp.com/v2/entry/github/adisakshya/weblog/master/comments
+comments:
+  provider  : "staticman_v2"
+  staticman:
+    branch    : "master"
+
 author:
   name: "Adisakshya Chauhan"
   avatar: "assets/images/avatar.jpg"

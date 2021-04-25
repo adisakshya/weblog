@@ -24,9 +24,7 @@ compress_html:
 title: The blog of Adisakshya Chauhan
 email: hi@adisakshya.codes
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  A compilation of Adisakshya's musings 🤔, inspirations 🌟, mistakes 😅, and other ramblings 🧐.
 baseurl: "/weblog"
 url: "https://adisakshya.github.io"
 twitter_username: adisakshya

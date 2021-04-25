@@ -39,3 +39,10 @@ form#new_comment {
 .form-group textarea, .form-group input {
     background-color: #f2f3f3;
 }
+.comments-blocked-container {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.comments-blocked-container hr {
+    border-color: #000;
+}

@@ -53,7 +53,9 @@ layout: default
 
       {% if page.share %}{% include social-share.html %}{% endif %}
 
-      {% include comments.html %}
+      {% if page.comments %}
+        {% include comments.html %}
+      {% endif %}
 
       {% include post_pagination.html %}
     </div>

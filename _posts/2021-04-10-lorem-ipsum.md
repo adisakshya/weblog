@@ -3,6 +3,7 @@ title:  "Lorem Ipsum"
 date:   2021-04-10 21:28:06 +0530
 tags: [lorem-ipsum]
 excerpt: What lorem-ipsum excatly is?
+comments: true
 ---
 
 ## What is lorem ipsum?

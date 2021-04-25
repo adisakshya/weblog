@@ -1,6 +1,6 @@
 comments:
   name              : "The Blog of Adisakshya Chauhan"
-  allowedFields     : ['name', 'email', 'url', 'message', 'replying_to']
+  allowedFields     : ['name', 'email', 'message', 'replying_to']
   requiredFields    : ['name', 'email', 'message']
   branch            : "master"
   commitMessage     : "New comment."

@@ -1,0 +1,41 @@
+.comment__content-wrapper {
+    width: 100%;
+    float: none;
+}
+.comment__date {
+    width: 100%!important;
+    display: inline;
+    font-size: 1.125em;
+}
+.comment__author {
+    display: inline;
+}
+.comment__author span a {
+    color: var(--font-color)!important;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+.comment-separator {
+    border-color: var(--font-color);
+}
+.page__comments {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+@media (min-width: 540px) {
+    #comment-form-name-container {
+        width: 48%;
+        display: inline-block;
+        margin-right: 3%;
+    }
+    #comment-form-email-container {
+        width: 48%;
+        display: inline-block;
+    }
+}
+form#new_comment {
+    background-color: var(--bg-color);
+}
+.form-group textarea, .form-group input {
+    background-color: #f2f3f3;
+}

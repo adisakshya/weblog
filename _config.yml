@@ -32,6 +32,7 @@ url: "https://adisakshya.github.io"
 twitter_username: adisakshya
 github_username:  adisakshya
 search: true
+repository: adisakshya/weblog
 
 # Build settings
 # theme: "minimal-mistakes-jekyll"
@@ -39,11 +40,11 @@ remote_theme: "mmistakes/minimal-mistakes@4.22.0"
 plugins:
   - jekyll-include-cache
 
-staticman_url: https://adisakshya-staticman.herokuapp.com/v2/entry/github/adisakshya/weblog/master/comments
 comments:
   provider  : "staticman_v2"
   staticman:
     branch    : "master"
+    endpoint  : "https://adisakshya-staticman.herokuapp.com/v3/entry/github/"
 
 author:
   name: "Adisakshya Chauhan"

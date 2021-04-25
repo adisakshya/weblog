@@ -1,9 +1,9 @@
 comments:
   name              : "The Blog of Adisakshya Chauhan"
-  allowedFields     : ['name', 'email', 'message', 'replying_to']
+  allowedFields     : ['name', 'email', 'message']
   requiredFields    : ['name', 'email', 'message']
   branch            : "master"
-  commitMessage     : "New comment."
+  commitMessage     : "New comment from {fields.name} on {options.slug}"
   filename          : "comment-{@timestamp}-{fields.name}"
   format            : "yaml"
   moderation        : true

@@ -44,8 +44,17 @@ form#new_comment {
     padding-right: 1em;
 }
 .comments-blocked-container hr {
-    border-color: #000;
+    border-color: var(--font-color);
 }
 label {
     color: var(--font-color);
+}
+.page__comments-title, .comment:not(:last-child) {
+    border: none;
+}
+@media (min-width: 370px) and (max-width: 1000px) {
+    div.comment__content-wrapper div {
+        width: calc(100% - 60px);
+        float: right;
+    }
 }

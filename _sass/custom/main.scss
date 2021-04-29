@@ -20,6 +20,9 @@ body, html {
     scroll-behavior: smooth;
     height: 100vh;
 }
+html {
+    background-color: var(--bg-color);
+}
 body {
     margin: 0;
     font: 19px/23px Montserrat, "Montserrat", sans-serif;
@@ -40,6 +43,10 @@ body {
 a.site-title {
     font-family: 'Agustina';
 }
+a {
+    color: var(--font-color)!important;
+    font-weight: 800;
+}
 .author__urls-wrapper button {
     display: block;
     border: 2px solid;
@@ -54,6 +61,10 @@ a.site-title {
     #separator {
         display: none;
     }
+}
+::selection {
+    color: var(--bg-color);
+    background: var(--font-color);
 }
 
 @import "home";

@@ -1,6 +1,7 @@
 .page__footer {
-    border: 3px solid #f2f3f3;
+    margin-top: 0;
     background-color: var(--bg-color);
+    color: var(--font-color);
 }
 .page__footer ul.social-icons {
     float: right;
@@ -9,7 +10,6 @@
     font-size: 0.7em;
 }
 .footer-pages li a:hover {
-    color: var(--font-color);
     text-decoration: underline;
 }
 /* Create two equal columns that floats next to each other */

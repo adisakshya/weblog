@@ -5,12 +5,19 @@ a.tag {
     margin-right: 5px;
     font-weight: 600;
     font-size: 0.65rem;
-    color: #707070;
-    background-color: #f5f5f6;
+    color: var(--font-color);
     padding: 5px;
     text-decoration: none;
 }
-a.tag:hover {
-    color: var(--font-color);
-    text-decoration: underline;
+.tag-list a:hover, a.tag:hover {
+    color: var(--bg-color)!important;
+    background-color: var(--font-color);
+    border-radius: 0.4em;
+}
+@media (hover:none), (hover:on-demand) {
+    .tag-list a, a.tag {
+        color: var(--bg-color)!important;
+        background-color: var(--font-color);
+        border-radius: 0.4em;
+    }
 }

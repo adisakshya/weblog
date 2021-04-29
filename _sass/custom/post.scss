@@ -35,7 +35,7 @@ header h1.page__title:before {
     text-align: center;
     text-decoration: none;
     border: none;
-    color: #646769;
+    color: var(--font-color)!important;
 }
 .pagination--pager:hover {
     background-color: var(--bg-color);

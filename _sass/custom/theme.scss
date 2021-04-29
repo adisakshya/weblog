@@ -24,7 +24,7 @@ a.site-title:hover {
 /* ICONS */
 
 .icon-button i {
-    color: var(--bg-color)!important;
+    color: #fff!important;
     border-radius: 1.4rem;
     cursor: pointer;
     display: inline-block;
@@ -69,4 +69,9 @@ a.site-title:hover {
 .mobile i:hover,
 .twitter i:hover {
     background-color: var(--font-color);
+}
+
+// SEARCH
+.search-content .search-input {
+    color: var(--font-color);
 }

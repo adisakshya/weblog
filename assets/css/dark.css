@@ -9,10 +9,10 @@
 .dark--toggle {
     position: fixed;
     z-index: 10;
-    top: 70px;
+    top: 9.5em;
     right: 0;
-    height: 2.6em;
-    width: 2.6em;
+    height: 2.5em;
+    width: 2.5em;
     border-radius: 5px 0px 0px 5px;
     background-color: var(--font-color);
     box-shadow: -4px 7px 10px rgba(0,0,0,0.1);
@@ -38,9 +38,4 @@
 .dark .dark--toggle {
     background-color: #31313a;
     box-shadow: -4px 7px 10px rgba(0,0,0,0.15);
-}
-@media (min-width: 1280px) {
-    .dark--toggle {
-        top: 65px;
-    }
 }

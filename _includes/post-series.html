@@ -8,7 +8,7 @@
         {% else %}
             {% capture postitem %}
                 <li>
-                    <a href="{{ site.url }}/weblog{{ post.url }}" class="series-item">{{ post.title }}</a>
+                    <a href="{{ site.baseurl }}{{ post.url }}" class="series-item">{{ post.title }}</a>
                 </li>
             {% endcapture %}
         {% endif %}
@@ -16,7 +16,7 @@
     {% endif %}
 {% endfor %}
 {% if seriesarray.size > 0 %}
-    <p>This post is part of <strong>{{ page.series }}</strong> series</p>
+    <p>This post is part of <a href="{{ site.baseurl }}/series/{{ page.series }}">{{ page.series }}</a> series</p>
     <ul>
     {% for post in seriesarray %}
         {{ post }}

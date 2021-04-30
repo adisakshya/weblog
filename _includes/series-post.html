@@ -1,0 +1,7 @@
+{% for post in site.posts  %}
+  {%- unless post.hidden -%}
+    {% if post.series and post.series == page.taxonomy %}
+      {% include archive-single.html %}
+    {% endif %}
+  {%- endunless -%}
+{% endfor %}

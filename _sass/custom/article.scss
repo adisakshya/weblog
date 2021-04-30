@@ -16,3 +16,9 @@ p > code, a > code, li > code, figcaption > code, td > code {
     background-color: var(--font-color);
     color: var(--bg-color);
 }
+.series-item {
+    text-decoration: none;
+}
+.series-item:hover {
+    text-decoration: underline;
+}

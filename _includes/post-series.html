@@ -1,0 +1,25 @@
+{% assign seriesarray = '|' | split : '|' %}
+{% for post in site.posts  %}
+	{% if post.series and post.series == page.series %}
+        {% if post.title == page.title %}
+            {% capture postitem %}
+                <li>{{ post.title }}</li>
+            {% endcapture %}
+        {% else %}
+            {% capture postitem %}
+                <li>
+                    <a href="{{ site.url }}/weblog{{ post.url }}" class="series-item">{{ post.title }}</a>
+                </li>
+            {% endcapture %}
+        {% endif %}
+        {% assign seriesarray = seriesarray | push: postitem %}
+    {% endif %}
+{% endfor %}
+{% if seriesarray.size > 0 %}
+    <p>This post is part of <strong>{{ page.series }}</strong> series</p>
+    <ul>
+    {% for post in seriesarray %}
+        {{ post }}
+    {% endfor %}
+    <ul>
+{% endif %}

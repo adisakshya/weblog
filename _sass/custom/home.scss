@@ -27,6 +27,6 @@ p {
 .greedy-nav {
     background-color: var(--bg-color);
 }
-.page__meta, .comment__date {
+.page__meta, .comment__date, .search__toggle, .search__toggle:hover {
     color: var(--font-color);
 }

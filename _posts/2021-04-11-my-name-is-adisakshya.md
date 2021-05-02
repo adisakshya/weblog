@@ -1,7 +1,7 @@
 ---
 title:  "My name is adisakshya!"
 date:   2021-04-11 12:28:06 +0530
-tags: [github, self]
+tags: [github, i-me-myself]
 series: blogging-101
 header:
   teaser: /assets/images/jekyll.png

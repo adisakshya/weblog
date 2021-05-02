@@ -5,10 +5,9 @@
 {% endif %}
 
 <div class="{{ include.type | default: 'list' }}__item">
-  <article class="archive__item cards series_head" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="archive__item cards tag_head" itemscope itemtype="https://schema.org/CreativeWork">
     <div class="card">
-      SERIES
-      <!-- <br/> -->
+      TAG
       <h2 class="archive__item-title no_toc" itemprop="headline">
         {{ page.title }}
       </h2>
@@ -26,12 +25,10 @@
   </article>
 </div>
 
-<div class="separator">Articles in this series</div>
+<div class="separator">Articles associated with this tag</div>
 
-{% for post in site.posts  %}
+{%- for post in site.tags[include.taxonomy] -%}
   {%- unless post.hidden -%}
-    {% if post.series and post.series == page.taxonomy %}
-      {% include archive-single.html %}
-    {% endif %}
+    {% include archive-single.html %}
   {%- endunless -%}
-{% endfor %}
+{%- endfor -%}

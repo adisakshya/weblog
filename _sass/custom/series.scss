@@ -1,0 +1,21 @@
+.series_head, .tag_head {
+    box-shadow: none;
+}
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 2em;
+}
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--font-color);
+}
+.separator:not(:empty)::before {
+    margin-right: .25em;
+}
+.separator:not(:empty)::after {
+    margin-left: .25em;
+}

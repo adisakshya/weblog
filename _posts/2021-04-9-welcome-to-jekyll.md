@@ -4,6 +4,7 @@ date:   2021-04-9 21:28:06 +0530
 tags: [github, jekyll, tutorial]
 series: blogging-101
 header:
+  teaser: /assets/images/jekyll.png
   image: /assets/images/jekyll.png
 excerpt: Getting started with Jekyll.
 comments: true

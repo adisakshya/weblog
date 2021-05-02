@@ -3,6 +3,8 @@ title:  "Lorem Ipsum"
 date:   2021-04-10 21:28:06 +0530
 tags: [lorem-ipsum]
 series: random
+header:
+  teaser: /assets/images/jekyll.png
 excerpt: What lorem-ipsum excatly is?
 comments: true
 ---

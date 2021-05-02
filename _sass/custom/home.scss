@@ -30,3 +30,14 @@ p {
 .page__meta, .comment__date, .search__toggle, .search__toggle:hover {
     color: var(--font-color);
 }
+
+.cards {
+    display: grid;
+    grid-gap: 1rem;
+}
+.card {
+    padding: 0.5rem;
+}
+@media (min-width: 600px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}

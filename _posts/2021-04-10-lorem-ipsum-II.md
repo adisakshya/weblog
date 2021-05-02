@@ -1,6 +1,6 @@
 ---
-title:  "Lorem Ipsum"
-date:   2021-04-10 21:28:00 +0530
+title:  "Lorem Ipsum 2"
+date:   2021-04-10 21:30:00 +0530
 tags: [lorem-ipsum]
 series: random
 header:

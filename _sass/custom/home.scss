@@ -45,3 +45,13 @@ p {
     border-radius: 0.5em;
     box-shadow: 3px 9px 6px -1px rgba(0, 0, 0, 0.19);
 }
+.entries-list {
+    margin-top: 1em;
+}
+.pagination {
+    text-align: center;
+}
+.pagination li {
+    display: inline-block;
+    float: none;
+}

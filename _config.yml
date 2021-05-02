@@ -37,6 +37,7 @@ repository: adisakshya/weblog
 remote_theme: "mmistakes/minimal-mistakes@4.22.0"
 plugins:
   - jekyll-include-cache
+  - jekyll-paginate
 
 comments:
   provider  : "staticman_v2"
@@ -80,3 +81,6 @@ footer:
 
 include: ["_pages"]
 exclude: ["README.md"]
+
+paginate: 5
+paginate_path: "/page:num/"

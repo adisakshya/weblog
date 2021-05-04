@@ -1,2 +1,1 @@
-# weblog
-The blog of @adisakshya
+The blog of Adisakshya Chauhan

@@ -92,3 +92,18 @@ span.next-post-title:hover, span.prev-post-title:hover {
         padding-right: 1em;
     }
 }
+// FOOTNOTES
+blockquote {
+    padding: 10px 15px;
+    background: var(--quote-bg-color);
+    border-left: 6px solid var(--font-color);
+}
+blockquote {
+    font-weight: 500;
+    font-style: italic;
+    border-left-width: .25rem;
+    quotes: "\201C""\201D""\2018""\2019";
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    padding-left: 1em;
+}

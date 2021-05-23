@@ -1,7 +1,7 @@
 ---
 title: "Terms and policies"
 permalink: /terms/
-date: 2021-04-15
+date: 2021-05-23
 excerpt: "Privacy policy, license, and other legal stuff you won't read."
 ---
 
@@ -14,6 +14,10 @@ All content provided is for informational purposes only. The articles and posts 
 This Privacy Policy outlines the types of personal information that is received and collected and how it is used on the website.
 
 I will never share your email address or any other personal information to anyone without your direct consent.
+
+### Google Analytics
+
+Google Analytics is a web analytics tool I use to help understand how visitors engage with this website. Read [Google’s Privacy Policy](https://policies.google.com/privacy?hl=en).
 
 ## License
 

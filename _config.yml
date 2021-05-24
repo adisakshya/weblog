@@ -71,18 +71,23 @@ footer:
     - label: "twitter"
       icon: "fab fa-twitter"
       url: "https://twitter.com/adisakshya"
+      title: "Connect on Twitter"
     - label: "github"
       icon: "fab fa-github"
       url: "https://github.com/adisakshya"
+      title: "Follow on GitHub"
     - label: "website"
       icon: "fab fa-firefox"
       url: "/"
+      title: "Adisakshya's personal website"
     - label: "linkedin"
       icon: "fab fa-linkedin"
       url: "https://www.linkedin.com/in/adisakshya/"
+      title: "Connect on LinkedIn"
     - label: "google"
       icon: "fab fa-google"
       url: "mailto:hi@adisakshya.codes"
+      title: "Drop an email"
 
 include: ["_pages"]
 exclude: ["README.md"]

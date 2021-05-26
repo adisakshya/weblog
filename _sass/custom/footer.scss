@@ -29,11 +29,14 @@
     content: "";
     padding-right: 0;
 }
-ul.footer-pages-list li:not(:last-child):after {
-    content: "\B7";
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+ul.footer-pages-list a.page-link {
+    padding: 5px;
+}
+ul.footer-pages-list a.page-link:hover {
+    background-color: var(--font-color);
+    color: var(--bg-color)!important;
     text-decoration: none;
+    border-radius: 0.4em;
 }
 .page__footer-follow a {
     padding-right: 0px;

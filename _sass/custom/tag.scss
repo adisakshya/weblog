@@ -15,7 +15,7 @@ a.tag {
     border-radius: 0.4em;
 }
 @media (hover:none), (hover:on-demand) {
-    .tag-list a, a.tag {
+    .tag-list a, a.tag, a.page-link {
         color: var(--bg-color)!important;
         background-color: var(--font-color);
         border-radius: 0.4em;

@@ -5,16 +5,18 @@
   {% endif %}
 {% endfor %}
 
-<h3 class="archive__subtitle"><mark>Browse by series</mark></h3>
+{% if seriesarray.first %} <!-- If atleast 1 series exists then create series section -->
+  <h3 class="archive__subtitle"><mark>Browse by series</mark></h3>
 
-{% assign seriesarray = seriesarray | uniq %}
+  {% assign seriesarray = seriesarray | uniq %}
 
-<ul class="taxonomy__index">
-  {% for series in seriesarray | uniq %}
-      <li>
-        <a href="{{ site.baseurl }}/series/{{ series }}">
-          <strong>{{ series }}</strong>
-        </a>
-      </li>
-  {% endfor %}
-</ul>
+  <ul class="taxonomy__index">
+    {% for series in seriesarray | uniq %}
+        <li>
+          <a href="{{ site.baseurl }}/series/{{ series }}">
+            <strong>{{ series }}</strong>
+          </a>
+        </li>
+    {% endfor %}
+  </ul>
+{% endif %}

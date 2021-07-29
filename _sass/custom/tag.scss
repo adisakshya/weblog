@@ -14,6 +14,10 @@ a.tag {
     background-color: var(--font-color);
     border-radius: 0.4em;
 }
+.tag-container {
+    display: inline-flex;
+    margin-bottom: 5px;
+}
 @media (hover:none), (hover:on-demand) {
     .tag-list a, a.tag, a.page-link {
         color: var(--bg-color)!important;

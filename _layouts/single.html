@@ -27,7 +27,9 @@ layout: default
       <div class="tag-list">
         <!-- SHOW TAGS -->
         {% for tag in page.tags %}
-          <a href="/weblog/tags/{{ tag }}" class="tag">#{{ tag }} </a>
+          <div class="tag-container">
+            <a href="/weblog/tags/{{ tag }}" class="tag">#{{ tag }} </a>
+          </div>
         {% endfor %}
       </div>
       <hr/>

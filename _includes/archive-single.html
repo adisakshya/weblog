@@ -24,7 +24,9 @@
       {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
       <!-- SHOW TAGS -->
       {% for tag in post.tags %}
-        <a href="/weblog/tags/{{ tag }}" class="tag">#{{ tag }} </a>
+        <div class="tag-container">
+          <a href="/weblog/tags/{{ tag }}" class="tag">#{{ tag }} </a>
+        </div>
       {% endfor %}
     </div>
     {% if teaser %}

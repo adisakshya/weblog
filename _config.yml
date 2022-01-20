@@ -35,8 +35,8 @@ search: true
 repository: adisakshya/weblog
 
 # Build settings
-theme: "minimal-mistakes-jekyll"
-# remote_theme: "mmistakes/minimal-mistakes@4.22.0"
+# theme: "minimal-mistakes-jekyll"
+remote_theme: "mmistakes/minimal-mistakes@4.22.0"
 plugins:
   - jekyll-include-cache
   - jekyll-paginate

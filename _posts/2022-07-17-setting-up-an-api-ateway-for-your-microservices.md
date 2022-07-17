@@ -9,7 +9,7 @@ excerpt: Deploying a single node Kong API gateway infront of multiple microservi
 comments: true
 ---
 
-In the previous article, we saw an [Introduction to API Gateway]({{site.baseurl}}/2022/02/01/introduction-to-api-gateway.html), understanding the basic know-how. Now it’s time to see an API gateway in action in front of multiple microservices.
+In the previous article from the [API Gateway 101 Series]({{site.baseurl}}/series/api-gateway-101/) we saw an [Introduction to API Gateway]({{site.baseurl}}/2022/02/01/introduction-to-api-gateway.html), understanding the basic know-how. Now it’s time to see an API gateway in action in front of multiple microservices.
 
 We’ll be spinning up multiple mock microservices within a private network (docker network) making them inaccessible from the host. The API gateway will be accessible from the host and all the microservices will be attached to the gateway. Thus any client request needs to go through the gateway first before being served by the actual microservice in the backend.
 

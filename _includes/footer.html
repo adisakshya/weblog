@@ -45,8 +45,16 @@
 </div>
 
 <div class="page__footer-copyright">
-  &copy; {{ site.time | date: '%Y' }} {{ site.author.name | default: site.title }}
+  &copy; <span id="current-year">2025</span> {{ site.author.name | default: site.title }}
   <br/>
   Built in New Delhi, India
   (<a href="https://github.com/adisakshya/weblog" rel="nofollow">view source</a>)
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var yearSpan = document.getElementById("current-year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>

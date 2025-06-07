@@ -24,7 +24,7 @@ compress_html:
   clippings: all
 
 title: The blog of Adisakshya Chauhan
-email: hi@adisakshya.codes
+email: adisakshya98@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   A compilation of Adisakshya's musings 🤔, inspirations 🌟, mistakes 😅, and other ramblings 🧐.
 baseurl: "/weblog"
@@ -86,7 +86,7 @@ footer:
       title: "Connect on LinkedIn"
     - label: "google"
       icon: "fab fa-google"
-      url: "mailto:hi@adisakshya.codes"
+      url: "mailto:adisakshya98@gmail.com"
       title: "Drop an email"
 
 include: ["_pages"]

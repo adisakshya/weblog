@@ -4,12 +4,13 @@
 
 ### Prerequisites
 
-- Ruby 3.1 or earlier
+- Ruby 3.1
 - Bundler
 - An available UTF-8 locale
 
-This dependency set does not support Ruby 3.2 or later because Liquid 4.0.3
-calls APIs that Ruby 3.2 removed.
+Ruby 3.1 is the only supported Ruby release for this dependency set. Nokogiri
+1.18.10 requires Ruby 3.1 or later, while Liquid 4.0.3 calls APIs that Ruby 3.2
+removed.
 
 Install the locked dependencies from the repository root:
 

@@ -1,0 +1,23 @@
+{
+  "name": "Weblog",
+  "image": "mcr.microsoft.com/devcontainers/jekyll:0-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "forwardPorts": [4000],
+  "portsAttributes": {
+    "4000": {
+      "label": "Jekyll server",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "bundle install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Shopify.theme-check-vscode"
+      ]
+    }
+  }
+}

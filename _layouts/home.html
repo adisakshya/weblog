@@ -4,26 +4,61 @@ layout: archive
 
 {{ content }}
 
-{% include intro.html %}
-{% include tag-list.html %}
-{% include series-list.html %}
-
-<h3 class="archive__subtitle"><mark>{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</mark></h3>
-
-{% if paginator %}
-  {% assign posts = paginator.posts %}
-{% else %}
-  {% assign posts = site.posts %}
+{% assign posts = paginator.posts | default: site.posts %}
+{% assign is_first_page = true %}
+{% if paginator and paginator.page > 1 %}
+  {% assign is_first_page = false %}
 {% endif %}
 
-{% assign entries_layout = page.entries_layout | default: 'list' %}
-<div class="entries-{{ entries_layout }}">
-  {% for post in posts %}
-    {% include archive-single.html type=entries_layout %}
-  {% endfor %}
+{% if is_first_page %}
+  {% assign latest_post = posts.first %}
+  {% assign list_posts = posts | offset: 1 %}
+{% else %}
+  {% assign latest_post = nil %}
+  {% assign list_posts = posts %}
+{% endif %}
+
+<div class="home">
+
+  {% if latest_post %}
+    <section class="home-latest-section">
+      <h2 class="home-section-title">Latest</h2>
+      {% assign post = latest_post %}
+      {% include home-latest-post.html %}
+    </section>
+  {% endif %}
+
+  <div class="home-columns">
+
+    <div class="home-columns__main">
+      <h2 class="home-section-title">All Posts</h2>
+      <div class="home-post-list">
+        {% for post in list_posts %}
+          {% include home-post-row.html %}
+        {% endfor %}
+      </div>
+      {% include paginator.html %}
+    </div>
+
+    <aside class="home-columns__aside">
+      {% assign featured_posts = site.posts | slice: 0, 3 %}
+      {% if featured_posts.size > 0 %}
+        <h2 class="home-section-title">Featured Posts</h2>
+        <div class="home-featured-list">
+          {% for post in featured_posts %}
+            {% assign featured_title = post.title | markdownify | remove: "<p>" | remove: "</p>" %}
+            <a href="{{ post.url | relative_url }}" class="home-featured-item">
+              <span class="home-featured-item__num">{{ forloop.index }}</span>
+              <span class="home-featured-item__title">{{ featured_title }}</span>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <h2 class="home-section-title home-section-title--topics">Topics</h2>
+      {% include home-topics.html %}
+    </aside>
+
+  </div>
+
 </div>
-
-{% include paginator.html %}
-
-<!-- SAYING SCRIPT -->
-<script type="text/javascript" src="/weblog/assets/js/sayings.js" defer></script>

@@ -1,0 +1,22 @@
+{% if post.header.teaser %}
+  {% assign teaser = post.header.teaser %}
+{% else %}
+  {% assign teaser = site.teaser %}
+{% endif %}
+
+{% assign title = post.title | markdownify | remove: "<p>" | remove: "</p>" %}
+
+<a href="{{ post.url | relative_url }}" class="home-post-row{% unless teaser %} home-post-row--no-teaser{% endunless %}">
+  {% if teaser %}
+    <div class="home-post-row__teaser">
+      <img src="{{ teaser | relative_url }}" alt="">
+    </div>
+  {% endif %}
+  <div class="home-post-row__body">
+    <h3 class="home-post-row__title">{{ title }}</h3>
+    {% if post.excerpt %}
+      <p class="home-post-row__excerpt">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>
+    {% endif %}
+    {% include page__meta.html %}
+  </div>
+</a>

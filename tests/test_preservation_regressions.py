@@ -49,5 +49,23 @@ class PreservationRegressionTests(unittest.TestCase):
         self.assertIsNotNone(match)
         self.check_mutation(match.group(0), match.group(1) + ' \n' + match.group(3))
 
+    def test_empty_home_and_error(self):
+        entries = json.loads((ROOT/'docs/inventory/legacy-rendered.json').read_text())['routes']
+        for entry in entries:
+            if entry['source'] not in {'index.html', '404.html'}:
+                continue
+            with self.subTest(route=entry['route']), tempfile.TemporaryDirectory() as tmp:
+                path = locate(tmp, entry['route'])
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('')
+                with self.assertRaises(AssertionError):
+                    verify(tmp, {'routes':[entry]})
+
+    def test_infrastructure_leak(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp)/'docs').mkdir()
+            with self.assertRaisesRegex(AssertionError, 'infrastructure'):
+                verify(tmp, {'routes':[]})
+
 if __name__ == '__main__':
     unittest.main()

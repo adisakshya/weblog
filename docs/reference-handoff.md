@@ -14,7 +14,7 @@ Use the Ruby 3.1 environment installed during onboarding. From the checkout root
 export PATH=/workspace/.weblog-env/ruby/bin:$PATH
 export LANG=C.utf8 TZ=UTC
 export BUNDLE_PATH=/workspace/.weblog-env/bundle BUNDLE_FROZEN=true
-bundle _2.2.24_ exec jekyll build
+bundle _2.2.24_ exec jekyll build --config _config.yml,_config.preservation.yml
 PYTHONDONTWRITEBYTECODE=1 python3 tests/test_legacy_inventory.py
 PYTHONDONTWRITEBYTECODE=1 python3 tests/test_rendered_routes.py _site
 PYTHONDONTWRITEBYTECODE=1 python3 tests/test_rendered_content.py _site
@@ -44,3 +44,5 @@ Round one reviewed `d916cb3`: https://github.com/adisakshya/weblog/pull/64#issue
 The legacy fixture intentionally records the observed duplicate Contribution heading caused by the original template. This is evidence of existing output, not the #57 release acceptance policy: #57 explicitly requires rendering the Contribution section once. A future article implementation PR must separate original authored content from template duplication and document the authorized correction, while retaining the authored section's prose. Do not silently rewrite this legacy fixture as a visual baseline.
 
 Validation on the current machine: locked Jekyll build passed; 69 source files remain byte-identical; all 27 inventoried routes and semantic checks passed; all 27 direct HTTP routes and generated CSS returned nonempty 200 responses through Python's static file server; unknown route returned 404. Source/live image availability and design parity are different checks: remote image decoding, approved fonts and the 12-theme × five-width visual matrix remain unrun pending reference capture. No release readiness claim is made.
+
+Additional GitHub review findings (https://github.com/adisakshya/weblog/pull/64#discussion_r4583533191 and https://github.com/adisakshya/weblog/pull/64#discussion_r4583533211) are addressed by the additive build overlay above and explicit public-output exclusion assertions. Use that overlay for all review artifacts; the unmodified legacy default build copies development files. Home and 404 now have semantic fixtures and empty-page regressions. Eight regression tests cover these failures.

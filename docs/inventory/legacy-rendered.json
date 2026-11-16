@@ -4,7 +4,147 @@
   "routes": [
     {
       "route": "/weblog/",
-      "source": "index.html"
+      "source": "index.html",
+      "links": [
+        [
+          "/weblog/tags/api-gateway",
+          "api-gateway 2"
+        ],
+        [
+          "/weblog/tags/kong",
+          "kong 2"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "vscode 1"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "code-server 1"
+        ],
+        [
+          "/weblog/tags/github",
+          "github 1"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "ci-cd 1"
+        ],
+        [
+          "/weblog/tags/travis",
+          "travis 1"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "microservices 1"
+        ],
+        [
+          "/weblog/tags/docker",
+          "docker 1"
+        ],
+        [
+          "/weblog/series/api-gateway-101",
+          "api-gateway-101"
+        ],
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ],
+      "blocks": [
+        "A compilation of my musings 🤔, inspirations 🌟, mistakes 😅, and other ramblings 🧐.",
+        "Browse by topic",
+        "api-gateway 2",
+        "kong 2",
+        "vscode 1",
+        "code-server 1",
+        "github 1",
+        "ci-cd 1",
+        "travis 1",
+        "microservices 1",
+        "docker 1",
+        "Browse by series",
+        "api-gateway-101",
+        "Recent Posts",
+        "Setting up an API Gateway for your Microservices",
+        "July 16, 2022 6 minute read",
+        "Deploying a single node Kong API gateway infront of multiple microservices",
+        "Introduction to API Gateway",
+        "February 1, 2022 6 minute read",
+        "Understanding what API Gateways are, how they differ from a reverse proxy & load balancer and their use in a microservices environment",
+        "Extension Pack for VSCode & Code Server",
+        "July 30, 2021 8 minute read",
+        "Creating extension pack for VS Code & Code Server and publishing on GitHub release using Travis CI"
+      ],
+      "code": [],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/teaser.jpg",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png"
+      ],
+      "anchors": [
+        "main",
+        "sayingblock",
+        "citation"
+      ],
+      "times": [
+        "2022-07-16T19:00:00+00:00",
+        "2022-02-01T06:00:00+00:00",
+        "2021-07-30T06:00:00+00:00"
+      ],
+      "contribution_count": 0
     },
     {
       "route": "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
@@ -720,7 +860,18 @@
     },
     {
       "route": "/weblog/404.html",
-      "source": "404.html"
+      "source": "404.html",
+      "links": [],
+      "blocks": [
+        "404",
+        "Page not found :(",
+        "The requested page could not be found."
+      ],
+      "code": [],
+      "images": [],
+      "anchors": [],
+      "times": [],
+      "contribution_count": 0
     },
     {
       "route": "/weblog/about/",

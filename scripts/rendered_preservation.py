@@ -33,7 +33,7 @@ class Page(HTMLParser):
             if tag == 'img' and self.in_body:
                 self.images.append(attrs.get('src', ''))
             return
-        if 'page__content' in attrs.get('class', '').split() or tag == 'main' or attrs.get('role') == 'main':
+        if 'page__content' in attrs.get('class', '').split() or tag == 'main' or attrs.get('role') == 'main' or (tag == 'div' and 'container' in attrs.get('class', '').split()):
             self.in_body += 1
             boundary = True
         else:
@@ -95,7 +95,7 @@ def capture(output):
         file = locate(output, entry['route'])
         assert file.is_file(), f"Missing route: {entry['route']}"
         record = dict(entry)
-        if entry['source'].startswith(('_posts/', '_pages/')):
+        if entry['source'].startswith(('_posts/', '_pages/')) or entry['source'] in {'index.html', '404.html'}:
             page = Page(file.read_text())
             assert page.blocks, f"No body content: {entry['route']}"
             record.update(links=page.links, blocks=page.blocks, code=page.codes, images=page.images,
@@ -108,6 +108,8 @@ def capture(output):
 
 
 def verify(output, baseline):
+    for forbidden in ('AGENTS.md', 'docs', 'scripts', 'tests', '_config.preservation.yml', 'Gemfile', 'Gemfile.lock'):
+        assert not (Path(output) / forbidden).exists(), f"Private build infrastructure in public output: {forbidden}"
     for entry in baseline['routes']:
         path = locate(output, entry['route'])
         assert path.is_file(), f"Missing route: {entry['route']}"

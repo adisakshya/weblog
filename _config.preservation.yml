@@ -1,0 +1,11 @@
+# Use with: jekyll build --config _config.yml,_config.preservation.yml
+# Keep the frozen original configuration byte-identical.
+exclude:
+  - README.md
+  - AGENTS.md
+  - docs
+  - scripts
+  - tests
+  - _config.preservation.yml
+  - Gemfile
+  - Gemfile.lock

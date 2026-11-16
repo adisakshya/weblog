@@ -162,7 +162,117 @@
         "2021-07-30T06:00:00+00:00",
         "2021-10-04T22:54:50+00:00"
       ],
-      "contribution_count": 1
+      "contribution_count": 1,
+      "links": [
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ],
+        [
+          "https://code.visualstudio.com/download",
+          "VS Code"
+        ],
+        [
+          "https://nodejs.org/en/download/",
+          "NodeJS"
+        ],
+        [
+          "https://docs.github.com/en/get-started/quickstart/create-a-repo",
+          "git repository"
+        ],
+        [
+          "https://github.com/adisakshya/extension-pack",
+          "adisakshya/extension-pack"
+        ],
+        [
+          "https://www.npmjs.com/package/yo",
+          "Yeoman"
+        ],
+        [
+          "https://www.npmjs.com/package/generator-code",
+          "generator"
+        ],
+        [
+          "https://code.visualstudio.com/api/references/extension-manifest",
+          "VS Code API Reference"
+        ],
+        [
+          "https://www.npmjs.com/package/vsce",
+          "vsce"
+        ],
+        [
+          "https://code.visualstudio.com/api/working-with-extensions/publishing-extension#visual-studio-code-compatibility",
+          "API Reference"
+        ],
+        [
+          "https://docs.travis-ci.com/user/using-workspaces",
+          "Workspaces"
+        ],
+        [
+          "https://travis-ci.com/github/adisakshya/extension-pack/builds/226340367",
+          "build stages status"
+        ],
+        [
+          "https://github.com/adisakshya/extension-pack/releases",
+          "GitHub release"
+        ],
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://github.com/adisakshya/weblog/issues",
+          "GitHub issues"
+        ],
+        [
+          "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+          "PR"
+        ],
+        [
+          "https://github.com/adisakshya/weblog",
+          "adisakshya/weblog"
+        ],
+        [
+          "#comment1",
+          "October 4, 2021"
+        ],
+        [
+          "https://toshangrilainn.com/",
+          "https://toshangrilainn.com/"
+        ],
+        [
+          "https://daringfireball.net/projects/markdown/",
+          "Markdown"
+        ],
+        [
+          "https://gravatar.com/",
+          "Gravatar"
+        ],
+        [
+          "#",
+          "Top"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway →"
+        ]
+      ]
     },
     {
       "route": "/weblog/2022/02/01/introduction-to-api-gateway.html",
@@ -301,7 +411,69 @@
       "times": [
         "2022-02-01T06:00:00+00:00"
       ],
-      "contribution_count": 1
+      "contribution_count": 1,
+      "links": [
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "http://adisakshya.codes/weblog",
+          "API Gateway 101"
+        ],
+        [
+          "https://konghq.com/plugins",
+          "Plugins"
+        ],
+        [
+          "https://konghq.com/faqs/",
+          "https://konghq.com/faqs/"
+        ],
+        [
+          "/weblog/series/api-gateway-101",
+          "api-gateway-101"
+        ],
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://github.com/adisakshya/weblog/issues",
+          "GitHub issues"
+        ],
+        [
+          "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+          "PR"
+        ],
+        [
+          "https://github.com/adisakshya/weblog",
+          "adisakshya/weblog"
+        ],
+        [
+          "https://daringfireball.net/projects/markdown/",
+          "Markdown"
+        ],
+        [
+          "https://gravatar.com/",
+          "Gravatar"
+        ],
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "← Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices →"
+        ]
+      ]
     },
     {
       "route": "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
@@ -446,7 +618,105 @@
       "times": [
         "2022-07-16T19:00:00+00:00"
       ],
-      "contribution_count": 2
+      "contribution_count": 2,
+      "links": [
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/series/api-gateway-101/",
+          "API Gateway 101 Series"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "https://docs.docker.com/get-started/",
+          "Docker Docs"
+        ],
+        [
+          "https://github.com/adisakshya/api-gateway",
+          "adisakshya/api-gateway"
+        ],
+        [
+          "https://github.com/adisakshya/api-gateway/blob/master/single-node-kong-gateway/postman-collection/api-gateway.postman_collection",
+          "Postman collection"
+        ],
+        [
+          "https://en.wikipedia.org/wiki/X-Forwarded-For",
+          "X-Forwarded-For"
+        ],
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://github.com/adisakshya/weblog/issues",
+          "GitHub issues"
+        ],
+        [
+          "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+          "PR"
+        ],
+        [
+          "https://github.com/adisakshya/weblog",
+          "adisakshya/weblog"
+        ],
+        [
+          "/weblog/series/api-gateway-101",
+          "api-gateway-101"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://github.com/adisakshya/weblog/issues",
+          "GitHub issues"
+        ],
+        [
+          "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+          "PR"
+        ],
+        [
+          "https://github.com/adisakshya/weblog",
+          "adisakshya/weblog"
+        ],
+        [
+          "https://daringfireball.net/projects/markdown/",
+          "Markdown"
+        ],
+        [
+          "https://gravatar.com/",
+          "Gravatar"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "← Introduction to API Gateway"
+        ],
+        [
+          "#",
+          "Top"
+        ]
+      ]
     },
     {
       "route": "/weblog/404.html",
@@ -468,7 +738,29 @@
         "page-title"
       ],
       "times": [],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "https://jekyllrb.com/",
+          "jekyllrb.com"
+        ],
+        [
+          "https://github.com/jekyll",
+          "jekyll"
+        ],
+        [
+          "https://github.com/jekyll/minima",
+          "minima"
+        ],
+        [
+          "https://github.com/jekyll",
+          "jekyll"
+        ],
+        [
+          "https://github.com/jekyll/jekyll",
+          "jekyll"
+        ]
+      ]
     },
     {
       "route": "/weblog/assets/css/dark.css",
@@ -524,7 +816,17 @@
         "page-title"
       ],
       "times": [],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://linkedin.com/in/adisakshya",
+          "LinkedIn"
+        ]
+      ]
     },
     {
       "route": "/weblog/series/api-gateway-101/",
@@ -552,7 +854,41 @@
         "2022-07-16T19:00:00+00:00",
         "2022-02-01T06:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ]
+      ]
     },
     {
       "route": "/weblog/series/blogging-101/",
@@ -569,7 +905,8 @@
         "main"
       ],
       "times": [],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": []
     },
     {
       "route": "/weblog/tags/api-gateway/",
@@ -597,7 +934,41 @@
         "2022-07-16T19:00:00+00:00",
         "2022-02-01T06:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ]
+      ]
     },
     {
       "route": "/weblog/tags/ci-cd/",
@@ -620,7 +991,33 @@
       "times": [
         "2021-07-30T06:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
     },
     {
       "route": "/weblog/tags/code-server/",
@@ -643,7 +1040,33 @@
       "times": [
         "2021-07-30T06:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
     },
     {
       "route": "/weblog/tags/docker/",
@@ -666,7 +1089,29 @@
       "times": [
         "2022-07-16T19:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ]
+      ]
     },
     {
       "route": "/weblog/tags/github/",
@@ -689,7 +1134,33 @@
       "times": [
         "2021-07-30T06:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
     },
     {
       "route": "/weblog/tags/kong/",
@@ -717,7 +1188,41 @@
         "2022-07-16T19:00:00+00:00",
         "2022-02-01T06:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ]
+      ]
     },
     {
       "route": "/weblog/tags/microservices/",
@@ -740,7 +1245,29 @@
       "times": [
         "2022-07-16T19:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ]
+      ]
     },
     {
       "route": "/weblog/tags/travis/",
@@ -763,7 +1290,33 @@
       "times": [
         "2021-07-30T06:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
     },
     {
       "route": "/weblog/tags/vscode/",
@@ -786,7 +1339,33 @@
       "times": [
         "2021-07-30T06:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
     },
     {
       "route": "/weblog/terms/",
@@ -819,7 +1398,17 @@
       "times": [
         "2021-05-23T00:00:00+00:00"
       ],
-      "contribution_count": 0
+      "contribution_count": 0,
+      "links": [
+        [
+          "https://policies.google.com/privacy?hl=en",
+          "Google’s Privacy Policy"
+        ],
+        [
+          "https://adisakshya.codes",
+          "Adisakshya Chauhan"
+        ]
+      ]
     }
   ]
 }

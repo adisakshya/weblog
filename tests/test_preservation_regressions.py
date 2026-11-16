@@ -38,17 +38,16 @@ class PreservationRegressionTests(unittest.TestCase):
     def test_missing_image(self):
         self.check_mutation(self.entry['images'][0], '/missing.png')
 
+    def test_link_destination_changed(self):
+        self.check_mutation('href="/weblog/series/api-gateway-101/"',
+                            'href="/weblog/broken-destination/"')
+
     def test_code_whitespace_changed(self):
-        # Preserve normalized prose while changing only exact code whitespace.
-        original = self.entry['code'][0]
-        with tempfile.TemporaryDirectory() as tmp:
-            path = locate(tmp, self.entry['route'])
-            path.parent.mkdir(parents=True)
-            path.write_text(self.html)
-            bad = copy.deepcopy(self.entry)
-            bad['code'][0] = original + ' '
-            with self.assertRaisesRegex(AssertionError, 'code whitespace'):
-                verify(tmp, {'routes':[bad]})
+        # Change only rendered code whitespace; the expected fixture stays fixed.
+        import re
+        match = re.search(r'(<pre[^>]*>.*?)(\n)(.*?</pre>)', self.html, re.S)
+        self.assertIsNotNone(match)
+        self.check_mutation(match.group(0), match.group(1) + ' \n' + match.group(3))
 
 if __name__ == '__main__':
     unittest.main()

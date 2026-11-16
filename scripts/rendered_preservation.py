@@ -23,6 +23,7 @@ class Page(HTMLParser):
         self.active = []
         self.blocks, self.codes, self.images, self.anchors, self.times = [], [], [], [], []
         self.content = []
+        self.links, self.link_active = [], []
         self.in_body = 0
         self.feed(html)
 
@@ -39,6 +40,8 @@ class Page(HTMLParser):
             boundary = False
         self.stack.append((tag, boundary))
         if self.in_body:
+            if tag == 'a' and 'href' in attrs:
+                self.link_active.append([len(self.stack), attrs['href'], []])
             if attrs.get('id'):
                 self.anchors.append(attrs['id'])
             if tag in {'p','li','h1','h2','h3','h4','h5','h6','pre','td','th'}:
@@ -51,6 +54,10 @@ class Page(HTMLParser):
             return
         while self.stack:
             current, boundary = self.stack.pop()
+            for link in self.link_active[:]:
+                if link[0] > len(self.stack):
+                    self.links.append([link[1], normalize(''.join(link[2]))])
+                    self.link_active.remove(link)
             for block in self.active[:]:
                 if block[1] > len(self.stack):
                     text = ''.join(block[2])
@@ -67,6 +74,8 @@ class Page(HTMLParser):
     def handle_data(self, data):
         if self.in_body:
             self.content.append(data)
+            for link in self.link_active:
+                link[2].append(data)
             for block in self.active:
                 block[2].append(data)
 
@@ -89,7 +98,7 @@ def capture(output):
         if entry['source'].startswith(('_posts/', '_pages/')):
             page = Page(file.read_text())
             assert page.blocks, f"No body content: {entry['route']}"
-            record.update(blocks=page.blocks, code=page.codes, images=page.images,
+            record.update(links=page.links, blocks=page.blocks, code=page.codes, images=page.images,
                           anchors=page.anchors, times=page.times,
                           contribution_count=normalize(''.join(page.content)).count('Contribution'))
         elif entry['source'].startswith('assets/'):
@@ -116,4 +125,7 @@ def verify(output, baseline):
             actual = Counter(getattr(page, field))
             for value, count in Counter(entry[field]).items():
                 assert actual[value] >= count, f"Lost {field} {value} at {entry['route']}"
+        actual_links = Counter(tuple(link) for link in page.links)
+        for link, count in Counter(tuple(link) for link in entry['links']).items():
+            assert actual_links[link] >= count, f"Lost link {link} at {entry['route']}"
         assert text.count('Contribution') == entry['contribution_count'], f"Duplicated Contribution at {entry['route']}"

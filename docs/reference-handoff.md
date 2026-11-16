@@ -36,3 +36,11 @@ Approved reference: Lovable project `c12696b6-7bda-47a8-8126-ef17c1071df6`, revi
 #53 supersedes the mockup's old Jekyll production guidance: the target is fully prerendered React/TanStack, served statically under `/weblog/`. Markdown remains authoritative. The personal website is separate; preserve About here and link Meet Adi to the personal site. Comments and Microsoft Clarity remain preserved pending the recorded launch decisions. Follow #54–#61 in dependency order.
 
 Two independent review rounds must be linked, with findings fixed between rounds. Reviews of preservation checks do not count as completed redesign/release reviews. Never merge to master, deploy production or change Pages settings under this authorization. Present verified release evidence for final owner approval.
+
+## Preservation review evidence
+
+Round one reviewed `d916cb3`: https://github.com/adisakshya/weblog/pull/64#issuecomment-6911481293. It found that replacing link destinations could pass the semantic checker. The fix freezes content link destinations and labels, verifies their occurrence counts, and corrupts a real internal href in a regression test. The code-whitespace negative test now mutates rendered HTML while keeping its expected fixture fixed. Six negative tests pass after these fixes.
+
+The legacy fixture intentionally records the observed duplicate Contribution heading caused by the original template. This is evidence of existing output, not the #57 release acceptance policy: #57 explicitly requires rendering the Contribution section once. A future article implementation PR must separate original authored content from template duplication and document the authorized correction, while retaining the authored section's prose. Do not silently rewrite this legacy fixture as a visual baseline.
+
+Validation on the current machine: locked Jekyll build passed; 69 source files remain byte-identical; all 27 inventoried routes and semantic checks passed; all 27 direct HTTP routes and generated CSS returned nonempty 200 responses through Python's static file server; unknown route returned 404. Source/live image availability and design parity are different checks: remote image decoding, approved fonts and the 12-theme × five-width visual matrix remain unrun pending reference capture. No release readiness claim is made.

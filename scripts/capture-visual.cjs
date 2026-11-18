@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Capture the visual matrix for the weblog. Used for BOTH the approved Lovable reference and the new site,
  * so the two sets are produced by identical code.
- *   node scripts/capture-visual.cjs <baseUrl> <outDir> [--covers <dir with *.asset.json + jpgs>]
+ *   node scripts/capture-visual.cjs <baseUrl> <outDir> [--covers reference/covers] [--dry-run]
  * Never recapture the reference from the new implementation. */
 const { chromium } = require("playwright");
 const fs = require("fs");
@@ -32,12 +32,18 @@ const THEMES = ["original", "system", "paper", "sepia", "dark-modern", "solarize
 // Lovable-only asset URLs (/__l5e/assets-v1/<id>/<file>) are served from the recovered originals.
 const coverById = {};
 if (coversDir) {
-  for (const f of fs.readdirSync(path.join(coversDir, "meta"))) {
+  // Layout of reference/covers: *.asset.json pointers and the recovered *.jpg files side by side.
+  for (const f of fs.readdirSync(coversDir)) {
     if (!f.endsWith(".asset.json")) continue;
-    const m = JSON.parse(fs.readFileSync(path.join(coversDir, "meta", f), "utf8"));
-    coverById[m.asset_id] = path.join(coversDir, m.original_filename);
+    const m = JSON.parse(fs.readFileSync(path.join(coversDir, f), "utf8"));
+    const file = path.join(coversDir, m.original_filename);
+    if (!fs.existsSync(file)) { console.error(`missing recovered cover ${file}`); process.exit(1); }
+    coverById[m.asset_id] = file;
   }
+  if (!Object.keys(coverById).length) { console.error(`no *.asset.json pointers found in ${coversDir}`); process.exit(1); }
 }
+
+if (process.argv.includes("--dry-run")) { console.log(`covers mapped: ${Object.keys(coverById).length}`); process.exit(0); }
 
 async function settle(page) {
   await page.waitForLoadState("networkidle").catch(() => {});

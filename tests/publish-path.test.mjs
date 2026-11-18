@@ -26,6 +26,7 @@ const tmp = mkdtempSync(join(tmpdir(), "weblog-publish-"));
 const TITLE = "Hello from the publish test";
 const COVER = "publish-test-cover.png"; // PNG and WebP covers are accepted formats too, so the fixture uses both
 const COVER_WEBP = "publish-test-cover.webp";
+const COVER_JPEG = "publish-test-cover.jpeg"; // the accepted .jpeg spelling (served as image/jpeg)
 const THOUGHTS = "A reflection written by the owner";
 
 test(
@@ -62,6 +63,7 @@ test(
     png.data.fill(200);
     writeFileSync(join(tmp, "public/curated", COVER), PNG.sync.write(png));
     cpSync(join(root, "public/assets/images/sun.webp"), join(tmp, "public/curated", COVER_WEBP));
+    cpSync(join(root, "public/curated/brief-time.jpg"), join(tmp, "public/curated", COVER_JPEG));
     const dataPath = join(tmp, "_data/curated-content.json");
     const data = JSON.parse(readFileSync(dataPath, "utf8"));
     data.books.push({
@@ -70,6 +72,14 @@ test(
       author: "Test Author",
       cover: COVER,
       url: "https://example.com/book",
+      thoughts: null,
+    });
+    data.books.push({
+      id: "publish-test-jpeg",
+      title: "A Third Test Book",
+      author: "Test Author",
+      cover: COVER_JPEG,
+      url: "https://example.com/book3",
       thoughts: null,
     });
     data.books.push({
@@ -124,6 +134,8 @@ test(
     assert.ok(existsSync(join(dist, "curated", COVER_WEBP)), "WebP cover copied to the artifact");
     assert.match(read("index.html"), new RegExp(`/weblog/curated/${COVER_WEBP}`));
     assert.match(read("index.html"), /A Second Test Book/);
+    assert.ok(existsSync(join(dist, "curated", COVER_JPEG)), ".jpeg cover copied to the artifact");
+    assert.match(read("index.html"), new RegExp(`/weblog/curated/${COVER_JPEG}`));
     assert.match(read("index.html"), new RegExp(THOUGHTS), "owner-written thoughts are shown");
     // existing content untouched
     for (const f of [
@@ -160,17 +172,28 @@ test(
 
     // 5. the release gates themselves must accept the authored content (a new book/article must not need a test edit):
     //    the curated unit tests, the post-deploy live check (against the served copy) and the browser suite on the copy's build
-    const gate = (name, args, env = {}) => {
-      const r = spawnSync(process.execPath, args, {
-        cwd: tmp,
-        encoding: "utf8",
-        env: { ...process.env, ...env },
-      });
-      assert.equal(r.status, 0, `${name} failed on the modified copy:\n${r.stdout}\n${r.stderr}`);
+    // NODE_TEST_CONTEXT is set because this file itself runs under `node --test`; inherited by a nested `node --test`
+    // it switches that child into a mode that exits 0 even when its tests fail, so it MUST be removed. `expect` is a
+    // pattern the output has to contain, proving the gate really ran (and not just exited 0).
+    const gate = (name, args, expect) => {
+      const env = { ...process.env };
+      delete env.NODE_TEST_CONTEXT;
+      const r = spawnSync(process.execPath, args, { cwd: tmp, encoding: "utf8", env });
+      const out = `${r.stdout}\n${r.stderr}`;
+      assert.equal(r.status, 0, `${name} failed on the modified copy:\n${out}`);
+      assert.match(out, expect, `${name} did not report what it should have:\n${out}`);
     };
-    gate("curated unit tests", ["node_modules/vitest/vitest.mjs", "run", "src/content"]);
-    gate("live-check", ["scripts/live-check.mjs", `http://127.0.0.1:${port}`]);
-    gate("browser suite (static-site)", ["--test", "tests/e2e/static-site.test.mjs"]);
+    gate(
+      "curated unit tests",
+      ["node_modules/vitest/vitest.mjs", "run", "src/content"],
+      /Tests\s+\d+ passed/,
+    );
+    gate("live-check", ["scripts/live-check.mjs", `http://127.0.0.1:${port}`], /live-check OK/);
+    gate(
+      "browser suite (static-site)",
+      ["--test", "tests/e2e/static-site.test.mjs"],
+      /# pass [1-9]\d*[\s\S]*# fail 0/,
+    );
     // the visual gate: the added article and book change the home page, so only the content-dependent shots may be
     // skipped (named in the output); every other approved shot must still match
     const visual = spawnSync(

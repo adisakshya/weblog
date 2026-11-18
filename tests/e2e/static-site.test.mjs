@@ -189,25 +189,25 @@ describe("GitHub Pages semantics", () => {
 });
 
 describe("client navigation", () => {
-  it("opens an article from the home page, then a refresh on that URL still works", async () => {
+  it("opens the lead article from the home page, then a refresh on that URL still works", async () => {
     const ctx = await env.browser.newContext();
     await blockFonts(ctx);
     const page = await ctx.newPage();
     const problems = watch(page, env.base);
     await page.goto(env.base + "/weblog/", { waitUntil: "networkidle" });
-    await page.getByRole("link", { name: /Read the article/ }).click();
-    await page.waitForURL(
-      /\/weblog\/2022\/07\/16\/setting-up-an-api-ateway-for-your-microservices\.html$/,
-    );
-    await page
-      .locator("h1")
-      .filter({ hasText: /API Gateway/ })
-      .waitFor();
+    // the lead is the newest article, so the expectation comes from what the home page itself links (a newly
+    // published article becomes the lead without any test edit)
+    const link = page.getByRole("link", { name: /Read the article/ });
+    const href = new URL(await link.getAttribute("href"), env.base).pathname;
+    assert.match(href, /^\/weblog\/\d{4}\/\d{2}\/\d{2}\/[\w-]+\.html$/);
+    const leadTitle = await page.locator("h3 a").first().innerText();
+    await link.click();
+    await page.waitForURL((u) => u.pathname === href);
+    const h1 = page.locator("h1").filter({ hasText: leadTitle });
+    await h1.waitFor();
     await page.reload({ waitUntil: "networkidle" });
-    await page
-      .locator("h1")
-      .filter({ hasText: /API Gateway/ })
-      .waitFor();
+    await h1.waitFor();
+    assert.equal(new URL(page.url()).pathname, href);
     assert.deepEqual(
       problems.filter((p) => !/ERR_FAILED|fonts\./.test(p)),
       [],

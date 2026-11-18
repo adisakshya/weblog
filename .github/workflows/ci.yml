@@ -40,16 +40,16 @@ jobs:
       - run: bunx playwright install --with-deps chromium
       - name: Browser checks against the static artifact under /weblog/
         run: node --test tests/e2e/static-site.test.mjs
-      - name: Visual comparator self-test (must fail on regressions)
-        run: node --test tests/visual-compare.test.mjs
+      - name: Visual comparator self-tests (must fail on regressions; negative fixtures from all approved screenshots)
+        run: node --test tests/visual-compare.test.mjs tests/visual-structural.test.mjs
       - name: Visual comparison with the approved reference (12 themes, 2 widths, search, appearance)
         run: node scripts/visual-check.mjs visual-out
         env:
-          # The reference was captured on a different OS image/fonts than GitHub's runner. The first CI run measured
-          # 0.65-6.9% of pixels differing per shot with identical content (strict local runs: 0-0.36%), so CI only guards
-          # against gross regressions (blank page, missing section, wrong theme, broken layout). The strict (0%) acceptance
-          # run is `bun run visual` on the capturing environment; diffs are uploaded below for human inspection.
-          VISUAL_MAX_RATIO: "0.12"
+          # The reference was captured on a different OS image/fonts than GitHub's runner (the first CI run measured 0.65-6.9%
+          # differing pixels per shot with identical content), so CI compares 16x16 block averages instead of pixels:
+          # noise-tolerant, but a blank page, erased section, wrong theme or shifted layout fails for every shot
+          # (tests/visual-structural.test.mjs). The strict pixel run is `bun run visual` on the capturing environment.
+          VISUAL_MODE: structural
       - name: Upload visual diffs
         if: failure()
         uses: actions/upload-artifact@v4

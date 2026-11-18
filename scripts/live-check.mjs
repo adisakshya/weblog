@@ -4,6 +4,7 @@
 // Verifies: every legacy + new public route (200 + its own content), real 404, 301 slash redirect, feeds, sitemap URLs,
 // legacy image URLs, curated covers are real JPEGs, every script/stylesheet bundle linked from any route is served with the right MIME type (not an HTML fallback), no development files are served.
 import { readFileSync } from "node:fs";
+import { matchesExtension, mimeOf } from "./image-format.mjs";
 
 const base = (process.argv[2] ?? "").replace(/\/$/, "");
 if (!/^https?:\/\//.test(base)) {
@@ -139,12 +140,11 @@ ok(
 for (const c of covers) {
   const r = await get(c);
   const b = new Uint8Array(await r.arrayBuffer());
-  const isJpeg = /\.jpe?g$/.test(c);
   ok(
-    r.status === 200 && /^image\//.test(r.headers.get("content-type") ?? "") && b.length > 100,
-    `${c} is not served as an image (${r.status})`,
+    r.status === 200 && r.headers.get("content-type") === mimeOf(c),
+    `${c} -> ${r.status} ${r.headers.get("content-type")}`,
   );
-  if (isJpeg) ok(b[0] === 0xff && b[1] === 0xd8, `${c} is not a JPEG`);
+  ok(matchesExtension(c, b), `${c} is not a real image of the format its name says`);
 }
 for (const f of ["/weblog/sitemap.xml", "/weblog/feed.xml"]) {
   const r = await get(f);

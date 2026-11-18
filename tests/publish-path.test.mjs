@@ -16,12 +16,17 @@ import {
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
 import { chromium } from "playwright";
+
+const { PNG } = createRequire(import.meta.url)("pngjs");
 
 const root = resolve(".");
 const tmp = mkdtempSync(join(tmpdir(), "weblog-publish-"));
 const TITLE = "Hello from the publish test";
-const COVER = "publish-test-cover.jpg";
+const COVER = "publish-test-cover.png"; // PNG and WebP covers are accepted formats too, so the fixture uses both
+const COVER_WEBP = "publish-test-cover.webp";
+const THOUGHTS = "A reflection written by the owner";
 
 test(
   "add an article + a curated book, build, and find them everywhere",
@@ -53,7 +58,10 @@ test(
       `---\ntitle: "${TITLE}"\ndate: 2099-01-01 10:00:00 +0530\ntags: [publish-test, kong]\nexcerpt: A new article added by the publishing-path test.\n---\n\nFirst paragraph with a [link](https://example.com/) and it's typeset like the others.\n\n## A heading\n\n\`\`\`bash\necho "it works"\n\`\`\`\n`,
     );
     // 2. a new curated book: an image in public/curated + an entry in _data/curated-content.json (no code change)
-    cpSync(join(root, "public/curated/brief-time.jpg"), join(tmp, "public/curated", COVER));
+    const png = new PNG({ width: 120, height: 180 });
+    png.data.fill(200);
+    writeFileSync(join(tmp, "public/curated", COVER), PNG.sync.write(png));
+    cpSync(join(root, "public/assets/images/sun.webp"), join(tmp, "public/curated", COVER_WEBP));
     const dataPath = join(tmp, "_data/curated-content.json");
     const data = JSON.parse(readFileSync(dataPath, "utf8"));
     data.books.push({
@@ -63,6 +71,14 @@ test(
       cover: COVER,
       url: "https://example.com/book",
       thoughts: null,
+    });
+    data.books.push({
+      id: "publish-test-webp",
+      title: "A Second Test Book",
+      author: "Test Author",
+      cover: COVER_WEBP,
+      url: "https://example.com/book2",
+      thoughts: THOUGHTS,
     });
     writeFileSync(dataPath, JSON.stringify(data, null, 2));
 
@@ -105,6 +121,10 @@ test(
     assert.match(read("index.html"), /A Test Book/);
     assert.ok(existsSync(join(dist, "curated", COVER)), "cover copied to the artifact");
     assert.match(read("index.html"), new RegExp(`/weblog/curated/${COVER}`));
+    assert.ok(existsSync(join(dist, "curated", COVER_WEBP)), "WebP cover copied to the artifact");
+    assert.match(read("index.html"), new RegExp(`/weblog/curated/${COVER_WEBP}`));
+    assert.match(read("index.html"), /A Second Test Book/);
+    assert.match(read("index.html"), new RegExp(THOUGHTS), "owner-written thoughts are shown");
     // existing content untouched
     for (const f of [
       "2021/07/30/extension-pack-for-vscode-and-code-server.html",

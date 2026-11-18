@@ -4,6 +4,7 @@ import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { ROUTES, start, watch } from "./helpers.mjs";
+import { matchesExtension, mimeOf } from "../../scripts/image-format.mjs";
 
 let env;
 before(async () => {
@@ -119,7 +120,7 @@ describe("feeds", () => {
 });
 
 describe("curated covers", () => {
-  it("home references every cover under /weblog/curated/ and each is served as a JPEG", async () => {
+  it("home references every cover under /weblog/curated/ and each is served as a real image of its own format (JPEG, PNG or WebP)", async () => {
     const html = readFileSync("dist/client/index.html", "utf8");
     // expectation comes from the owner's data, so adding a book or video needs no test edit
     const curated = JSON.parse(readFileSync("_data/curated-content.json", "utf8"));
@@ -138,12 +139,8 @@ describe("curated covers", () => {
     for (const u of urls) {
       const r = await fetch(env.base + u);
       assert.equal(r.status, 200, u);
-      assert.equal(r.headers.get("content-type"), "image/jpeg", u);
-      assert.deepEqual(
-        [...new Uint8Array(await r.arrayBuffer()).slice(0, 3)],
-        [0xff, 0xd8, 0xff],
-        u,
-      );
+      assert.equal(r.headers.get("content-type"), mimeOf(u), u);
+      assert.ok(matchesExtension(u, new Uint8Array(await r.arrayBuffer())), `${u} is a real image`);
     }
   });
 });

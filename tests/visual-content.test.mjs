@@ -33,9 +33,26 @@ test("contentAdditions: identical -> {}, pure additions -> listed, any removal/r
 
 // ---- the CLI, with the reference compared against itself (all shots identical) -----------------------------------
 const tmp = mkdtempSync(join(tmpdir(), "weblog-visual-content-"));
+// Fixtures are built from the frozen baseline (file names / curated ids only), never from the working tree, so adding a
+// real article, book or tag to the repository cannot change what these tests assert.
 const withContent = (extra) => {
   const root = mkdtempSync(join(tmp, "root-"));
-  for (const d of ["_posts", "_pages", "_data"]) cpSync(d, join(root, d), { recursive: true });
+  for (const [dir, names] of [
+    ["_posts", baseline.posts],
+    ["_pages/tags", baseline.tagPages],
+    ["_pages/series", baseline.seriesPages],
+  ]) {
+    mkdirSync(join(root, dir), { recursive: true });
+    for (const n of names) writeFileSync(join(root, dir, n), "---\ntitle: baseline\n---\n");
+  }
+  mkdirSync(join(root, "_data"), { recursive: true });
+  writeFileSync(
+    join(root, "_data/curated-content.json"),
+    JSON.stringify({
+      books: baseline.books.map((id) => ({ id })),
+      videos: baseline.videos.map((id) => ({ id })),
+    }),
+  );
   extra?.(root);
   return root;
 };

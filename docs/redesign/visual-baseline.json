@@ -16,10 +16,7 @@
     "travis.md",
     "vscode.md"
   ],
-  "seriesPages": [
-    "api-gateway-101.md",
-    "blogging-101.md"
-  ],
+  "seriesPages": ["api-gateway-101.md", "blogging-101.md"],
   "books": [
     "metamorphosis",
     "child-star",
@@ -29,9 +26,5 @@
     "clocks",
     "brief-time"
   ],
-  "videos": [
-    "KZeIEiBrT_w",
-    "fGKNUvivvnc",
-    "KfODG5REyss"
-  ]
+  "videos": ["KZeIEiBrT_w", "fGKNUvivvnc", "KfODG5REyss"]
 }

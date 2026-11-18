@@ -32,6 +32,11 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | 2026-11-18 20:55 | #55_PR_OPENED (#67) | Head d4f88d5. Local: typecheck/lint/25 unit/preservation/build/route manifest/24 e2e green. Found+fixed: prerender ?view= overwrote index.html. |
 | 2026-11-18 20:35 | #55+#56 MERGED (#67 -> 13848ac) | R1 d4f88d5: 3xP1 fixed (baseurl, about/blogging-101 routes, HTML sanitization); R2 5017d6e: 1xP1 fixed (tracked .pyc); R3 0b4ab73: clean. CI green. |
 | 2026-11-18 20:40 | #60/#45 branches ready | visual gate 50/50 vs approved reference (6 shots allowed: kramdown apostrophes); sitemap+feed generated + tested. PRs next. |
+| 2026-11-18 20:55 | #45 MERGED (#69 -> 181b197) | R1+R2 on e16f5b4 clean; CI green. |
+| 2026-11-18 20:55 | #68/#70/#71 IN REVIEW | #68 (visual gate; CI tolerance 0.12 after cross-env measurement 0.65-6.9%), #70 (73 e2e tests; fixed lightbox DOM wipe, ?view= hydration #418, missing h1), #71 (deploy workflow + live-check + rollback; legacy/jekyll-e812fd4 branch = rollback ref, tag push is 403). |
+| 2026-11-18 21:05 | #70 MERGED (-> f91d99b) | R1+R2 clean on 5bd77f2; CI green (99 browser tests on the GitHub runner too). Found+fixed: lightbox DOM wipe (React 19 innerHTML), ?view= hydration #418, missing home h1. |
+| 2026-11-18 21:05 | #68 R2 P1 -> fix c75c166 | Codex: 12% pixel tolerance would accept a blank page. Replaced by structural block comparison + negative fixtures from all 50 reference shots (reject: blank/erased/inverted/shifted; accept: noise/1px shift/blur). CI calibration run in progress. |
+| 2026-11-18 21:05 | #71 R1 P1 -> fixed 5d9a14e | stacked before #69 (missing test_feeds.py); rebased. R2 requested. |
 
 ## Review log
 | PR | Round | Reviewed SHA | Result | Link |
@@ -41,10 +46,17 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | #67 | 1 | d4f88d5 | 3 P1 (fixed 5017d6e) | https://github.com/adisakshya/weblog/pull/67#issuecomment-6990020096 |
 | #67 | 2 | 5017d6e | 1 P1 (.pyc, fixed 0b4ab73) | same summary comment |
 | #67 | 3 | 0b4ab73 | clean | https://github.com/adisakshya/weblog/pull/67#issuecomment-6990408584 |
+| #69 | 1 | e16f5b4 | clean | https://github.com/adisakshya/weblog/pull/69#issuecomment-6990440736 |
+| #69 | 2 | e16f5b4 | clean | https://github.com/adisakshya/weblog/pull/69#issuecomment-6991343228 |
+| #68 | 1 | 44aed53 | clean | https://github.com/adisakshya/weblog/pull/68#issuecomment-6990437103 |
+| #70 | 1 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991346034 |
+| #70 | 2 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991415571 |
+| #68 | 2 | b7656cc | 1 P1 (tolerance accepts blank page; fixed c75c166) | https://github.com/adisakshya/weblog/pull/68#discussion_r4620715938 |
+| #71 | 1 | b083fc1 | 1 P1 (missing test_feeds.py; fixed 5d9a14e) | https://github.com/adisakshya/weblog/pull/71#discussion_r4620712469 |
 
 ## Current state
-- Stage: CHILD_60_45_PR_OPENING
-- Next action: open PRs for redesign/60-visual-gates (#60) and redesign/45-sitemap-feed (#45) -> redesign/weblog-static; then #61 deploy workflow + rollback docs, #59/#58 functional tests (search, keyboard, prefs persistence, responsive overflow), WEBLOG_DELIVERY.md, final PR to master, Pages deploy + live verification, Slack final.
-- Open PRs: none
+- Stage: CHILD_PRS_IN_REVIEW (#68 awaiting CI calibration then R3 on c75c166; #71 R2 on 5d9a14e pending)
+- Next action: when #68 CI is green request @codex review (R3) on its head; merge #68 and #71 after clean rounds (conflicts in ci.yml: resolve by merging integration into the branch and re-review if needed). Then open PR for redesign/delivery-doc (WEBLOG_DELIVERY.md, publish-path test + CI step), final verification on integration head (strict visual, e2e, live-check local), final PR integration -> master (2 Codex rounds), merge, watch Deploy workflow, run live-check on production, Slack final, remove allowlist hosts from Default env.
+- Open PRs: #68, #71
 - Unresolved findings: none
 - Last error: none

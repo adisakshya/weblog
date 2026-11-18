@@ -6,6 +6,8 @@ import { readdirSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 
+const allow = JSON.parse(readFileSync("docs/redesign/visual-allowlist.json", "utf8")).allow;
+
 const require = createRequire(import.meta.url);
 const { PNG } = require("pngjs");
 const { compareImages } = require("../scripts/compare-visual.cjs");
@@ -75,7 +77,8 @@ const invert = (p) => {
   return c;
 };
 
-const ci = (a, b, f) => compareImages(a, b, { mode: "structural", env: {}, rule: {} }); // default CI thresholds, no per-shot allowance
+// exactly what CI runs: structural mode, default thresholds, plus the per-shot allowances from the committed allowlist
+const ci = (a, b, f) => compareImages(a, b, { mode: "structural", env: {}, rule: allow[f] ?? {} });
 const worst = { mustFail: { v: 1, f: "" }, mustPass: { v: 0, f: "" } };
 const note = (kind, v, f) => {
   const w = worst[kind];

@@ -15,7 +15,8 @@
     "test:watch": "vitest",
     "visual": "node scripts/visual-check.mjs",
     "check:content": "python3 scripts/check_content_fidelity.py && python3 tests/test_content_fidelity.py",
-    "visual:ci": "VISUAL_MODE=structural node scripts/visual-check.mjs"
+    "visual:ci": "VISUAL_MODE=structural node scripts/visual-check.mjs",
+    "test:e2e": "node --test tests/e2e/*.test.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"

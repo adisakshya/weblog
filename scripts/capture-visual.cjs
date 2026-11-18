@@ -75,6 +75,14 @@ async function settle(page) {
   await page.waitForLoadState("networkidle").catch(() => {});
   await page.evaluate(() => document.fonts && document.fonts.ready).catch(() => {});
   await page.waitForTimeout(400);
+  // Late font faces / images can repaint a few glyph pixels after fonts.ready: wait until two consecutive frames are identical.
+  let prev = null;
+  for (let i = 0; i < 10; i++) {
+    const frame = await page.screenshot({ animations: "disabled" });
+    if (prev && Buffer.compare(prev, frame) === 0) return;
+    prev = frame;
+    await page.waitForTimeout(150);
+  }
 }
 async function open(browser, size, theme) {
   const ctx = await browser.newContext({

@@ -22,7 +22,7 @@ bun run preview    # serve dist/client like GitHub Pages at http://127.0.0.1:430
 bun run typecheck && bun run lint && bun run test
 python3 tests/test_legacy_inventory.py          # original content byte-identical to the legacy baseline
 node scripts/check-dist.mjs                     # every legacy public route exists in the build
-node --test tests/e2e/static-site.test.mjs      # browser checks (run `bunx playwright install chromium` once)
+bun run test:e2e                                 # all browser checks (run `bunx playwright install chromium` once)
 ```
 
 The previous Jekyll site is preserved in git history (baseline `e812fd4`).

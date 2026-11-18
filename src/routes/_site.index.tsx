@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useHydrated } from "@/lib/use-hydrated";
 import { posts, series, groupings, subjects, formatShortDate, type Post } from "@/content/content";
 import { postParams } from "@/content/links";
 import { Cover } from "@/components/journal/Cover";
@@ -49,13 +50,17 @@ function PostLink({
 }
 
 function Home() {
-  const { view = "stories" } = Route.useSearch();
+  // The prerendered document is always the Posts view; apply ?view= only once hydrated so the first render matches it.
+  const { view: requested = "stories" } = Route.useSearch();
+  const view = useHydrated() ? requested : "stories";
   const lead = posts[0];
   const rest = posts.slice(1);
   const gw = series.find((s) => s.posts.length > 0);
   if (!lead || !gw) return null;
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      {/* The masthead is a link, so the home page needs its own (visually hidden) page heading. */}
+      <h1 className="sr-only">The blog of Adisakshya Chauhan</h1>
       <div className="flex flex-col gap-4 pt-8 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <p className="max-w-xl text-lg j-muted">
           A compilation of my musings 🤔, inspirations 🌟, mistakes 😅, and other ramblings 🧐.

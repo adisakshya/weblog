@@ -16,3 +16,7 @@ _site/
 # local environment
 .env
 .env.*
+
+# Python bytecode (verification scripts are Python)
+__pycache__/
+*.pyc

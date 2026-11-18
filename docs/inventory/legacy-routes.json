@@ -1,0 +1,113 @@
+{
+  "baseline_commit": "e812fd40751c11b34b3ee9d8a4cba9c8ca5f2206",
+  "routes": [
+    {
+      "route": "/weblog/",
+      "source": "index.html"
+    },
+    {
+      "route": "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+      "source": "_posts/2021-07-30-extension-pack-for-vscode-and-code-server.md"
+    },
+    {
+      "route": "/weblog/2022/02/01/introduction-to-api-gateway.html",
+      "source": "_posts/2022-02-01-introduction-to-api-gateway.md"
+    },
+    {
+      "route": "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+      "source": "_posts/2022-07-17-setting-up-an-api-ateway-for-your-microservices.md"
+    },
+    {
+      "route": "/weblog/404.html",
+      "source": "404.html"
+    },
+    {
+      "route": "/weblog/about/",
+      "source": "_pages/about.md"
+    },
+    {
+      "route": "/weblog/assets/css/dark.css",
+      "source": "assets/css/dark.css"
+    },
+    {
+      "route": "/weblog/assets/favicon.ico",
+      "source": "assets/favicon.ico"
+    },
+    {
+      "route": "/weblog/assets/images/avatar.jpg",
+      "source": "assets/images/avatar.jpg"
+    },
+    {
+      "route": "/weblog/assets/images/jekyll.png",
+      "source": "assets/images/jekyll.png"
+    },
+    {
+      "route": "/weblog/assets/images/sun.webp",
+      "source": "assets/images/sun.webp"
+    },
+    {
+      "route": "/weblog/assets/js/main.min.js",
+      "source": "assets/js/main.min.js"
+    },
+    {
+      "route": "/weblog/assets/js/sayings.js",
+      "source": "assets/js/sayings.js"
+    },
+    {
+      "route": "/weblog/assets/js/theme-selector.js",
+      "source": "assets/js/theme-selector.js"
+    },
+    {
+      "route": "/weblog/contact/",
+      "source": "_pages/contact.md"
+    },
+    {
+      "route": "/weblog/series/api-gateway-101/",
+      "source": "_pages/series/api-gateway-101.md"
+    },
+    {
+      "route": "/weblog/series/blogging-101/",
+      "source": "_pages/series/blogging-101.md"
+    },
+    {
+      "route": "/weblog/tags/api-gateway/",
+      "source": "_pages/tags/api-gateway.md"
+    },
+    {
+      "route": "/weblog/tags/ci-cd/",
+      "source": "_pages/tags/ci-cd.md"
+    },
+    {
+      "route": "/weblog/tags/code-server/",
+      "source": "_pages/tags/code-server.md"
+    },
+    {
+      "route": "/weblog/tags/docker/",
+      "source": "_pages/tags/docker.md"
+    },
+    {
+      "route": "/weblog/tags/github/",
+      "source": "_pages/tags/github.md"
+    },
+    {
+      "route": "/weblog/tags/kong/",
+      "source": "_pages/tags/kong.md"
+    },
+    {
+      "route": "/weblog/tags/microservices/",
+      "source": "_pages/tags/microservices.md"
+    },
+    {
+      "route": "/weblog/tags/travis/",
+      "source": "_pages/tags/travis.md"
+    },
+    {
+      "route": "/weblog/tags/vscode/",
+      "source": "_pages/tags/vscode.md"
+    },
+    {
+      "route": "/weblog/terms/",
+      "source": "_pages/terms.md"
+    }
+  ]
+}

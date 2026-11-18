@@ -27,10 +27,11 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | When (UTC) | Stage | Note |
 |---|---|---|
 | 2026-11-18 19:45 | PREFLIGHT_DONE | Source readable, covers recovered 10/10, Codex connector observed on PR #64. |
+| 2026-11-18 20:05 | #54_PR_OPENING | Reference screenshots (50) + covers + legacy fixtures on `redesign/54-reference-freeze`; raw Lovable export on branch `reference/lovable-df8c3dd` @ aa7e8c1. |
 
 ## Current state
-- Stage: STARTING_IMPLEMENTATION
-- Next action: child branch `redesign/54-reference-freeze` (reference capture + preservation fixtures).
+- Stage: CHILD_54_REVIEW
+- Next action: open PR for `redesign/54-reference-freeze` -> `redesign/weblog-static`; wait for Codex round 1; then #55 static build.
 - Open PRs: none
 - Unresolved findings: none
 - Last error: none

@@ -1,0 +1,24 @@
+# Approved design reference (issue #54)
+
+Frozen, independently captured reference for the redesign. **Never recapture these from the new implementation to make a check pass.**
+
+| Item | Value |
+|---|---|
+| Lovable project | `c12696b6-7bda-47a8-8126-ef17c1071df6` |
+| Approved revision | `df8c3ddff9f6f4a182f1a8dc41c729b7d4a5d988` (still the latest commit at capture time, 18 Nov 2026) |
+| Source export | ZIP sha256 `00bea465382285b73b2ab3d17b76c1590ff0ebce35a61765dac4cf4959abaeea` (259 entries) |
+| Full source snapshot | branch `reference/lovable-df8c3dd`, directory `lovable-export/` (kept off the production tree) |
+| Legacy baseline | `master` @ `e812fd40751c11b34b3ee9d8a4cba9c8ca5f2206` (fixtures in `docs/inventory/`) |
+
+## Screenshots (`reference/screenshots/`)
+Captured by `scripts/capture-visual.cjs` from the export's own `vite dev` server (its Cloudflare build cannot be run with `vite preview`), Chromium, 1440×900 and 390×844, reduced motion, covers served from `reference/covers/`.
+50 images: 11 routes × 2 widths (home Posts/Index/Subjects, 3 articles — top 1800px —, tag, series, contact, terms, 404), the open Search and Appearance panels, and the article page in all 12 themes × 2 widths. `capture-log.json` lists each shot.
+Re-run the same script against the new site and compare with `scripts/compare-visual.cjs` (issue #60).
+
+## Recovered curated covers (`reference/covers/`)
+The export holds only `*.jpg.asset.json` pointers for the ten Bookshelf/Worth-watching images. They were recovered from the preview origin plus each pointer URL.
+Each file is a real JPEG (magic bytes, dimensions parsed) whose byte length equals the pointer's `size`. `verification.json` records a second check against the original source URL in `asset-sources.json`: 7/10 are byte-identical; the three on `covers.openlibrary.org` (×2) and `www.gutenberg.org` were not reachable from the build sandbox, so for those only the pointer size/format match is established.
+`SHA256SUMS` pins the bytes. Production copies are shipped under a stable `/weblog/` path by issue #56.
+
+## Known deviations from the reference
+Recorded as they are decided: comments omitted; analytics omitted (#65); Beyond the blog removed (already absent from the approved revision).

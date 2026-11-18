@@ -26,7 +26,8 @@ for (const route of legacy) {
   if (existsSync(fileFor(route))) ok++;
   else failures.push(route);
 }
-for (const f of ["404.html", ".nojekyll"]) if (!existsSync(join(dist, f))) failures.push(`/${f}`);
+for (const f of ["404.html", ".nojekyll", "sitemap.xml", "feed.xml"])
+  if (!existsSync(join(dist, f))) failures.push(`/${f}`);
 console.log(
   `routes present: ${ok}/${legacy.length - Object.keys(removed).length - Object.keys(pending).length} (removed by design: ${Object.keys(removed).length}, pending: ${Object.keys(pending).length})`,
 );

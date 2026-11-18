@@ -32,6 +32,8 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | 2026-11-18 20:55 | #55_PR_OPENED (#67) | Head d4f88d5. Local: typecheck/lint/25 unit/preservation/build/route manifest/24 e2e green. Found+fixed: prerender ?view= overwrote index.html. |
 | 2026-11-18 20:35 | #55+#56 MERGED (#67 -> 13848ac) | R1 d4f88d5: 3xP1 fixed (baseurl, about/blogging-101 routes, HTML sanitization); R2 5017d6e: 1xP1 fixed (tracked .pyc); R3 0b4ab73: clean. CI green. |
 | 2026-11-18 20:40 | #60/#45 branches ready | visual gate 50/50 vs approved reference (6 shots allowed: kramdown apostrophes); sitemap+feed generated + tested. PRs next. |
+| 2026-11-18 20:55 | #45 MERGED (#69 -> 181b197) | R1+R2 on e16f5b4 clean; CI green. |
+| 2026-11-18 20:55 | #68/#70/#71 IN REVIEW | #68 (visual gate; CI tolerance 0.12 after cross-env measurement 0.65-6.9%), #70 (73 e2e tests; fixed lightbox DOM wipe, ?view= hydration #418, missing h1), #71 (deploy workflow + live-check + rollback; legacy/jekyll-e812fd4 branch = rollback ref, tag push is 403). |
 
 ## Review log
 | PR | Round | Reviewed SHA | Result | Link |
@@ -41,10 +43,14 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | #67 | 1 | d4f88d5 | 3 P1 (fixed 5017d6e) | https://github.com/adisakshya/weblog/pull/67#issuecomment-6990020096 |
 | #67 | 2 | 5017d6e | 1 P1 (.pyc, fixed 0b4ab73) | same summary comment |
 | #67 | 3 | 0b4ab73 | clean | https://github.com/adisakshya/weblog/pull/67#issuecomment-6990408584 |
+| #69 | 1 | e16f5b4 | clean | https://github.com/adisakshya/weblog/pull/69#issuecomment-6990440736 |
+| #69 | 2 | e16f5b4 | clean | https://github.com/adisakshya/weblog/pull/69#issuecomment-6991343228 |
+| #68 | 1 | 44aed53 | clean | https://github.com/adisakshya/weblog/pull/68#issuecomment-6990437103 |
+| #70 | 1 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991346034 |
 
 ## Current state
-- Stage: CHILD_60_45_PR_OPENING
-- Next action: open PRs for redesign/60-visual-gates (#60) and redesign/45-sitemap-feed (#45) -> redesign/weblog-static; then #61 deploy workflow + rollback docs, #59/#58 functional tests (search, keyboard, prefs persistence, responsive overflow), WEBLOG_DELIVERY.md, final PR to master, Pages deploy + live verification, Slack final.
-- Open PRs: none
+- Stage: CHILD_PRS_IN_REVIEW (#68 R2 requested on b7656cc, #70 R2 requested on 5bd77f2, #71 R1 pending)
+- Next action: merge each child after 2 clean rounds + green CI (conflicts: all touch ci.yml - merge sequentially, merge integration into the next if GitHub reports a conflict, then re-review). Then: delivery doc + publish-path test + curated authoring fix (branch redesign/delivery-doc), run live-check/visual/e2e on merged tree, final PR integration -> master, merge after 2 rounds, watch deploy + live-check, Slack final, remove env allowlist hosts, delete unused weblog-redesign env note.
+- Open PRs: #68, #70, #71
 - Unresolved findings: none
 - Last error: none

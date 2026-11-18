@@ -25,14 +25,42 @@ const ok = (cond, msg) => {
 };
 const get = (path, init) => fetch(base + path, { redirect: "manual", ...init });
 
-const markers = {
-  "/weblog/": "The blog of Adisakshya Chauhan",
-  "/weblog/about/": "About",
-  "/weblog/contact/": "Contact",
-  "/weblog/terms/": "Terms and policies",
-  "/weblog/series/api-gateway-101/": "API Gateway 101",
-  "/weblog/series/blogging-101/": "No articles in this series yet",
+// Each route must serve ITS OWN document: the <h1> text and canonical URL are derived from the authoritative sources
+// (front-matter titles, tag/series pages), so a CDN/Pages fault that serves the home page (or any other page) at
+// another URL cannot pass. The list of routes comes from the frozen legacy inventory.
+const decode = (s) =>
+  s
+    .replace(/&#x27;|&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+const text = (html) =>
+  decode(
+    html
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/\s+/g, " ")
+      .trim(),
+  );
+const title = (file) => {
+  const m = readFileSync(file, "utf8").match(/^title:\s*"?(.*?)"?\s*$/m);
+  return m ? m[1] : null;
 };
+const sourceOf = Object.fromEntries(
+  JSON.parse(readFileSync("docs/inventory/legacy-routes.json", "utf8")).routes.map((r) => [
+    r.route,
+    r.source,
+  ]),
+);
+export function expectedH1(route) {
+  if (route === "/weblog/") return "The blog of Adisakshya Chauhan";
+  const tag = route.match(/^\/weblog\/tags\/([^/]+)\/$/);
+  if (tag) return `#${tag[1]}`;
+  const src = sourceOf[route];
+  return src ? title(src) : null;
+}
+const markers = { "/weblog/series/blogging-101/": "No articles in this series yet" };
 const routes = legacy.filter(
   (r) => !removed.includes(r) && !r.startsWith("/weblog/assets/") && r !== "/weblog/404.html",
 );
@@ -41,8 +69,18 @@ for (const route of routes) {
   ok(r.status === 200, `${route} -> ${r.status} (expected 200)`);
   if (r.status !== 200) continue;
   const html = await r.text();
-  ok(/<h1/.test(html), `${route} has no <h1> in the static HTML`);
   ok(!html.includes("Page not found"), `${route} serves the 404 page`);
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
+  const want = expectedH1(route);
+  ok(want, `${route}: no expected title could be derived from the sources`);
+  ok(h1, `${route} has no <h1> in the static HTML`);
+  if (h1 && want)
+    ok(text(h1[1]).includes(want), `${route}: <h1> is "${text(h1[1])}", expected "${want}"`);
+  const canon = html.match(
+    /<link[^>]*rel="canonical"[^>]*href="([^"]+)"|<link[^>]*href="([^"]+)"[^>]*rel="canonical"/,
+  );
+  const canonPath = canon ? new URL(canon[1] ?? canon[2]).pathname : null;
+  ok(canonPath === route, `${route}: canonical URL is ${canonPath}, expected ${route}`);
   if (markers[route]) ok(html.includes(markers[route]), `${route} lacks "${markers[route]}"`);
 }
 // home must be the Posts view (a prerender regression once overwrote it with the Index view)

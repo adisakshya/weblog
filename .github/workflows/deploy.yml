@@ -41,6 +41,8 @@ jobs:
         run: python3 tests/test_legacy_inventory.py
       - name: Static build (prerender + 404 + .nojekyll + sitemap + feed)
         run: bun run build
+      - name: Release gate self-test (live-check must fail on realistic faults)
+        run: node --test tests/live-check.test.mjs
       - name: Route manifest, feeds, content fidelity
         run: |
           node scripts/check-dist.mjs

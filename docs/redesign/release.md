@@ -11,7 +11,7 @@ Permissions: the build job has `contents: read` only; `pages: write` and `id-tok
 ```sh
 node scripts/live-check.mjs https://adisakshya.github.io
 ```
-It checks every public route (200 + its own content), the real 404, the 301 to the slash form, legacy image URLs, ten curated covers are real JPEGs, feeds, every sitemap URL, all home-page scripts/styles, and that development files (the Jekyll site used to serve `/weblog/Gemfile`) are not published.
+It checks every public route (200, its own `<h1>` and canonical URL derived from the Markdown sources, so a page served at the wrong URL cannot pass; `tests/live-check.test.mjs` proves it fails on realistic faults), the real 404, the 301 to the slash form, legacy image URLs, ten curated covers are real JPEGs, feeds, every sitemap URL, all home-page scripts/styles, and that development files (the Jekyll site used to serve `/weblog/Gemfile`) are not published.
 
 ## Roll back
 Preserved reference: branch **`legacy/jekyll-e812fd4`** (commit `e812fd40751c11b34b3ee9d8a4cba9c8ca5f2206`) = the last Jekyll production state. (A tag was preferred but tag pushes are blocked in the build sandbox; the branch must not be deleted or advanced.)

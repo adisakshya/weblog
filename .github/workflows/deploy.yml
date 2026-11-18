@@ -1,0 +1,94 @@
+name: Deploy to GitHub Pages
+
+# Publishes https://adisakshya.github.io/weblog/ from master. Requires Settings -> Pages -> Source: "GitHub Actions".
+# The site is only published after the full check suite passes on the exact commit being deployed.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Git ref (commit SHA, tag or branch) to build and deploy. Use a previous good commit to roll back."
+        required: false
+        default: ""
+
+concurrency:
+  group: pages
+  cancel-in-progress: false # never cancel a deployment half way
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          fetch-depth: 0 # the content-preservation test reads the baseline commit
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Bun (pinned)
+        run: npm install --global bun@1.4.4
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run lint
+      - run: bun run test
+      - name: Content preservation (original Markdown, front matter, comments, images byte-identical)
+        run: python3 tests/test_legacy_inventory.py
+      - name: Static build (prerender + 404 + .nojekyll + sitemap + feed)
+        run: bun run build
+      - name: Release gate self-test (live-check must fail on realistic faults)
+        run: node --test tests/live-check.test.mjs
+      - name: Route manifest, feeds, content fidelity
+        run: |
+          node scripts/check-dist.mjs
+          python3 tests/test_feeds.py
+          python3 scripts/check_content_fidelity.py
+          python3 tests/test_content_fidelity.py
+      - run: bunx playwright install --with-deps chromium
+      - name: Browser checks against the static artifact
+        run: node --test tests/e2e/*.test.mjs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/client # only the built site: no sources, tests, docs or scripts are published
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      pages: write # publish to Pages
+      id-token: write # OIDC token required by deploy-pages
+      contents: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  verify-live:
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Live check (retries while the CDN propagates)
+        run: |
+          for attempt in 1 2 3 4 5 6 7 8; do
+            if node scripts/live-check.mjs "https://${GITHUB_REPOSITORY_OWNER}.github.io"; then exit 0; fi
+            echo "attempt $attempt failed; waiting for propagation"; sleep 30
+          done
+          echo "::error::live site does not match the deployed build - see docs/redesign/release.md (rollback)"; exit 1

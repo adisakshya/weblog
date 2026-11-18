@@ -37,15 +37,18 @@ jobs:
         run: node scripts/check-dist.mjs
       - name: Release gate self-test (live-check must fail on realistic faults)
         run: node --test tests/live-check.test.mjs
+      - name: Install Chromium (needed by the authoring-path test and the browser suites)
+        run: bunx playwright install --with-deps chromium
+      - name: Authoring path (add an article + a curated book to a copy, build, find them everywhere)
+        run: node --test tests/publish-path.test.mjs
       - name: Sitemap and Atom feed
         run: python3 tests/test_feeds.py
       - name: Content fidelity (every legacy block/link/image/anchor/code block present unless explicitly exempt) + negative tests
         run: python3 scripts/check_content_fidelity.py && python3 tests/test_content_fidelity.py
-      - run: bunx playwright install --with-deps chromium
       - name: Browser checks against the static artifact (routes, search, appearance + contrast, keyboard/a11y, overflow, views, article, links)
         run: node --test tests/e2e/*.test.mjs
       - name: Visual comparator self-tests (must fail on regressions; negative fixtures from all approved screenshots)
-        run: node --test tests/visual-compare.test.mjs tests/visual-structural.test.mjs
+        run: node --test tests/visual-compare.test.mjs tests/visual-structural.test.mjs tests/visual-content.test.mjs
       - name: Visual comparison with the approved reference (12 themes, 2 widths, search, appearance)
         run: node scripts/visual-check.mjs visual-out
         env:

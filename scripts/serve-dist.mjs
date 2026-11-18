@@ -16,6 +16,7 @@ const types = {
   ".xml": "application/xml",
   ".ico": "image/x-icon",
   ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
   ".png": "image/png",
   ".webp": "image/webp",
   ".svg": "image/svg+xml",
@@ -45,7 +46,9 @@ createServer(async (req, res) => {
     }
     if (!st?.isFile()) return void (await notFound(res));
     res
-      .writeHead(200, { "content-type": types[extname(file)] ?? "application/octet-stream" })
+      .writeHead(200, {
+        "content-type": types[extname(file).toLowerCase()] ?? "application/octet-stream",
+      })
       .end(await readFile(file));
   } catch (e) {
     res.writeHead(500).end(String(e));

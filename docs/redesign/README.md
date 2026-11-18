@@ -1,4 +1,4 @@
-# Static redesign — architecture (work in progress; final handoff is `WEBLOG_DELIVERY.md`)
+# Static redesign — architecture (the final handoff is `WEBLOG_DELIVERY.md`)
 
 The weblog is a fully prerendered static site built with **TanStack Start + Vite + React**, published to GitHub Pages at `https://adisakshya.github.io/weblog/`.
 It reproduces the approved Lovable design (`reference/`). Markdown in `_posts/`, `_pages/` stays the authoring path.

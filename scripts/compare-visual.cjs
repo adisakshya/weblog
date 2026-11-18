@@ -44,6 +44,44 @@ function structuralDiff(a, b, threshold = DEFAULTS.blockThreshold) {
   return { bad, total: bw * bh, fraction: bad / (bw * bh), max };
 }
 
+/** Current content of the working tree, in the shape of docs/redesign/visual-baseline.json. */
+function currentContent(root = ".") {
+  const ls = (dir) =>
+    fs.existsSync(path.join(root, dir))
+      ? fs
+          .readdirSync(path.join(root, dir))
+          .filter((f) => f.endsWith(".md"))
+          .sort()
+      : [];
+  const curated = JSON.parse(
+    fs.readFileSync(path.join(root, "_data/curated-content.json"), "utf8"),
+  );
+  return {
+    posts: ls("_posts"),
+    tagPages: ls("_pages/tags"),
+    seriesPages: ls("_pages/series"),
+    books: curated.books.map((b) => b.id),
+    videos: curated.videos.map((v) => v.id),
+  };
+}
+
+/** Content added since the approved reference, or null when the tree is not a pure superset of the baseline.
+ *  Anything REMOVED or renamed from the baseline returns null: such a change must never relax the visual gate. */
+function contentAdditions(baseline, current) {
+  const added = {};
+  let any = false;
+  for (const key of ["posts", "tagPages", "seriesPages", "books", "videos"]) {
+    const have = new Set(current[key] ?? []);
+    if ((baseline[key] ?? []).some((x) => !have.has(x))) return null;
+    const extra = [...have].filter((x) => !(baseline[key] ?? []).includes(x));
+    if (extra.length) {
+      added[key] = extra;
+      any = true;
+    }
+  }
+  return any ? added : {};
+}
+
 /** Decide one shot. Returns { ok, detail, sizeMismatch }. */
 function compareImages(a, b, { mode = "exact", rule = {}, env = process.env } = {}) {
   if (a.width !== b.width || a.height !== b.height) {
@@ -90,15 +128,38 @@ function main() {
     );
     process.exit(2);
   }
-  const allow = fs.existsSync(allowFile)
-    ? (JSON.parse(fs.readFileSync(allowFile, "utf8")).allow ?? {})
-    : {};
+  const allowDoc = fs.existsSync(allowFile) ? JSON.parse(fs.readFileSync(allowFile, "utf8")) : {};
+  const allow = allowDoc.allow ?? {};
+  // Content-dependent shots (home, tag/series pages, panels over the home page) cannot match a frozen reference once the
+  // owner has ADDED an article, tag, series, book or video. They are skipped, by name and loudly, only for a pure addition.
+  const baselineFile = arg("--baseline", "docs/redesign/visual-baseline.json");
+  let skipPattern = null;
+  if (allowDoc.contentDependent && fs.existsSync(baselineFile)) {
+    const added = contentAdditions(
+      JSON.parse(fs.readFileSync(baselineFile, "utf8")),
+      currentContent(arg("--content-root", ".")),
+    );
+    if (added && Object.keys(added).length) {
+      skipPattern = new RegExp(allowDoc.contentDependent.pattern);
+      console.log(
+        `NOTE content added since the approved reference (${Object.entries(added)
+          .map(([k, v]) => `${k}: ${v.join(", ")}`)
+          .join("; ")}): content-dependent shots are skipped, all other shots stay mandatory`,
+      );
+    }
+  }
+  let skipped = 0;
   let failed = 0,
     total = 0;
   for (const f of fs
     .readdirSync(refDir)
     .filter((x) => x.endsWith(".png"))
     .sort()) {
+    if (skipPattern && skipPattern.test(f)) {
+      skipped++;
+      console.log(`SKIP ${f}: depends on content added since the approved reference`);
+      continue;
+    }
     total++;
     const np = path.join(newDir, f);
     if (!fs.existsSync(np)) {
@@ -121,9 +182,11 @@ function main() {
     } else if (!r.quiet)
       console.log(`ok   ${f}: ${r.detail}${allow[f] ? ` (allowed: ${allow[f].reason})` : ""}`);
   }
-  console.log(`${total - failed}/${total} shots match the approved reference (${mode})`);
+  console.log(
+    `${total - failed}/${total} shots match the approved reference (${mode})${skipped ? `, ${skipped} content-dependent shots skipped` : ""}`,
+  );
   process.exit(failed ? 1 : 0);
 }
 
-module.exports = { compareImages, structuralDiff, DEFAULTS };
+module.exports = { compareImages, structuralDiff, contentAdditions, currentContent, DEFAULTS };
 if (require.main === module) main();

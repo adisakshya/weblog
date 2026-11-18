@@ -4,6 +4,7 @@
 // Verifies: every legacy + new public route (200 + its own content), real 404, 301 slash redirect, feeds, sitemap URLs,
 // legacy image URLs, curated covers are real JPEGs, every script/stylesheet bundle linked from any route is served with the right MIME type (not an HTML fallback), no development files are served.
 import { readFileSync } from "node:fs";
+import { coverUrlPattern, matchesExtension, mimeOf } from "./image-format.mjs";
 
 const base = (process.argv[2] ?? "").replace(/\/$/, "");
 if (!/^https?:\/\//.test(base)) {
@@ -118,14 +119,28 @@ for (const p of [
   ok(r.status === 200, `${p} -> ${r.status}`);
 }
 const home = await (await get("/weblog/")).text();
-const covers = [
-  ...new Set([...home.matchAll(/\/weblog\/curated\/[a-z-]+\.jpg/g)].map((m) => m[0])),
-];
-ok(covers.length === 10, `expected 10 curated covers on the home page, found ${covers.length}`);
+// the expected covers come from the owner's data, so adding a book or video needs no edit here
+const curated = JSON.parse(readFileSync("_data/curated-content.json", "utf8"));
+const expectedCovers = new Set(
+  [...curated.books.map((b) => b.cover), ...curated.videos.map((v) => v.thumbnail)].map(
+    (f) => `/weblog/curated/${f}`,
+  ),
+);
+const covers = [...new Set([...home.matchAll(coverUrlPattern())].map((m) => m[0]))];
+ok(expectedCovers.size >= 10, `curated data lists only ${expectedCovers.size} covers`);
+for (const c of expectedCovers) ok(covers.includes(c), `home does not reference cover ${c}`);
+ok(
+  covers.length === expectedCovers.size,
+  `home references ${covers.length} covers, curated data has ${expectedCovers.size}`,
+);
 for (const c of covers) {
   const r = await get(c);
   const b = new Uint8Array(await r.arrayBuffer());
-  ok(r.status === 200 && b[0] === 0xff && b[1] === 0xd8, `${c} is not a JPEG (${r.status})`);
+  ok(
+    r.status === 200 && r.headers.get("content-type") === mimeOf(c),
+    `${c} -> ${r.status} ${r.headers.get("content-type")}`,
+  );
+  ok(matchesExtension(c, b), `${c} is not a real image of the format its name says`);
 }
 for (const f of ["/weblog/sitemap.xml", "/weblog/feed.xml"]) {
   const r = await get(f);

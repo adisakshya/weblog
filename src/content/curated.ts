@@ -16,23 +16,12 @@ export type Video = {
   url: string;
   thoughts?: string | null;
 };
-const FILES = new Set([
-  "metamorphosis.jpg",
-  "child-star.jpg",
-  "pride-prejudice.jpg",
-  "everything.jpg",
-  "keeper.jpg",
-  "clocks.jpg",
-  "brief-time.jpg",
-  "video-markov.jpg",
-  "video-interpretability.jpg",
-  "video-quantum.jpg",
-]);
 export const books: Book[] = supplied.books;
 export const videos: Video[] = supplied.videos;
-/** Recovered originals live in public/curated/ and are served under the site base path (/weblog/curated/...). */
+/** Covers and thumbnails live in public/curated/ and are served at /weblog/curated/<file>. To add an entry: put the image there and reference its file name in _data/curated-content.json (curated.test.ts checks every reference exists and is a real JPEG). */
 export function curatedImage(filename: string): string {
-  if (!FILES.has(filename)) throw new Error(`Missing curated image: ${filename}`);
+  if (!/^[\w.-]+\.(jpe?g|png|webp)$/i.test(filename))
+    throw new Error(`Invalid curated image name: ${filename}`);
   return `${import.meta.env.BASE_URL}curated/${filename}`;
 }
 export function personalThoughts(item: { thoughts?: string | null }): string | undefined {

@@ -3,9 +3,17 @@ import { subjects, formatShortDate, formatDate, posts } from "./content";
 
 describe("subjects", () => {
   it("summarises populated subjects with distinct counts and newest UTC date", () => {
-    expect(
-      subjects.map((g) => `${g.label} · ${g.posts.length} · ${formatShortDate(g.newest!)}`),
-    ).toEqual(["Systems · 2 · 16 Jul 2022", "Developer tools · 1 · 30 Jul 2021"]);
+    // structural, so adding an article never needs a test edit: the original subjects exist, and every group's
+    // count is its distinct posts and its newest date is the newest of them (UTC)
+    const labels = subjects.map((g) => g.label);
+    expect(labels).toContain("Systems");
+    expect(labels).toContain("Developer tools");
+    for (const g of subjects) {
+      expect(g.posts.length).toBeGreaterThan(0);
+      expect(new Set(g.posts.map((p) => p.url)).size).toBe(g.posts.length);
+      const newest = Math.max(...g.posts.map((p) => new Date(p.date).getTime()));
+      expect(formatShortDate(g.newest!)).toBe(formatShortDate(new Date(newest).toISOString()));
+    }
   });
   it("formats publication dates in UTC to match the permalink date", () => {
     for (const p of posts) {

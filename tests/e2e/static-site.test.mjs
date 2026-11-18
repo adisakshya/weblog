@@ -4,6 +4,7 @@ import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { ROUTES, start, watch } from "./helpers.mjs";
+import { coverUrlPattern, matchesExtension, mimeOf } from "../../scripts/image-format.mjs";
 
 let env;
 before(async () => {
@@ -119,21 +120,23 @@ describe("feeds", () => {
 });
 
 describe("curated covers", () => {
-  it("home references every cover under /weblog/curated/ and each is served as a JPEG", async () => {
+  it("home references every cover under /weblog/curated/ and each is served as a real image of its own format (JPEG, PNG or WebP)", async () => {
     const html = readFileSync("dist/client/index.html", "utf8");
-    const urls = [
-      ...new Set([...html.matchAll(/\/weblog\/curated\/[a-z-]+\.jpg/g)].map((m) => m[0])),
-    ];
-    assert.equal(urls.length, 10);
+    // expectation comes from the owner's data, so adding a book or video needs no test edit
+    const curated = JSON.parse(readFileSync("_data/curated-content.json", "utf8"));
+    const expected = new Set(
+      [...curated.books.map((b) => b.cover), ...curated.videos.map((v) => v.thumbnail)].map(
+        (f) => `/weblog/curated/${f}`,
+      ),
+    );
+    const urls = [...new Set([...html.matchAll(coverUrlPattern())].map((m) => m[0]))];
+    assert.ok(expected.size >= 10);
+    assert.deepEqual(urls.sort(), [...expected].sort());
     for (const u of urls) {
       const r = await fetch(env.base + u);
       assert.equal(r.status, 200, u);
-      assert.equal(r.headers.get("content-type"), "image/jpeg", u);
-      assert.deepEqual(
-        [...new Uint8Array(await r.arrayBuffer()).slice(0, 3)],
-        [0xff, 0xd8, 0xff],
-        u,
-      );
+      assert.equal(r.headers.get("content-type"), mimeOf(u), u);
+      assert.ok(matchesExtension(u, new Uint8Array(await r.arrayBuffer())), `${u} is a real image`);
     }
   });
 });
@@ -182,25 +185,25 @@ describe("GitHub Pages semantics", () => {
 });
 
 describe("client navigation", () => {
-  it("opens an article from the home page, then a refresh on that URL still works", async () => {
+  it("opens the lead article from the home page, then a refresh on that URL still works", async () => {
     const ctx = await env.browser.newContext();
     await blockFonts(ctx);
     const page = await ctx.newPage();
     const problems = watch(page, env.base);
     await page.goto(env.base + "/weblog/", { waitUntil: "networkidle" });
-    await page.getByRole("link", { name: /Read the article/ }).click();
-    await page.waitForURL(
-      /\/weblog\/2022\/07\/16\/setting-up-an-api-ateway-for-your-microservices\.html$/,
-    );
-    await page
-      .locator("h1")
-      .filter({ hasText: /API Gateway/ })
-      .waitFor();
+    // the lead is the newest article, so the expectation comes from what the home page itself links (a newly
+    // published article becomes the lead without any test edit)
+    const link = page.getByRole("link", { name: /Read the article/ });
+    const href = new URL(await link.getAttribute("href"), env.base).pathname;
+    assert.match(href, /^\/weblog\/\d{4}\/\d{2}\/\d{2}\/[\w-]+\.html$/);
+    const leadTitle = await page.locator("h3 a").first().innerText();
+    await link.click();
+    await page.waitForURL((u) => u.pathname === href);
+    const h1 = page.locator("h1").filter({ hasText: leadTitle });
+    await h1.waitFor();
     await page.reload({ waitUntil: "networkidle" });
-    await page
-      .locator("h1")
-      .filter({ hasText: /API Gateway/ })
-      .waitFor();
+    await h1.waitFor();
+    assert.equal(new URL(page.url()).pathname, href);
     assert.deepEqual(
       problems.filter((p) => !/ERR_FAILED|fonts\./.test(p)),
       [],

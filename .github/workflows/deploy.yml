@@ -41,6 +41,8 @@ jobs:
         run: python3 tests/test_legacy_inventory.py
       - name: Static build (prerender + 404 + .nojekyll + sitemap + feed)
         run: bun run build
+      - name: Install Chromium (needed by the authoring-path test and the browser suites)
+        run: bunx playwright install --with-deps chromium
       - name: Authoring path (add an article + a curated book to a copy, build, find them everywhere)
         run: node --test tests/publish-path.test.mjs
       - name: Release gate self-test (live-check must fail on realistic faults)
@@ -51,7 +53,6 @@ jobs:
           python3 tests/test_feeds.py
           python3 scripts/check_content_fidelity.py
           python3 tests/test_content_fidelity.py
-      - run: bunx playwright install --with-deps chromium
       - name: Browser checks against the static artifact
         run: node --test tests/e2e/*.test.mjs
       - uses: actions/configure-pages@v5

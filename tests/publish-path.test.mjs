@@ -7,6 +7,7 @@ import {
   cpSync,
   existsSync,
   mkdtempSync,
+  readdirSync,
   readFileSync,
   rmSync,
   symlinkSync,
@@ -46,8 +47,8 @@ test(
 
     // 1. a new article: only a Markdown file with front matter (a brand-new tag needs no other file)
     writeFileSync(
-      join(tmp, "_posts/2026-12-01-hello-from-the-publish-test.md"),
-      `---\ntitle: "${TITLE}"\ndate: 2026-12-01 10:00:00 +0530\ntags: [publish-test, kong]\nexcerpt: A new article added by the publishing-path test.\n---\n\nFirst paragraph with a [link](https://example.com/) and it's typeset like the others.\n\n## A heading\n\n\`\`\`bash\necho "it works"\n\`\`\`\n`,
+      join(tmp, "_posts/2099-01-01-hello-from-the-publish-test.md"),
+      `---\ntitle: "${TITLE}"\ndate: 2099-01-01 10:00:00 +0530\ntags: [publish-test, kong]\nexcerpt: A new article added by the publishing-path test.\n---\n\nFirst paragraph with a [link](https://example.com/) and it's typeset like the others.\n\n## A heading\n\n\`\`\`bash\necho "it works"\n\`\`\`\n`,
     );
     // 2. a new curated book: an image in public/curated + an entry in _data/curated-content.json (no code change)
     cpSync(join(root, "public/curated/brief-time.jpg"), join(tmp, "public/curated", COVER));
@@ -78,7 +79,7 @@ test(
     const read = (p) => readFileSync(join(dist, p), "utf8");
 
     // article page at its permalink, with content and highlighted code
-    const article = "2026/12/01/hello-from-the-publish-test.html";
+    const article = "2099/01/01/hello-from-the-publish-test.html";
     assert.ok(existsSync(join(dist, article)), "article page built at /YYYY/MM/DD/slug.html");
     assert.match(read(article), new RegExp(TITLE));
     assert.match(read(article), /echo[\s\S]*it works/);
@@ -89,10 +90,15 @@ test(
     assert.ok(existsSync(join(dist, "tags/publish-test/index.html")), "new tag page built");
     assert.match(read("tags/publish-test/index.html"), new RegExp(TITLE));
     // feeds
-    assert.match(read("sitemap.xml"), /\/weblog\/2026\/12\/01\/hello-from-the-publish-test\.html/);
+    assert.match(read("sitemap.xml"), /\/weblog\/2099\/01\/01\/hello-from-the-publish-test\.html/);
     const feed = read("feed.xml");
     assert.match(feed, new RegExp(TITLE));
-    assert.equal((feed.match(/<entry>/g) ?? []).length, 4);
+    // derived from the copied Markdown (existing posts + the fixture), so publishing a real article never breaks this test
+    const expectedEntries = readdirSync(join(tmp, "_posts")).filter((f) =>
+      f.endsWith(".md"),
+    ).length;
+    assert.ok(expectedEntries >= 4);
+    assert.equal((feed.match(/<entry>/g) ?? []).length, expectedEntries);
     // curated book + cover
     assert.match(read("index.html"), /A Test Book/);
     assert.ok(existsSync(join(dist, "curated", COVER)), "cover copied to the artifact");

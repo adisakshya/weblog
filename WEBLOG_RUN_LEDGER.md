@@ -37,6 +37,9 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | 2026-11-18 21:05 | #70 MERGED (-> f91d99b) | R1+R2 clean on 5bd77f2; CI green (99 browser tests on the GitHub runner too). Found+fixed: lightbox DOM wipe (React 19 innerHTML), ?view= hydration #418, missing home h1. |
 | 2026-11-18 21:05 | #68 R2 P1 -> fix c75c166 | Codex: 12% pixel tolerance would accept a blank page. Replaced by structural block comparison + negative fixtures from all 50 reference shots (reject: blank/erased/inverted/shifted; accept: noise/1px shift/blur). CI calibration run in progress. |
 | 2026-11-18 21:05 | #71 R1 P1 -> fixed 5d9a14e | stacked before #69 (missing test_feeds.py); rebased. R2 requested. |
+| 2026-11-18 21:25 | #71 MERGED (-> a9ebbea) | 4 rounds: P1 each in R1-R3 (missing test_feeds.py via stacking; live-check h1/canonical false-pass; HTML-at-bundle-URL false-pass), all fixed with fault-injection tests; R4 clean. |
+| 2026-11-18 21:25 | #68 MERGED (-> e1e0ce1) | R2 P1 (12% tolerance would accept blank page) fixed with structural comparison + per-shot limits calibrated on the GitHub runner + negative fixtures from all 50 shots; R3 clean; CI green. |
+| 2026-11-18 21:25 | #72 IN REVIEW | WEBLOG_DELIVERY.md + authoring-path test (R1: P1 chromium install order + P2 hard-coded feed count, both fixed; R2 running on 0ac6d20). |
 
 ## Review log
 | PR | Round | Reviewed SHA | Result | Link |
@@ -49,14 +52,19 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | #69 | 1 | e16f5b4 | clean | https://github.com/adisakshya/weblog/pull/69#issuecomment-6990440736 |
 | #69 | 2 | e16f5b4 | clean | https://github.com/adisakshya/weblog/pull/69#issuecomment-6991343228 |
 | #68 | 1 | 44aed53 | clean | https://github.com/adisakshya/weblog/pull/68#issuecomment-6990437103 |
+| #71 | 2 | 5d9a14e | 1 P1 (route h1/canonical; fixed 68add78) | https://github.com/adisakshya/weblog/pull/71#discussion_r4620760873 |
+| #71 | 3 | 68add78 | 1 P1 (HTML at bundle URLs; fixed a5ba17f) | https://github.com/adisakshya/weblog/pull/71#discussion_r4620907413 |
+| #71 | 4 | a5ba17f | clean | https://github.com/adisakshya/weblog/pull/71#issuecomment-6991801702 |
+| #68 | 3 | 725da34 | clean | https://github.com/adisakshya/weblog/pull/68#issuecomment-6992027784 |
+| #72 | 1 | 08b49d7 | P1 chromium order + P2 feed count (fixed 0ac6d20) | https://github.com/adisakshya/weblog/pull/72#pullrequestreview-5965367135 |
 | #70 | 1 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991346034 |
 | #70 | 2 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991415571 |
 | #68 | 2 | b7656cc | 1 P1 (tolerance accepts blank page; fixed c75c166) | https://github.com/adisakshya/weblog/pull/68#discussion_r4620715938 |
 | #71 | 1 | b083fc1 | 1 P1 (missing test_feeds.py; fixed 5d9a14e) | https://github.com/adisakshya/weblog/pull/71#discussion_r4620712469 |
 
 ## Current state
-- Stage: CHILD_PRS_IN_REVIEW (#68 awaiting CI calibration then R3 on c75c166; #71 R2 on 5d9a14e pending)
-- Next action: when #68 CI is green request @codex review (R3) on its head; merge #68 and #71 after clean rounds (conflicts in ci.yml: resolve by merging integration into the branch and re-review if needed). Then open PR for redesign/delivery-doc (WEBLOG_DELIVERY.md, publish-path test + CI step), final verification on integration head (strict visual, e2e, live-check local), final PR integration -> master (2 Codex rounds), merge, watch Deploy workflow, run live-check on production, Slack final, remove allowlist hosts from Default env.
-- Open PRs: #68, #71
+- Stage: LAST_CHILD_IN_REVIEW (#72 R2 on 0ac6d20)
+- Next action: merge #72 after a clean round + green CI; then final verification on the integration head (strict visual, full e2e, live-check against local build), refresh WEBLOG_DELIVERY.md if needed, open final PR redesign/weblog-static -> master (AGENTS.md rules; 2 Codex rounds), merge, watch Deploy workflow, run live-check on production, Slack final, remove allowlist hosts from the Default env.
+- Open PRs: #72
 - Unresolved findings: none
 - Last error: none

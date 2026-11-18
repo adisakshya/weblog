@@ -30,16 +30,21 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | 2026-11-18 20:05 | #54_PR_OPENED (#66) | Reference screenshots (50) + covers + legacy fixtures on `redesign/54-reference-freeze`; raw Lovable export on branch `reference/lovable-df8c3dd` @ aa7e8c1. |
 | 2026-11-18 20:20 | #54 MERGED (#66 -> cdb2b83) | Codex R1 on ea7a1f3: 1 P2 (capture-visual covers layout) fixed in bcb1357; R2 on bcb1357: no findings (receipt 19:54Z). |
 | 2026-11-18 20:55 | #55_PR_OPENED (#67) | Head d4f88d5. Local: typecheck/lint/25 unit/preservation/build/route manifest/24 e2e green. Found+fixed: prerender ?view= overwrote index.html. |
+| 2026-11-18 20:35 | #55+#56 MERGED (#67 -> 13848ac) | R1 d4f88d5: 3xP1 fixed (baseurl, about/blogging-101 routes, HTML sanitization); R2 5017d6e: 1xP1 fixed (tracked .pyc); R3 0b4ab73: clean. CI green. |
+| 2026-11-18 20:40 | #60/#45 branches ready | visual gate 50/50 vs approved reference (6 shots allowed: kramdown apostrophes); sitemap+feed generated + tested. PRs next. |
 
 ## Review log
 | PR | Round | Reviewed SHA | Result | Link |
 |---|---|---|---|---|
 | #66 | 1 | ea7a1f3 | 1 P2 (fixed bcb1357) | https://github.com/adisakshya/weblog/pull/66#pullrequestreview-5963912540 |
 | #66 | 2 | bcb1357 | clean | https://github.com/adisakshya/weblog/pull/66#issuecomment-6989837229 |
+| #67 | 1 | d4f88d5 | 3 P1 (fixed 5017d6e) | https://github.com/adisakshya/weblog/pull/67#issuecomment-6990020096 |
+| #67 | 2 | 5017d6e | 1 P1 (.pyc, fixed 0b4ab73) | same summary comment |
+| #67 | 3 | 0b4ab73 | clean | https://github.com/adisakshya/weblog/pull/67#issuecomment-6990408584 |
 
 ## Current state
-- Stage: CHILD_55_REVIEW
-- Next action: wait for Codex round 1 on #67 (head d4f88d5) and CI; fix findings; then round 2 via `@codex review`; then merge; then #56 (content/taxonomy: about, blogging-101, tags/series from _pages), #57 article, #58 themes/prefs, #59 search, #52/#38/#44 home/cards/masthead, #45 sitemap+feed, #60 visual gates, #61 deploy workflow.
-- Open PRs: #67 (#55 -> redesign/weblog-static)
+- Stage: CHILD_60_45_PR_OPENING
+- Next action: open PRs for redesign/60-visual-gates (#60) and redesign/45-sitemap-feed (#45) -> redesign/weblog-static; then #61 deploy workflow + rollback docs, #59/#58 functional tests (search, keyboard, prefs persistence, responsive overflow), WEBLOG_DELIVERY.md, final PR to master, Pages deploy + live verification, Slack final.
+- Open PRs: none
 - Unresolved findings: none
 - Last error: none

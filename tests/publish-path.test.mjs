@@ -26,6 +26,7 @@ const tmp = mkdtempSync(join(tmpdir(), "weblog-publish-"));
 const TITLE = "Hello from the publish test";
 const COVER = "publish-test-cover.png"; // PNG and WebP covers are accepted formats too, so the fixture uses both
 const COVER_WEBP = "publish-test-cover.webp";
+const COVER_UPPER = "Publish-Test-Cover.JPG"; // camera-style upper-case extension
 const COVER_JPEG = "publish-test-cover.jpeg"; // the accepted .jpeg spelling (served as image/jpeg)
 const THOUGHTS = "A reflection written by the owner";
 
@@ -64,6 +65,7 @@ test(
     writeFileSync(join(tmp, "public/curated", COVER), PNG.sync.write(png));
     cpSync(join(root, "public/assets/images/sun.webp"), join(tmp, "public/curated", COVER_WEBP));
     cpSync(join(root, "public/curated/brief-time.jpg"), join(tmp, "public/curated", COVER_JPEG));
+    cpSync(join(root, "public/curated/brief-time.jpg"), join(tmp, "public/curated", COVER_UPPER));
     const dataPath = join(tmp, "_data/curated-content.json");
     const data = JSON.parse(readFileSync(dataPath, "utf8"));
     data.books.push({
@@ -80,6 +82,14 @@ test(
       author: "Test Author",
       cover: COVER_JPEG,
       url: "https://example.com/book3",
+      thoughts: null,
+    });
+    data.books.push({
+      id: "publish-test-upper",
+      title: "A Fourth Test Book",
+      author: "Test Author",
+      cover: COVER_UPPER,
+      url: "https://example.com/book4",
       thoughts: null,
     });
     data.books.push({
@@ -136,6 +146,8 @@ test(
     assert.match(read("index.html"), /A Second Test Book/);
     assert.ok(existsSync(join(dist, "curated", COVER_JPEG)), ".jpeg cover copied to the artifact");
     assert.match(read("index.html"), new RegExp(`/weblog/curated/${COVER_JPEG}`));
+    assert.ok(existsSync(join(dist, "curated", COVER_UPPER)), "upper-case-extension cover copied");
+    assert.match(read("index.html"), new RegExp(`/weblog/curated/${COVER_UPPER}`));
     assert.match(read("index.html"), new RegExp(THOUGHTS), "owner-written thoughts are shown");
     // existing content untouched
     for (const f of [

@@ -4,7 +4,7 @@
 // Verifies: every legacy + new public route (200 + its own content), real 404, 301 slash redirect, feeds, sitemap URLs,
 // legacy image URLs, curated covers are real JPEGs, every script/stylesheet bundle linked from any route is served with the right MIME type (not an HTML fallback), no development files are served.
 import { readFileSync } from "node:fs";
-import { matchesExtension, mimeOf } from "./image-format.mjs";
+import { coverUrlPattern, matchesExtension, mimeOf } from "./image-format.mjs";
 
 const base = (process.argv[2] ?? "").replace(/\/$/, "");
 if (!/^https?:\/\//.test(base)) {
@@ -126,11 +126,7 @@ const expectedCovers = new Set(
     (f) => `/weblog/curated/${f}`,
   ),
 );
-const covers = [
-  ...new Set(
-    [...home.matchAll(/\/weblog\/curated\/[\w.-]+\.(?:jpe?g|png|webp)/g)].map((m) => m[0]),
-  ),
-];
+const covers = [...new Set([...home.matchAll(coverUrlPattern())].map((m) => m[0]))];
 ok(expectedCovers.size >= 10, `curated data lists only ${expectedCovers.size} covers`);
 for (const c of expectedCovers) ok(covers.includes(c), `home does not reference cover ${c}`);
 ok(

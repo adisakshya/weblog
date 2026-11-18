@@ -19,3 +19,7 @@ export function matchesExtension(path, bytes) {
   return !!kind && (ext === "jpeg" ? "jpg" : ext) === kind;
 }
 export const mimeOf = (path) => MIME[path.split(".").pop().toLowerCase()];
+
+/** Every cover URL on a page, matched case-insensitively exactly like src/content/curated.ts validates file names
+ *  (so cover.JPG / cover.Png are found, served and checked the same as cover.jpg). Returns a fresh global regex. */
+export const coverUrlPattern = () => /\/weblog\/curated\/[\w.-]+\.(?:jpe?g|png|webp)/gi;

@@ -4,7 +4,7 @@ import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { ROUTES, start, watch } from "./helpers.mjs";
-import { matchesExtension, mimeOf } from "../../scripts/image-format.mjs";
+import { coverUrlPattern, matchesExtension, mimeOf } from "../../scripts/image-format.mjs";
 
 let env;
 before(async () => {
@@ -129,11 +129,7 @@ describe("curated covers", () => {
         (f) => `/weblog/curated/${f}`,
       ),
     );
-    const urls = [
-      ...new Set(
-        [...html.matchAll(/\/weblog\/curated\/[\w.-]+\.(?:jpe?g|png|webp)/g)].map((m) => m[0]),
-      ),
-    ];
+    const urls = [...new Set([...html.matchAll(coverUrlPattern())].map((m) => m[0]))];
     assert.ok(expected.size >= 10);
     assert.deepEqual(urls.sort(), [...expected].sort());
     for (const u of urls) {

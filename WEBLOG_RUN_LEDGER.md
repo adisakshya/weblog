@@ -39,6 +39,7 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | 2026-11-18 21:05 | #71 R1 P1 -> fixed 5d9a14e | stacked before #69 (missing test_feeds.py); rebased. R2 requested. |
 | 2026-11-18 21:25 | #71 MERGED (-> a9ebbea) | 4 rounds: P1 each in R1-R3 (missing test_feeds.py via stacking; live-check h1/canonical false-pass; HTML-at-bundle-URL false-pass), all fixed with fault-injection tests; R4 clean. |
 | 2026-11-18 21:25 | #68 MERGED (-> e1e0ce1) | R2 P1 (12% tolerance would accept blank page) fixed with structural comparison + per-shot limits calibrated on the GitHub runner + negative fixtures from all 50 shots; R3 clean; CI green. |
+| 2026-11-18 22:17 | #72 MERGED (fdbec00) | R6 clean on d90b4b7 + CI green. Review found 7 P1/P2 across rounds, all fixed; the authoring fixture now runs all release gates (found + fixed a NODE_TEST_CONTEXT false-pass in my own gate). |
 | 2026-11-18 21:25 | #72 IN REVIEW | WEBLOG_DELIVERY.md + authoring-path test (R1: P1 chromium install order + P2 hard-coded feed count, both fixed; R2 running on 0ac6d20). |
 
 ## Review log
@@ -57,14 +58,19 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | #71 | 4 | a5ba17f | clean | https://github.com/adisakshya/weblog/pull/71#issuecomment-6991801702 |
 | #68 | 3 | 725da34 | clean | https://github.com/adisakshya/weblog/pull/68#issuecomment-6992027784 |
 | #72 | 1 | 08b49d7 | P1 chromium order + P2 feed count (fixed 0ac6d20) | https://github.com/adisakshya/weblog/pull/72#pullrequestreview-5965367135 |
+| #72 | 2 | 0ac6d20 | P2 curated gates hard-coded (fixed 8e63112; plus visual gate vs added content) | https://github.com/adisakshya/weblog/pull/72#pullrequestreview-5965400177 |
+| #72 | 3 | 8e63112 | 2 P2 (cover formats; visual fixtures from baseline; fixed 8391c61) | https://github.com/adisakshya/weblog/pull/72#pullrequestreview-5965637020 |
+| #72 | 4 | 8391c61 | P1 client-nav on fixture + P2 .jpeg MIME (fixed 534a786) | https://github.com/adisakshya/weblog/pull/72#pullrequestreview-5965732669 |
+| #72 | 5 | 534a786 | P2 upper-case cover ext (fixed d90b4b7) | https://github.com/adisakshya/weblog/pull/72#pullrequestreview-5965874344 |
+| #72 | 6 | d90b4b7 | clean | https://github.com/adisakshya/weblog/pull/72#issuecomment-6993106393 |
 | #70 | 1 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991346034 |
 | #70 | 2 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991415571 |
 | #68 | 2 | b7656cc | 1 P1 (tolerance accepts blank page; fixed c75c166) | https://github.com/adisakshya/weblog/pull/68#discussion_r4620715938 |
 | #71 | 1 | b083fc1 | 1 P1 (missing test_feeds.py; fixed 5d9a14e) | https://github.com/adisakshya/weblog/pull/71#discussion_r4620712469 |
 
 ## Current state
-- Stage: LAST_CHILD_IN_REVIEW (#72 R2 on 0ac6d20)
-- Next action: merge #72 after a clean round + green CI; then final verification on the integration head (strict visual, full e2e, live-check against local build), refresh WEBLOG_DELIVERY.md if needed, open final PR redesign/weblog-static -> master (AGENTS.md rules; 2 Codex rounds), merge, watch Deploy workflow, run live-check on production, Slack final, remove allowlist hosts from the Default env.
-- Open PRs: #72
+- Stage: ALL_CHILDREN_MERGED; FINAL_VERIFICATION on integration head fdbec00
+- Next action: strict verification on fdbec00; open final PR redesign/weblog-static -> master (AGENTS.md rules; 2 Codex rounds), merge, watch Deploy workflow, run live-check on production, Slack final, remove allowlist hosts from the Default env, disable watchdog trigger.
+- Open PRs: none (children #66, #67, #68, #69, #70, #71, #72 merged)
 - Unresolved findings: none
 - Last error: none

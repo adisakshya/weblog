@@ -39,6 +39,7 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | 2026-11-18 21:05 | #71 R1 P1 -> fixed 5d9a14e | stacked before #69 (missing test_feeds.py); rebased. R2 requested. |
 | 2026-11-18 21:25 | #71 MERGED (-> a9ebbea) | 4 rounds: P1 each in R1-R3 (missing test_feeds.py via stacking; live-check h1/canonical false-pass; HTML-at-bundle-URL false-pass), all fixed with fault-injection tests; R4 clean. |
 | 2026-11-18 21:25 | #68 MERGED (-> e1e0ce1) | R2 P1 (12% tolerance would accept blank page) fixed with structural comparison + per-shot limits calibrated on the GitHub runner + negative fixtures from all 50 shots; R3 clean; CI green. |
+| 2026-11-18 22:55 | #73 WAITING_FOR_QUOTA | Release PR #73 (redesign/weblog-static -> master). R1 on 2476bb5: 2 P1 (external-link rel, lightbox focus trap) fixed 3175bd6. R2 on 3175bd6: 1 P1 (unpinned actions) fixed aa6307b (all 6 actions SHA-pinned + tests/workflow-pins.test.mjs). Review of aa6307b FAILED, retry answered: Codex usage limit reached (no overage purchased, per brief). No completed clean round on the final head => NOT mergeable. |
 | 2026-11-18 22:17 | #72 MERGED (fdbec00) | R6 clean on d90b4b7 + CI green. Review found 7 P1/P2 across rounds, all fixed; the authoring fixture now runs all release gates (found + fixed a NODE_TEST_CONTEXT false-pass in my own gate). |
 | 2026-11-18 21:25 | #72 IN REVIEW | WEBLOG_DELIVERY.md + authoring-path test (R1: P1 chromium install order + P2 hard-coded feed count, both fixed; R2 running on 0ac6d20). |
 
@@ -63,14 +64,19 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | #72 | 4 | 8391c61 | P1 client-nav on fixture + P2 .jpeg MIME (fixed 534a786) | https://github.com/adisakshya/weblog/pull/72#pullrequestreview-5965732669 |
 | #72 | 5 | 534a786 | P2 upper-case cover ext (fixed d90b4b7) | https://github.com/adisakshya/weblog/pull/72#pullrequestreview-5965874344 |
 | #72 | 6 | d90b4b7 | clean | https://github.com/adisakshya/weblog/pull/72#issuecomment-6993106393 |
+| #73 | 1 | 2476bb5 | 2 P1 (external-link rel; lightbox focus trap), fixed 3175bd6 | https://github.com/adisakshya/weblog/pull/73#pullrequestreview-5966169830 |
+| #73 | 2 | 3175bd6 | 1 P1 (unpinned actions), fixed aa6307b | https://github.com/adisakshya/weblog/pull/73#pullrequestreview-5966448961 |
+| #73 | 3 | aa6307b | NOT COMPLETED: review failed, then "Codex usage limit reached" | https://github.com/adisakshya/weblog/pull/73#issuecomment-6993955479 |
 | #70 | 1 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991346034 |
 | #70 | 2 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991415571 |
 | #68 | 2 | b7656cc | 1 P1 (tolerance accepts blank page; fixed c75c166) | https://github.com/adisakshya/weblog/pull/68#discussion_r4620715938 |
 | #71 | 1 | b083fc1 | 1 P1 (missing test_feeds.py; fixed 5d9a14e) | https://github.com/adisakshya/weblog/pull/71#discussion_r4620712469 |
 
 ## Current state
-- Stage: ALL_CHILDREN_MERGED; FINAL_VERIFICATION on integration head fdbec00
-- Next action: strict verification on fdbec00; open final PR redesign/weblog-static -> master (AGENTS.md rules; 2 Codex rounds), merge, watch Deploy workflow, run live-check on production, Slack final, remove allowlist hosts from the Default env, disable watchdog trigger.
-- Open PRs: none (children #66, #67, #68, #69, #70, #71, #72 merged)
-- Unresolved findings: none
-- Last error: none
+- Stage: WAITING_FOR_QUOTA (Codex code-review usage limit reached 2026-11-18 22:50 UTC; reset time unknown)
+- Resume mechanism: hourly watchdog (trig_01NLtBbTpigr3a5njPbb4vfT, :17) bound to this session. Each tick while this stage holds: if a turn is running do nothing; otherwise at most once every 3 hours post `@codex review` on PR #73 to test whether quota is back (do NOT buy credits / upgrade; the brief forbids paid overage). Last retry: 2026-11-18 22:50 (limit message).
+- Next action on quota return: get a COMPLETED review of the current head of #73 (it must be the head that gets merged; any new commit needs a fresh review). If clean (no P0/P1/P2) and CI green on that SHA, fix nothing more and merge with expectedHeadSha. If findings: fix, push, re-request. Two completed rounds already exist on earlier heads; the rule needs a clean round on the final head.
+- After merge: watch Deploy workflow, run `node scripts/live-check.mjs https://adisakshya.github.io`, manual spot checks, close #53/#61, Slack final, remove 11 added hosts from the Default environment, disable the watchdog.
+- Open PRs: #73 (head = latest commit on redesign/weblog-static)
+- Unresolved findings: none (all Codex findings so far fixed and their threads resolved)
+- Last error: Codex usage limit (not a code defect)

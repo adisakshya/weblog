@@ -40,7 +40,7 @@ The approved design already existed as React components. Reusing them gives exac
 2. The URL is `/weblog/YYYY/MM/DD/your-title.html` using the **UTC** date of `date:` (a `+0530` time before 05:30 IST falls on the previous UTC day — this is how the existing `api-ateway` post got its `07/16` URL). Do not rename a published post's file: the file name is the URL.
 3. Preview: `bun run dev` → <http://localhost:3000/weblog/> (auto-reloads).
 4. Open a pull request. CI runs every check; merging to `master` publishes.
-5. A new curated book/video: copy the cover image to `public/curated/`, add an entry to `_data/curated-content.json` (`cover`/`thumbnail` = the file name). No code change — this exact path (a new article with a new tag **and** a new book) is exercised by `tests/publish-path.test.mjs`.
+5. A new curated book/video: copy the cover image to `public/curated/`, add an entry to `_data/curated-content.json` (`cover`/`thumbnail` = the file name). No code change and no test edit — the unit, browser, live-check and visual gates derive their expectations from the data, and this exact path (a new article with a new tag **and** a new book) is run through all of them by `tests/publish-path.test.mjs`.
 
 Raw HTML in Markdown is sanitized: only `<video>`/`<source>` and Markdown's own output survive; scripts, event handlers, iframes and `javascript:` URLs are removed (`sanitizePostHtml` in `content.ts`). To allow another tag, extend the allowlist there on purpose.
 
@@ -62,8 +62,8 @@ node scripts/live-check.mjs https://adisakshya.github.io   # verify production
 ## 6. What protects you (quality gates)
 - **Content preservation** — every authored file byte-identical to the legacy baseline (`e812fd4`); every legacy public URL present; a content-fidelity gate checks every legacy paragraph, code block (exact whitespace), link, image, anchor and date reappears in the new HTML unless a *reasoned* rule exempts it (10 negative tests prove it fails when content is lost).
 - **Security** — post HTML sanitized; external links `noopener`; workflows have minimal permissions; no analytics, no third-party scripts (only font stylesheets).
-- **Behaviour** — 99 Chromium tests: every route direct-loads and refreshes, real 404, search (including deep text), 12-theme persistence with no flash, WCAG AA contrast in every theme, keyboard order and focus, no horizontal overflow at 5 widths, all links resolve.
-- **Visual** — 50 screenshots (11 routes × 2 widths, panels, 12 themes) against the approved reference; CI uses a noise-tolerant structural comparison with negative fixtures from every reference shot.
+- **Behaviour** — 100 Chromium tests: every route direct-loads and refreshes, real 404, search (including deep text), 12-theme persistence with no flash, WCAG AA contrast in every theme, keyboard order and focus, no horizontal overflow at 5 widths, all links resolve.
+- **Visual** — 50 screenshots (11 routes × 2 widths, panels, 12 themes) against the approved reference; CI uses a noise-tolerant structural comparison with negative fixtures from every reference shot. **When you add an article, tag, series, book or video**, the 14 shots that render lists built from all content (home, tag and series pages, the search/appearance panels over the home page) can no longer match the frozen reference; the comparator then skips exactly those shots, by name and loudly (`SKIP …`), and the other 36 (article pages, 12 themes, Contact, Terms, 404) stay mandatory. Skipping happens only for a *pure addition* to the approved content list in `docs/redesign/visual-baseline.json`; removing or renaming any approved item never skips anything (`tests/visual-content.test.mjs`, and `tests/publish-path.test.mjs` runs the whole gate on a copy with a new article and book). The home page for new content is still covered by the route, content, search and live-check tests.
 
 ## 7. Decisions, disabled features and deviations
 | Item | Status | Why / how to change |

@@ -1,0 +1,37 @@
+{
+  "comment": "Content present when the reference screenshots were approved. When the working tree contains this PLUS additions (new articles, tag/series pages, books, videos), the shots that depend on the added content are skipped by scripts/compare-visual.cjs (named in the output). Removing or renaming anything listed here never skips a shot. Do not edit to make a check pass.",
+  "posts": [
+    "2021-07-30-extension-pack-for-vscode-and-code-server.md",
+    "2022-02-01-introduction-to-api-gateway.md",
+    "2022-07-17-setting-up-an-api-ateway-for-your-microservices.md"
+  ],
+  "tagPages": [
+    "api-gateway.md",
+    "ci-cd.md",
+    "code-server.md",
+    "docker.md",
+    "github.md",
+    "kong.md",
+    "microservices.md",
+    "travis.md",
+    "vscode.md"
+  ],
+  "seriesPages": [
+    "api-gateway-101.md",
+    "blogging-101.md"
+  ],
+  "books": [
+    "metamorphosis",
+    "child-star",
+    "pride-prejudice",
+    "everything",
+    "keeper",
+    "clocks",
+    "brief-time"
+  ],
+  "videos": [
+    "KZeIEiBrT_w",
+    "fGKNUvivvnc",
+    "KfODG5REyss"
+  ]
+}

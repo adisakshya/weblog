@@ -25,7 +25,7 @@ const COVER = "publish-test-cover.jpg";
 
 test(
   "add an article + a curated book, build, and find them everywhere",
-  { timeout: 300_000 },
+  { timeout: 900_000 },
   async (t) => {
     t.after(() => rmSync(tmp, { recursive: true, force: true }));
     for (const f of [
@@ -37,6 +37,7 @@ test(
       "scripts",
       "docs",
       "tests",
+      "reference",
       "package.json",
       "tsconfig.json",
       "vite.config.ts",
@@ -150,5 +151,23 @@ test(
     gate("curated unit tests", ["node_modules/vitest/vitest.mjs", "run", "src/content"]);
     gate("live-check", ["scripts/live-check.mjs", `http://127.0.0.1:${port}`]);
     gate("browser suite (static-site)", ["--test", "tests/e2e/static-site.test.mjs"]);
+    // the visual gate: the added article and book change the home page, so only the content-dependent shots may be
+    // skipped (named in the output); every other approved shot must still match
+    const visual = spawnSync(
+      process.execPath,
+      ["scripts/visual-check.mjs", join(tmp, "visual-out")],
+      {
+        cwd: tmp,
+        encoding: "utf8",
+        env: { ...process.env, VISUAL_MODE: "structural" },
+      },
+    );
+    assert.equal(
+      visual.status,
+      0,
+      `visual gate failed on the modified copy:\n${visual.stdout}\n${visual.stderr}`,
+    );
+    assert.match(visual.stdout, /content-dependent shots are skipped/);
+    assert.match(visual.stdout, /36\/36 shots match the approved reference/);
   },
 );

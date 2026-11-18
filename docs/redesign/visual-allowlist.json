@@ -38,5 +38,9 @@
       "maxBadBlocks": 0.08,
       "reason": "CI (structural mode): text-dense shot; the GitHub runner's font rendering re-wraps lines (first CI calibration run measured 0.85-3.9% bad blocks on these shots). The limit is per shot and tests/visual-structural.test.mjs proves a blank, erased, inverted or shifted version of EACH of these shots is still rejected under it. | CI (structural mode): text-dense shot re-wrapped by the GitHub runner's fonts; measured 3.929% bad blocks on the first CI run, limit set per shot at ~2-2.5x. tests/visual-structural.test.mjs proves blank/erased/inverted/shifted versions of this shot are still rejected under it (blank pages score 10-35%)."
     }
+  },
+  "contentDependent": {
+    "pattern": "^(home-|tag-|series-|ui-)",
+    "reason": "These shots render lists built from all articles, tags, series and curated items (home, tag and series pages, and the search / appearance panels opened over the home page). They cannot match a frozen reference once content has been added. Article pages, themes, Contact, Terms and 404 do not depend on other content and stay mandatory."
   }
 }

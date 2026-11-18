@@ -15,7 +15,7 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,3 +40,9 @@ jobs:
       - run: bunx playwright install --with-deps chromium
       - name: Browser checks against the static artifact under /weblog/
         run: node --test tests/e2e/static-site.test.mjs
+      - name: Visual comparator self-test (must fail on regressions)
+        run: node --test tests/visual-compare.test.mjs
+      - name: Visual comparison with the approved reference (12 themes, 2 widths, search, appearance)
+        run: node scripts/visual-check.mjs
+        env:
+          VISUAL_MAX_RATIO: "0.01" # CI Chromium differs from the one that captured the reference; strict 0 is the local acceptance run

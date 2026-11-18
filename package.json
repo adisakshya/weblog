@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "visual": "node scripts/visual-check.mjs",
+    "check:content": "python3 scripts/check_content_fidelity.py && python3 tests/test_content_fidelity.py"
   },
   "overrides": {
     "rolldown": "1.2.1"
@@ -49,7 +51,9 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
     "jsdom": "^20.0.3",
+    "pixelmatch": "7.1.0",
     "playwright": "1.63.0",
+    "pngjs": "7.0.0",
     "prettier": "^3.7.3",
     "tailwindcss": "^4.2.1",
     "tw-animate-css": "^1.3.4",

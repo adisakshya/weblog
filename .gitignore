@@ -20,3 +20,6 @@ _site/
 # Python bytecode (verification scripts are Python)
 __pycache__/
 *.pyc
+
+# visual check output
+visual-out/

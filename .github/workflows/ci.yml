@@ -15,7 +15,7 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -47,3 +47,20 @@ jobs:
         run: python3 scripts/check_content_fidelity.py && python3 tests/test_content_fidelity.py
       - name: Browser checks against the static artifact (routes, search, appearance + contrast, keyboard/a11y, overflow, views, article, links)
         run: node --test tests/e2e/*.test.mjs
+      - name: Visual comparator self-tests (must fail on regressions; negative fixtures from all approved screenshots)
+        run: node --test tests/visual-compare.test.mjs tests/visual-structural.test.mjs
+      - name: Visual comparison with the approved reference (12 themes, 2 widths, search, appearance)
+        run: node scripts/visual-check.mjs visual-out
+        env:
+          # The reference was captured on a different OS image/fonts than GitHub's runner (the first CI run measured 0.65-6.9%
+          # differing pixels per shot with identical content), so CI compares 16x16 block averages instead of pixels:
+          # noise-tolerant, but a blank page, erased section, wrong theme or shifted layout fails for every shot
+          # (tests/visual-structural.test.mjs). The strict pixel run is `bun run visual` on the capturing environment.
+          VISUAL_MODE: structural
+      - name: Upload visual diffs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diff
+          path: visual-out/diff
+          if-no-files-found: ignore

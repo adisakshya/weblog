@@ -27,11 +27,19 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | When (UTC) | Stage | Note |
 |---|---|---|
 | 2026-11-18 19:45 | PREFLIGHT_DONE | Source readable, covers recovered 10/10, Codex connector observed on PR #64. |
-| 2026-11-18 20:05 | #54_PR_OPENING | Reference screenshots (50) + covers + legacy fixtures on `redesign/54-reference-freeze`; raw Lovable export on branch `reference/lovable-df8c3dd` @ aa7e8c1. |
+| 2026-11-18 20:05 | #54_PR_OPENED (#66) | Reference screenshots (50) + covers + legacy fixtures on `redesign/54-reference-freeze`; raw Lovable export on branch `reference/lovable-df8c3dd` @ aa7e8c1. |
+| 2026-11-18 20:20 | #54 MERGED (#66 -> cdb2b83) | Codex R1 on ea7a1f3: 1 P2 (capture-visual covers layout) fixed in bcb1357; R2 on bcb1357: no findings (receipt 19:54Z). |
+| 2026-11-18 20:55 | #55_PR_OPENED (#67) | Head d4f88d5. Local: typecheck/lint/25 unit/preservation/build/route manifest/24 e2e green. Found+fixed: prerender ?view= overwrote index.html. |
+
+## Review log
+| PR | Round | Reviewed SHA | Result | Link |
+|---|---|---|---|---|
+| #66 | 1 | ea7a1f3 | 1 P2 (fixed bcb1357) | https://github.com/adisakshya/weblog/pull/66#pullrequestreview-5963912540 |
+| #66 | 2 | bcb1357 | clean | https://github.com/adisakshya/weblog/pull/66#issuecomment-6989837229 |
 
 ## Current state
-- Stage: CHILD_54_REVIEW
-- Next action: open PR for `redesign/54-reference-freeze` -> `redesign/weblog-static`; wait for Codex round 1; then #55 static build.
-- Open PRs: none
+- Stage: CHILD_55_REVIEW
+- Next action: wait for Codex round 1 on #67 (head d4f88d5) and CI; fix findings; then round 2 via `@codex review`; then merge; then #56 (content/taxonomy: about, blogging-101, tags/series from _pages), #57 article, #58 themes/prefs, #59 search, #52/#38/#44 home/cards/masthead, #45 sitemap+feed, #60 visual gates, #61 deploy workflow.
+- Open PRs: #67 (#55 -> redesign/weblog-static)
 - Unresolved findings: none
 - Last error: none

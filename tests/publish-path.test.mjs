@@ -36,6 +36,7 @@ test(
       "public",
       "scripts",
       "docs",
+      "tests",
       "package.json",
       "tsconfig.json",
       "vite.config.ts",
@@ -135,5 +136,19 @@ test(
       .getByText(/^\d+ results?$/)
       .waitFor();
     assert.match(await page.getByRole("dialog").innerText(), new RegExp(TITLE));
+
+    // 5. the release gates themselves must accept the authored content (a new book/article must not need a test edit):
+    //    the curated unit tests, the post-deploy live check (against the served copy) and the browser suite on the copy's build
+    const gate = (name, args, env = {}) => {
+      const r = spawnSync(process.execPath, args, {
+        cwd: tmp,
+        encoding: "utf8",
+        env: { ...process.env, ...env },
+      });
+      assert.equal(r.status, 0, `${name} failed on the modified copy:\n${r.stdout}\n${r.stderr}`);
+    };
+    gate("curated unit tests", ["node_modules/vitest/vitest.mjs", "run", "src/content"]);
+    gate("live-check", ["scripts/live-check.mjs", `http://127.0.0.1:${port}`]);
+    gate("browser suite (static-site)", ["--test", "tests/e2e/static-site.test.mjs"]);
   },
 );

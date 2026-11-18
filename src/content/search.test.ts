@@ -4,14 +4,16 @@ import { searchIndex, posts, series } from "./content";
 
 describe("content", () => {
   it("keeps exact original article URLs, including the historical api-ateway spelling", () => {
-    expect(posts.map((p) => p.url).sort()).toEqual([
+    const urls = posts.map((p) => p.url);
+    for (const original of [
       "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
       "/weblog/2022/02/01/introduction-to-api-gateway.html",
       "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
-    ]);
+    ])
+      expect(urls).toContain(original);
   });
   it("orders API Gateway 101 as Introduction then Setup", () => {
-    expect(series[0]!.posts.map((p) => p.slug)).toEqual([
+    expect(series[0]!.posts.slice(0, 2).map((p) => p.slug)).toEqual([
       "introduction-to-api-gateway",
       "setting-up-an-api-ateway-for-your-microservices",
     ]);

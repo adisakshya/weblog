@@ -41,11 +41,16 @@ describe("search", () => {
     );
     await page.keyboard.press("Escape");
     await dialog.waitFor({ state: "hidden" });
-    assert.equal(
-      await page
-        .getByRole("button", { name: /^Search/ })
-        .evaluate((e) => e === document.activeElement),
-      true,
+    // Radix restores focus to the trigger just after unmount: wait for it instead of sampling the instant the dialog hides
+    await page.waitForFunction(
+      () => {
+        const t = [...document.querySelectorAll("button")].find((b) =>
+          /^Search/.test(b.getAttribute("aria-label") ?? b.textContent ?? ""),
+        );
+        return !!t && t === document.activeElement;
+      },
+      undefined,
+      { timeout: 5000 },
     );
     assert.deepEqual(problems(), []);
     await ctx.close();

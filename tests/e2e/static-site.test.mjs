@@ -121,10 +121,20 @@ describe("feeds", () => {
 describe("curated covers", () => {
   it("home references every cover under /weblog/curated/ and each is served as a JPEG", async () => {
     const html = readFileSync("dist/client/index.html", "utf8");
+    // expectation comes from the owner's data, so adding a book or video needs no test edit
+    const curated = JSON.parse(readFileSync("_data/curated-content.json", "utf8"));
+    const expected = new Set(
+      [...curated.books.map((b) => b.cover), ...curated.videos.map((v) => v.thumbnail)].map(
+        (f) => `/weblog/curated/${f}`,
+      ),
+    );
     const urls = [
-      ...new Set([...html.matchAll(/\/weblog\/curated\/[a-z-]+\.jpg/g)].map((m) => m[0])),
+      ...new Set(
+        [...html.matchAll(/\/weblog\/curated\/[\w.-]+\.(?:jpe?g|png|webp)/g)].map((m) => m[0]),
+      ),
     ];
-    assert.equal(urls.length, 10);
+    assert.ok(expected.size >= 10);
+    assert.deepEqual(urls.sort(), [...expected].sort());
     for (const u of urls) {
       const r = await fetch(env.base + u);
       assert.equal(r.status, 200, u);

@@ -118,14 +118,33 @@ for (const p of [
   ok(r.status === 200, `${p} -> ${r.status}`);
 }
 const home = await (await get("/weblog/")).text();
+// the expected covers come from the owner's data, so adding a book or video needs no edit here
+const curated = JSON.parse(readFileSync("_data/curated-content.json", "utf8"));
+const expectedCovers = new Set(
+  [...curated.books.map((b) => b.cover), ...curated.videos.map((v) => v.thumbnail)].map(
+    (f) => `/weblog/curated/${f}`,
+  ),
+);
 const covers = [
-  ...new Set([...home.matchAll(/\/weblog\/curated\/[a-z-]+\.jpg/g)].map((m) => m[0])),
+  ...new Set(
+    [...home.matchAll(/\/weblog\/curated\/[\w.-]+\.(?:jpe?g|png|webp)/g)].map((m) => m[0]),
+  ),
 ];
-ok(covers.length === 10, `expected 10 curated covers on the home page, found ${covers.length}`);
+ok(expectedCovers.size >= 10, `curated data lists only ${expectedCovers.size} covers`);
+for (const c of expectedCovers) ok(covers.includes(c), `home does not reference cover ${c}`);
+ok(
+  covers.length === expectedCovers.size,
+  `home references ${covers.length} covers, curated data has ${expectedCovers.size}`,
+);
 for (const c of covers) {
   const r = await get(c);
   const b = new Uint8Array(await r.arrayBuffer());
-  ok(r.status === 200 && b[0] === 0xff && b[1] === 0xd8, `${c} is not a JPEG (${r.status})`);
+  const isJpeg = /\.jpe?g$/.test(c);
+  ok(
+    r.status === 200 && /^image\//.test(r.headers.get("content-type") ?? "") && b.length > 100,
+    `${c} is not served as an image (${r.status})`,
+  );
+  if (isJpeg) ok(b[0] === 0xff && b[1] === 0xd8, `${c} is not a JPEG`);
 }
 for (const f of ["/weblog/sitemap.xml", "/weblog/feed.xml"]) {
   const r = await get(f);

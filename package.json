@@ -28,6 +28,7 @@
     "marked": "^18.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "sanitize-html": "^2.18.2",
     "tailwind-merge": "^3.5.0",
     "yaml": "^2.9.1"
   },
@@ -39,6 +40,7 @@
     "@types/node": "^22.16.5",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@types/sanitize-html": "^2.16.2",
     "@vitejs/plugin-react": "^5.2.0",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.1",

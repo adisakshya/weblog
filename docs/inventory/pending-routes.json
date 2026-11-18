@@ -1,7 +1,1 @@
-{
-  "comment": "Routes whose content wiring lands in issue #56. Must be empty before the integration branch merges to master.",
-  "pending": {
-    "/weblog/about/": "#56: About page from _pages/about.md",
-    "/weblog/series/blogging-101/": "#56: second series page (no posts yet)"
-  }
-}
+{"comment":"Routes whose content wiring is still pending. Must be empty before the integration branch merges to master.","pending":{}}

@@ -9,6 +9,7 @@ describe("App routing", () => {
 
   it.each([
     ["/", "/_site/"],
+    ["/about/", "/_site/about"],
     ["/contact", "/_site/contact"],
     ["/terms", "/_site/terms"],
     ["/tags/kong/", "/_site/tags/$tag"],

@@ -3,6 +3,7 @@
 import { Marked, type Tokens } from "marked";
 import YAML from "yaml";
 import hljs from "highlight.js/lib/common";
+import sanitizeHtml from "sanitize-html";
 
 const postFiles = import.meta.glob("/_posts/*.md", {
   query: "?raw",
@@ -10,6 +11,11 @@ const postFiles = import.meta.glob("/_posts/*.md", {
   eager: true,
 }) as Record<string, string>;
 const pageFiles = import.meta.glob("/_pages/*.md", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
+const tagFiles = import.meta.glob("/_pages/tags/*.md", {
   query: "?raw",
   import: "default",
   eager: true,
@@ -88,11 +94,130 @@ function escapeHtml(s: string) {
   );
 }
 
-function render(md: string) {
+// Jekyll rendered Markdown with kramdown, whose "smart" typography turns ' " -- --- ... into typographic characters.
+// The published pages therefore showed e.g. "we’ll"; keep that rendering (the Markdown source itself is never edited).
+export function typographic(s: string) {
+  return s
+    .replace(/---/g, "\u2014")
+    .replace(/--/g, "\u2013")
+    .replace(/\.\.\./g, "\u2026")
+    .replace(/(^|[\s([{\u2014\u2013])"(?=\S)/g, "$1\u201c")
+    .replace(/"/g, "\u201d")
+    .replace(/(^|[\s([{\u201c\u2014\u2013])'(?=\S)/g, "$1\u2018")
+    .replace(/'/g, "\u2019");
+}
+
+// Liquid variables that authors used in Markdown links ({{site.baseurl}}); Jekyll substituted them at build time.
+export function resolveLiquid(md: string) {
+  return md
+    .replace(/\{\{\s*site\.baseurl\s*\}\}/g, BASE)
+    .replace(/\{\{\s*site\.url\s*\}\}/g, "https://adisakshya.github.io");
+}
+
+// Post bodies are untrusted input: marked passes raw HTML through, and ArticleBody inserts the result as HTML.
+// Only the markup that Markdown itself produces (plus <video>/<source>, which existing posts use) survives; scripts,
+// event-handler attributes, iframes, styles and javascript:/data: URLs are dropped. Add tags/attributes here deliberately.
+const CLASS_ATTRS = ["class", "id", "lang", "dir", "title", "tabindex", "aria-label", "data-lang"];
+const SANITIZE: sanitizeHtml.IOptions = {
+  allowedTags: [
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "p",
+    "a",
+    "ul",
+    "ol",
+    "li",
+    "blockquote",
+    "pre",
+    "code",
+    "span",
+    "div",
+    "em",
+    "strong",
+    "del",
+    "s",
+    "br",
+    "hr",
+    "img",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
+    "details",
+    "summary",
+    "kbd",
+    "sup",
+    "sub",
+    "figure",
+    "figcaption",
+    "video",
+    "source",
+    "input",
+  ],
+  allowedAttributes: {
+    "*": CLASS_ATTRS,
+    a: ["href", "target", "rel", "title", "class", "id", "aria-label"],
+    img: ["src", "alt", "title", "loading", "decoding", "width", "height", "class"],
+    video: [
+      "src",
+      "controls",
+      "muted",
+      "width",
+      "height",
+      "poster",
+      "preload",
+      "loop",
+      "playsinline",
+      "class",
+    ],
+    source: ["src", "type"],
+    td: ["align", "colspan", "rowspan"],
+    th: ["align", "colspan", "rowspan"],
+    input: ["type", "checked", "disabled"],
+  },
+  allowedSchemes: ["http", "https", "mailto", "tel"],
+  allowedSchemesByTag: {
+    img: ["http", "https"],
+    video: ["http", "https"],
+    source: ["http", "https"],
+  },
+  allowProtocolRelative: false,
+  transformTags: {
+    // an opener reference to the page must never leak to external sites
+    a: (tag, attribs) => ({
+      tagName: tag,
+      attribs:
+        attribs["target"] === "_blank" ? { ...attribs, rel: "noopener noreferrer" } : attribs,
+    }),
+    input: (tag, attribs) => ({
+      tagName: tag,
+      attribs: attribs["type"] === "checkbox" ? attribs : {},
+    }),
+  },
+};
+export function sanitizePostHtml(html: string) {
+  return sanitizeHtml(html, SANITIZE);
+}
+
+export function renderMarkdown(source: string) {
+  return render(source);
+}
+
+function render(source: string) {
+  const md = resolveLiquid(source);
   const headings: Heading[] = [];
   const used = new Map<string, number>();
   const marked = new Marked({
     gfm: true,
+    walkTokens(token) {
+      if (token.type === "text") token.text = typographic(token.text);
+    },
     renderer: {
       heading({ tokens, depth, text }: Tokens.Heading) {
         const inner = this.parser.parseInline(tokens);
@@ -107,7 +232,7 @@ function render(md: string) {
       code({ text, lang }: Tokens.Code) {
         const language = lang && hljs.getLanguage(lang) ? lang : undefined;
         const out = language ? hljs.highlight(text, { language }).value : escapeHtml(text);
-        return `<div class="code-block" data-lang="${language ?? "text"}"><pre tabindex="0"><code class="hljs">${out}</code></pre></div>`;
+        return `<div class="code-block" data-lang="${language ?? "text"}"><pre tabindex="0"><code class="hljs">${out}\n</code></pre></div>`;
       },
       table(token: Tokens.Table) {
         const head = token.header
@@ -132,7 +257,7 @@ function render(md: string) {
       },
     },
   });
-  const html = marked.parse(md) as string;
+  const html = sanitizePostHtml(marked.parse(md) as string);
   const text = html
     .replace(/<pre[\s\S]*?<\/pre>/g, (m) => " " + m.replace(/<[^>]+>/g, " ") + " ")
     .replace(/<[^>]+>/g, " ")
@@ -188,19 +313,39 @@ export const pages: Record<string, Page> = Object.fromEntries(
   }),
 );
 
-const seriesMeta = splitFrontMatter(seriesFiles["/_pages/series/api-gateway-101.md"] ?? "").data;
-export const series: Series[] = [
-  {
-    slug: "api-gateway-101",
-    title: String(seriesMeta.title ?? "API Gateway 101"),
-    excerpt: String(seriesMeta.excerpt ?? ""),
-    posts: posts
-      .filter((p) => p.series === "api-gateway-101")
-      .sort((a, b) => a.date.localeCompare(b.date)), // learning order: oldest first
-  },
-];
+export type TagPage = { tag: string; title: string; excerpt: string; teaser?: string | undefined };
 
-export const tags: string[] = [...new Set(posts.flatMap((p) => p.tags))].sort();
+/** One entry per _pages/tags/*.md, so every historical tag URL exists even if it has no posts. */
+export const tagPages: TagPage[] = Object.entries(tagFiles)
+  .map(([path, raw]) => {
+    const { data } = splitFrontMatter(raw);
+    const tag = String(data["taxonomy"] ?? (path.split("/").pop() ?? "").replace(/\.md$/, ""));
+    return {
+      tag,
+      title: String(data.title ?? tag),
+      excerpt: String(data.excerpt ?? ""),
+      teaser: data["teaser"] as string | undefined,
+    };
+  })
+  .sort((a, b) => a.tag.localeCompare(b.tag));
+
+/** One series per _pages/series/*.md (a series may be empty, e.g. blogging-101); posts in reading order. */
+export const series: Series[] = Object.entries(seriesFiles)
+  .map(([path, raw]) => {
+    const { data } = splitFrontMatter(raw);
+    const slug = String(data["taxonomy"] ?? (path.split("/").pop() ?? "").replace(/\.md$/, ""));
+    return {
+      slug,
+      title: String(data.title ?? slug),
+      excerpt: String(data.excerpt ?? ""),
+      posts: posts.filter((p) => p.series === slug).sort((a, b) => a.date.localeCompare(b.date)), // oldest first
+    };
+  })
+  .sort((a, b) => a.slug.localeCompare(b.slug));
+
+export const tags: string[] = [
+  ...new Set([...posts.flatMap((p) => p.tags), ...tagPages.map((t) => t.tag)]),
+].sort();
 
 // Proposed editorial groupings (not yet approved; tag URLs unchanged).
 export const groupings = [

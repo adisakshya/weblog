@@ -37,10 +37,15 @@ function SeriesPage() {
         ← All writing
       </Link>
       <p className="mt-6 text-xs font-semibold uppercase tracking-widest j-muted">
-        Series · {s.posts.length} parts · read in order
+        Series · {s.posts.length} {s.posts.length === 1 ? "part" : "parts"} · read in order
       </p>
       <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{s.title}</h1>
       <p className="mt-3 text-lg j-muted">{s.excerpt}</p>
+      {s.posts.length === 0 && (
+        <p className="mt-8 rounded-xl border j-border p-4 j-muted" role="note">
+          No articles in this series yet.
+        </p>
+      )}
       <ol className="mt-8 space-y-8">
         {s.posts.map((p, i) => (
           <li key={p.url} className="grid gap-4 sm:grid-cols-[12rem_1fr]">

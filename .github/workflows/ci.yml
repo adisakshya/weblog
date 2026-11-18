@@ -35,6 +35,8 @@ jobs:
         run: bun run build
       - name: Route manifest (every legacy public route exists)
         run: node scripts/check-dist.mjs
+      - name: Content fidelity (every legacy block/link/image/anchor/code block present unless explicitly exempt) + negative tests
+        run: python3 scripts/check_content_fidelity.py && python3 tests/test_content_fidelity.py
       - run: bunx playwright install --with-deps chromium
       - name: Browser checks against the static artifact under /weblog/
         run: node --test tests/e2e/static-site.test.mjs

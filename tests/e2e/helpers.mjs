@@ -6,9 +6,11 @@ export const ROUTES = [
   "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
   "/weblog/2022/02/01/introduction-to-api-gateway.html",
   "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+  "/weblog/about/",
   "/weblog/contact/",
   "/weblog/terms/",
   "/weblog/series/api-gateway-101/",
+  "/weblog/series/blogging-101/",
   ...[
     "api-gateway",
     "kong",

@@ -52,7 +52,7 @@ function Home() {
   const { view = "stories" } = Route.useSearch();
   const lead = posts[0];
   const rest = posts.slice(1);
-  const gw = series[0];
+  const gw = series.find((s) => s.posts.length > 0);
   if (!lead || !gw) return null;
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">

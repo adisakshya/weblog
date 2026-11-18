@@ -80,7 +80,7 @@ function Article() {
           By <a href="https://adisakshya.github.io/">Adisakshya Chauhan</a>
         </p>
         <div className="mt-1">
-          <PostMeta post={post} />
+          <PostMeta post={post} allTags />
         </div>
       </div>
       <div className="mx-auto mt-8 max-w-3xl">

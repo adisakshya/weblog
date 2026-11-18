@@ -1,4 +1,4 @@
-import supplied from "./curated-content.json";
+import supplied from "../../_data/curated-content.json";
 
 export type Book = {
   id: string;

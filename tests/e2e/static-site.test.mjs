@@ -68,6 +68,46 @@ describe("prerendered HTML is the right document", () => {
   });
 });
 
+describe("taxonomy and pages", () => {
+  it("shows an explicit empty state on the empty series page instead of a bare heading", async () => {
+    const ctx = await env.browser.newContext();
+    await blockFonts(ctx);
+    const page = await ctx.newPage();
+    await page.goto(env.base + "/weblog/series/blogging-101/", { waitUntil: "networkidle" });
+    assert.match(await page.locator("main").innerText(), /No articles in this series yet/);
+    await ctx.close();
+  });
+  it("lists every tag of an article on its page, and each tag page lists its articles", async () => {
+    const ctx = await env.browser.newContext();
+    await blockFonts(ctx);
+    const page = await ctx.newPage();
+    await page.goto(
+      env.base + "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+      {
+        waitUntil: "networkidle",
+      },
+    );
+    for (const tag of ["vscode", "code-server", "github", "ci-cd", "travis"]) {
+      assert.ok(await page.locator(`main a[href="/weblog/tags/${tag}"]`).first().isVisible(), tag);
+    }
+    await page.goto(env.base + "/weblog/tags/travis/", { waitUntil: "networkidle" });
+    assert.match(await page.locator("main").innerText(), /Extension Pack for VSCode/);
+    await ctx.close();
+  });
+  it("renders no comments section or form on any article", async () => {
+    const ctx = await env.browser.newContext();
+    await blockFonts(ctx);
+    const page = await ctx.newPage();
+    for (const r of ROUTES.filter((x) => x.endsWith(".html"))) {
+      await page.goto(env.base + r, { waitUntil: "networkidle" });
+      const text = await page.locator("body").innerText();
+      assert.doesNotMatch(text, /Leave a Comment|Comments|Mockup note|Staticman/i, r);
+      assert.equal(await page.locator("form").count(), 0, r);
+    }
+    await ctx.close();
+  });
+});
+
 describe("curated covers", () => {
   it("home references every cover under /weblog/curated/ and each is served as a JPEG", async () => {
     const html = readFileSync("dist/client/index.html", "utf8");

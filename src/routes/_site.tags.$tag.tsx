@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { posts, tags } from "@/content/content";
+import { posts, tags, tagPages } from "@/content/content";
 import { postParams } from "@/content/links";
 import { PostMeta } from "@/components/journal/PostMeta";
 
@@ -10,7 +10,9 @@ export const Route = createFileRoute("/_site/tags/$tag")({
   },
   head: ({ params }) => ({
     meta: [
-      { title: `#${params.tag} - The blog of Adisakshya Chauhan` },
+      {
+        title: `${tagPages.find((t) => t.tag === params.tag)?.title ?? `#${params.tag}`} - The blog of Adisakshya Chauhan`,
+      },
       {
         name: "description",
         content: `Articles tagged ${params.tag} on the blog of Adisakshya Chauhan.`,

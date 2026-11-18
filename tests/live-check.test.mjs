@@ -107,6 +107,35 @@ describe("live-check", () => {
     assert.match(r.stdout, /extension-pack/);
   });
 
+  it("FAILS when JS and CSS bundle URLs answer 200 text/html (CDN/Pages fallback): the site would be unstyled and un-hydrated", async () => {
+    const homeHtml = await home();
+    const r = await run(
+      await withFault((p) =>
+        /^\/weblog\/assets\/.+\.(js|css)$/.test(p)
+          ? { status: 200, type: "text/html", body: homeHtml }
+          : null,
+      ),
+    );
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /serves an HTML document instead of JavaScript/);
+    assert.match(r.stdout, /serves an HTML document instead of CSS/);
+  });
+
+  it("FAILS when a bundle is served with the wrong MIME type", async () => {
+    const r = await run(
+      await withFault((p) =>
+        /^\/weblog\/assets\/.+\.js$/.test(p)
+          ? {
+              type: "text/plain",
+              body: "export const a = 1; // not html but wrong type, long enough",
+            }
+          : null,
+      ),
+    );
+    assert.equal(r.status, 1);
+    assert.match(r.stdout, /is served as "text\/plain"/);
+  });
+
   it("FAILS on a soft 404 (unknown URL answered 200)", async () => {
     const homeHtml = await home();
     const r = await run(

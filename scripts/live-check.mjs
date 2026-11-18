@@ -2,7 +2,7 @@
 //   node scripts/live-check.mjs https://adisakshya.github.io        (production)
 //   node scripts/live-check.mjs http://127.0.0.1:4300                (bun run preview)
 // Verifies: every legacy + new public route (200 + its own content), real 404, 301 slash redirect, feeds, sitemap URLs,
-// legacy image URLs, curated covers are real JPEGs, linked assets of the home page resolve, no development files are served.
+// legacy image URLs, curated covers are real JPEGs, every script/stylesheet bundle linked from any route is served with the right MIME type (not an HTML fallback), no development files are served.
 import { readFileSync } from "node:fs";
 
 const base = (process.argv[2] ?? "").replace(/\/$/, "");
@@ -64,11 +64,14 @@ const markers = { "/weblog/series/blogging-101/": "No articles in this series ye
 const routes = legacy.filter(
   (r) => !removed.includes(r) && !r.startsWith("/weblog/assets/") && r !== "/weblog/404.html",
 );
+const bundles = new Set();
 for (const route of routes) {
   const r = await get(route);
   ok(r.status === 200, `${route} -> ${r.status} (expected 200)`);
   if (r.status !== 200) continue;
   const html = await r.text();
+  for (const m of html.matchAll(/(?:src|href)="(\/weblog\/assets\/[^"]+\.(?:js|css))"/g))
+    bundles.add(m[1]);
   ok(!html.includes("Page not found"), `${route} serves the 404 page`);
   const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
   const want = expectedH1(route);
@@ -140,10 +143,24 @@ for (const f of ["/weblog/sitemap.xml", "/weblog/feed.xml"]) {
     ok(r.status === 200, `sitemap URL ${u} -> ${r.status}`);
   }
 }
-// every script/stylesheet of the home page resolves under /weblog/
-for (const m of home.matchAll(/(?:src|href)="(\/weblog\/assets\/[^"]+\.(?:js|css))"/g)) {
-  const r = await get(m[1]);
-  ok(r.status === 200, `${m[1]} -> ${r.status}`);
+// every script/stylesheet bundle linked from ANY route must be real JS/CSS: a Pages/CDN fallback that answers 200 text/html
+// at a bundle URL would leave the site unstyled and un-hydrated while every page still "loads"
+ok(bundles.size >= 5, `only ${bundles.size} script/stylesheet bundles found across the routes`);
+for (const url of bundles) {
+  const r = await get(url);
+  const type = r.headers.get("content-type") ?? "";
+  const body = await r.text();
+  const isJs = url.endsWith(".js");
+  ok(r.status === 200, `${url} -> ${r.status}`);
+  ok(
+    isJs ? /javascript|ecmascript/.test(type) : /text\/css/.test(type),
+    `${url} is served as "${type}"`,
+  );
+  ok(
+    !/^\s*<(!doctype|html)/i.test(body),
+    `${url} serves an HTML document instead of ${isJs ? "JavaScript" : "CSS"}`,
+  );
+  ok(body.length > 20, `${url} is empty`);
 }
 // development files must not be published (the Jekyll site served /weblog/Gemfile)
 for (const p of [
@@ -163,6 +180,6 @@ for (const p of [
 console.log(
   failures.length
     ? `\n${failures.length} live-check failure(s)`
-    : `live-check OK: ${routes.length} routes + 404/redirect/assets/covers/feeds/sitemap/no-dev-files on ${base}`,
+    : `live-check OK: ${routes.length} routes + ${bundles.size} bundles + 404/redirect/assets/covers/feeds/sitemap/no-dev-files on ${base}`,
 );
 process.exit(failures.length ? 1 : 0);

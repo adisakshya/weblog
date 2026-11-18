@@ -5,7 +5,7 @@
 
 Required repository setting: **Settings → Pages → Build and deployment → Source: GitHub Actions** (already set by the owner). The workflow cannot change it.
 
-Permissions: the build job has `contents: read` only; `pages: write` and `id-token: write` exist only on the deploy job; actions are first-party (`actions/*`) pinned by major tag.
+Permissions: the build job has `contents: read` only; `pages: write` and `id-token: write` exist only on the deploy job; actions are first-party (`actions/*`), each pinned to a full commit SHA with the release version in a comment (`tests/workflow-pins.test.mjs` fails CI if any reference is a tag or branch). To update one, resolve the new release tag to its commit (`git ls-remote https://github.com/actions/<name> 'refs/tags/<tag>'`) and replace both the SHA and the comment.
 
 ## Verify a release by hand
 ```sh

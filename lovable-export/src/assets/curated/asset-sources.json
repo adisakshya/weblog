@@ -1,0 +1,62 @@
+[
+  {
+    "file": "metamorphosis.jpg",
+    "bytes": 27195,
+    "type": "image/jpeg",
+    "url": "https://covers.openlibrary.org/b/isbn/9780140283365-L.jpg?default=false"
+  },
+  {
+    "file": "child-star.jpg",
+    "bytes": 54706,
+    "type": "image/jpeg",
+    "url": "https://www.gutenberg.org/files/42232/42232-h/images/cover.jpg"
+  },
+  {
+    "file": "pride-prejudice.jpg",
+    "bytes": 104097,
+    "type": "image/jpeg",
+    "url": "https://cdn.penguin.co.uk/dam-assets/books/9780141439518/9780141439518-jacket-large.jpg"
+  },
+  {
+    "file": "everything.jpg",
+    "bytes": 229178,
+    "type": "image/jpeg",
+    "url": "https://www.jaicobooks.com/wp-content/uploads/2022/12/J-1560.jpg"
+  },
+  {
+    "file": "keeper.jpg",
+    "bytes": 40474,
+    "type": "image/jpeg",
+    "url": "https://covers.openlibrary.org/b/isbn/9780751541182-L.jpg?default=false"
+  },
+  {
+    "file": "clocks.jpg",
+    "bytes": 60895,
+    "type": "image/jpeg",
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/Publication126/v4/71/c0/66/71c066ae-437c-4bf5-6277-d466e6b73697/1040547000.jpg/600x900bb.jpg"
+  },
+  {
+    "file": "brief-time.jpg",
+    "bytes": 61851,
+    "type": "image/jpeg",
+    "url": "https://images.penguinrandomhouse.com/cover/9780553109535"
+  },
+  {
+    "file": "video-markov.jpg",
+    "bytes": 14495,
+    "type": "image/jpeg",
+    "url": "https://i.ytimg.com/vi/KZeIEiBrT_w/hqdefault.jpg"
+  },
+  {
+    "file": "video-interpretability.jpg",
+    "bytes": 33056,
+    "type": "image/jpeg",
+    "url": "https://i.ytimg.com/vi/fGKNUvivvnc/hqdefault.jpg"
+  },
+  {
+    "file": "video-quantum.jpg",
+    "bytes": 15320,
+    "type": "image/jpeg",
+    "url": "https://i.ytimg.com/vi/KfODG5REyss/hqdefault.jpg"
+  }
+]

@@ -136,6 +136,36 @@ describe("article", () => {
     assert.equal(await img.evaluate((e) => e === document.activeElement), true);
     await ctx.close();
   });
+  it("the lightbox traps keyboard focus (Tab / Shift+Tab never reach the page behind) and isolates the background", async () => {
+    const { ctx, page } = await openPage(env, SETUP);
+    const img = page.locator("img.zoomable").first();
+    await img.focus();
+    await page.keyboard.press("Enter");
+    const box = page.getByRole("dialog", { name: "Enlarged image" });
+    await box.waitFor();
+    const inside = () =>
+      page.evaluate(() => {
+        const d = document.querySelector('[role="dialog"]');
+        return !!d && d.contains(document.activeElement);
+      });
+    assert.equal(await inside(), true, "focus starts inside the lightbox (Close button)");
+    for (const key of ["Tab", "Tab", "Tab", "Shift+Tab", "Shift+Tab", "Shift+Tab", "Shift+Tab"]) {
+      await page.keyboard.press(key);
+      assert.equal(await inside(), true, `focus stayed inside after ${key}`);
+    }
+    // the page behind is not exposed to assistive technology while the modal is open
+    assert.equal(
+      await page.evaluate(
+        () => document.querySelector("main")?.closest("[aria-hidden='true']") !== null,
+      ),
+      true,
+      "the page behind the lightbox is aria-hidden",
+    );
+    await page.keyboard.press("Escape");
+    await box.waitFor({ state: "hidden" });
+    assert.equal(await img.evaluate((e) => e === document.activeElement), true);
+    await ctx.close();
+  });
   it("copy buttons and image handlers survive opening/closing the lightbox (the article DOM is not re-created)", async () => {
     const { ctx, page } = await openPage(env, SETUP);
     const before = await page.locator(".copy-btn").count();

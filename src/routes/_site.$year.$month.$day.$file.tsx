@@ -77,7 +77,10 @@ function Article() {
         <h1 className="mt-2 text-[2em] font-bold leading-[1.15] sm:text-[2.4em]">{post.title}</h1>
         <p className="mt-3 text-[1.05em] j-muted">{post.excerpt}</p>
         <p className="mt-4 text-[0.85rem]">
-          By <a href="https://adisakshya.github.io/">Adisakshya Chauhan</a>
+          {"By "}
+          <a href="https://adisakshya.github.io/" rel="noopener noreferrer">
+            Adisakshya Chauhan
+          </a>
         </p>
         <div className="mt-1">
           <PostMeta post={post} allTags />

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 // Enhances rendered Markdown: copy buttons on code blocks and click-to-enlarge images.
 // Jekyll handoff: assets/js/copy-code.js and assets/js/lightbox.js.
@@ -56,45 +57,49 @@ export function ArticleBody({ html }: { html: string }) {
     return () => root.removeEventListener("click", onClick);
   }, [html]);
 
-  useEffect(() => {
-    if (!zoom) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setZoom(null);
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      lastFocus.current?.focus();
-    };
-  }, [zoom]);
-
   return (
     <>
       <div ref={ref} className="prose-j" dangerouslySetInnerHTML={inner} />
-      {zoom && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Enlarged image"
-          className="fixed inset-0 z-50 grid place-items-center p-4"
-          style={{ background: "var(--j-overlay)" }}
-          onClick={() => setZoom(null)}
-        >
-          <img
-            src={zoom.src}
-            alt={zoom.alt}
-            className="max-h-[88vh] max-w-full rounded-lg"
-            style={{ background: "#fff" }}
+      {/* Radix Dialog: focus is trapped inside, the page behind is made inert/aria-hidden, Escape closes */}
+      <Dialog.Root open={!!zoom} onOpenChange={(open) => !open && setZoom(null)}>
+        <Dialog.Portal>
+          <Dialog.Overlay
+            className="fixed inset-0 z-50"
+            style={{ background: "var(--j-overlay)" }}
           />
-          <button
-            ref={closeRef}
-            type="button"
-            className="j-btn fixed right-4 top-4"
+          <Dialog.Content
+            aria-describedby={undefined}
+            className="fixed inset-0 z-50 grid place-items-center p-4 outline-none"
             onClick={() => setZoom(null)}
+            onOpenAutoFocus={(e) => {
+              e.preventDefault();
+              closeRef.current?.focus();
+            }}
+            onCloseAutoFocus={(e) => {
+              e.preventDefault();
+              lastFocus.current?.focus();
+            }}
           >
-            Close
-          </button>
-        </div>
-      )}
+            <Dialog.Title className="sr-only">Enlarged image</Dialog.Title>
+            {zoom && (
+              <img
+                src={zoom.src}
+                alt={zoom.alt}
+                className="max-h-[88vh] max-w-full rounded-lg"
+                style={{ background: "#fff" }}
+              />
+            )}
+            <button
+              ref={closeRef}
+              type="button"
+              className="j-btn fixed right-4 top-4"
+              onClick={() => setZoom(null)}
+            >
+              Close
+            </button>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </>
   );
 }

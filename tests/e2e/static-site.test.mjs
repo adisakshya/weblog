@@ -109,6 +109,35 @@ describe("taxonomy and pages", () => {
   });
 });
 
+describe("external links", () => {
+  it('every external anchor on every route has rel="noopener noreferrer"', async () => {
+    const ctx = await env.browser.newContext();
+    await blockFonts(ctx);
+    const page = await ctx.newPage();
+    let checked = 0;
+    for (const route of ROUTES) {
+      await page.goto(env.base + route, { waitUntil: "networkidle" });
+      const bad = await page.evaluate((origin) => {
+        return [...document.querySelectorAll("a[href]")]
+          .filter(
+            (a) => /^https?:/.test(a.getAttribute("href")) && new URL(a.href).origin !== origin,
+          )
+          .map((a) => ({ href: a.href, rel: a.getAttribute("rel") ?? "" }));
+      }, env.base);
+      for (const a of bad) {
+        checked++;
+        const rel = a.rel.split(/\s+/);
+        assert.ok(
+          rel.includes("noopener") && rel.includes("noreferrer"),
+          `${route}: ${a.href} has rel="${a.rel}"`,
+        );
+      }
+    }
+    assert.ok(checked >= 20, `only ${checked} external links were checked`);
+    await ctx.close();
+  });
+});
+
 describe("feeds", () => {
   it("serves sitemap.xml and feed.xml as XML (both were 404 in the Jekyll production site)", async () => {
     for (const file of ["sitemap.xml", "feed.xml"]) {

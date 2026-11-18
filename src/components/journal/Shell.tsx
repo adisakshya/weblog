@@ -20,6 +20,7 @@ export function Shell({ children }: { children: ReactNode }) {
           <nav aria-label="Primary" className="flex items-center gap-1 text-sm">
             <a
               href="https://adisakshya.github.io/"
+              rel="noopener noreferrer"
               className="plain rounded-full px-3 py-1.5 hover:bg-[var(--j-panel)]"
             >
               Meet Adi
@@ -38,15 +39,24 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/">Home</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/terms">Terms &amp; policies</Link>
-            <a href="https://twitter.com/adisakshya">Twitter</a>
-            <a href="https://github.com/adisakshya">GitHub</a>
-            <a href="https://www.linkedin.com/in/adisakshya/">LinkedIn</a>
+            <a href="https://twitter.com/adisakshya" rel="noopener noreferrer">
+              Twitter
+            </a>
+            <a href="https://github.com/adisakshya" rel="noopener noreferrer">
+              GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/adisakshya/" rel="noopener noreferrer">
+              LinkedIn
+            </a>
             <a href="mailto:adisakshya98@gmail.com">Email</a>
           </nav>
           <p className="j-muted">
             © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Adisakshya Chauhan ·
             Built in New Delhi, India (
-            <a href="https://github.com/adisakshya/weblog">view source</a>)
+            <a href="https://github.com/adisakshya/weblog" rel="noopener noreferrer">
+              view source
+            </a>
+            )
           </p>
         </div>
       </footer>

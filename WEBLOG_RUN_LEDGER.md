@@ -34,6 +34,9 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | 2026-11-18 20:40 | #60/#45 branches ready | visual gate 50/50 vs approved reference (6 shots allowed: kramdown apostrophes); sitemap+feed generated + tested. PRs next. |
 | 2026-11-18 20:55 | #45 MERGED (#69 -> 181b197) | R1+R2 on e16f5b4 clean; CI green. |
 | 2026-11-18 20:55 | #68/#70/#71 IN REVIEW | #68 (visual gate; CI tolerance 0.12 after cross-env measurement 0.65-6.9%), #70 (73 e2e tests; fixed lightbox DOM wipe, ?view= hydration #418, missing h1), #71 (deploy workflow + live-check + rollback; legacy/jekyll-e812fd4 branch = rollback ref, tag push is 403). |
+| 2026-11-18 21:05 | #70 MERGED (-> f91d99b) | R1+R2 clean on 5bd77f2; CI green (99 browser tests on the GitHub runner too). Found+fixed: lightbox DOM wipe (React 19 innerHTML), ?view= hydration #418, missing home h1. |
+| 2026-11-18 21:05 | #68 R2 P1 -> fix c75c166 | Codex: 12% pixel tolerance would accept a blank page. Replaced by structural block comparison + negative fixtures from all 50 reference shots (reject: blank/erased/inverted/shifted; accept: noise/1px shift/blur). CI calibration run in progress. |
+| 2026-11-18 21:05 | #71 R1 P1 -> fixed 5d9a14e | stacked before #69 (missing test_feeds.py); rebased. R2 requested. |
 
 ## Review log
 | PR | Round | Reviewed SHA | Result | Link |
@@ -47,10 +50,13 @@ Brief: "Weblog development launch for Claude Code" (19 Nov 2026). Owner: adisaks
 | #69 | 2 | e16f5b4 | clean | https://github.com/adisakshya/weblog/pull/69#issuecomment-6991343228 |
 | #68 | 1 | 44aed53 | clean | https://github.com/adisakshya/weblog/pull/68#issuecomment-6990437103 |
 | #70 | 1 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991346034 |
+| #70 | 2 | 5bd77f2 | clean | https://github.com/adisakshya/weblog/pull/70#issuecomment-6991415571 |
+| #68 | 2 | b7656cc | 1 P1 (tolerance accepts blank page; fixed c75c166) | https://github.com/adisakshya/weblog/pull/68#discussion_r4620715938 |
+| #71 | 1 | b083fc1 | 1 P1 (missing test_feeds.py; fixed 5d9a14e) | https://github.com/adisakshya/weblog/pull/71#discussion_r4620712469 |
 
 ## Current state
-- Stage: CHILD_PRS_IN_REVIEW (#68 R2 requested on b7656cc, #70 R2 requested on 5bd77f2, #71 R1 pending)
-- Next action: merge each child after 2 clean rounds + green CI (conflicts: all touch ci.yml - merge sequentially, merge integration into the next if GitHub reports a conflict, then re-review). Then: delivery doc + publish-path test + curated authoring fix (branch redesign/delivery-doc), run live-check/visual/e2e on merged tree, final PR integration -> master, merge after 2 rounds, watch deploy + live-check, Slack final, remove env allowlist hosts, delete unused weblog-redesign env note.
-- Open PRs: #68, #70, #71
+- Stage: CHILD_PRS_IN_REVIEW (#68 awaiting CI calibration then R3 on c75c166; #71 R2 on 5d9a14e pending)
+- Next action: when #68 CI is green request @codex review (R3) on its head; merge #68 and #71 after clean rounds (conflicts in ci.yml: resolve by merging integration into the branch and re-review if needed). Then open PR for redesign/delivery-doc (WEBLOG_DELIVERY.md, publish-path test + CI step), final verification on integration head (strict visual, e2e, live-check local), final PR integration -> master (2 Codex rounds), merge, watch Deploy workflow, run live-check on production, Slack final, remove allowlist hosts from Default env.
+- Open PRs: #68, #71
 - Unresolved findings: none
 - Last error: none

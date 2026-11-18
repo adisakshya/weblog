@@ -75,6 +75,12 @@ export const Route = createRootRoute({
         href: appCss,
       },
       { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, type: "image/x-icon" },
+      {
+        rel: "alternate",
+        type: "application/atom+xml",
+        title: "The blog of Adisakshya Chauhan",
+        href: `${import.meta.env.BASE_URL}feed.xml`,
+      },
       // Agustina loads from the same CDN stylesheet as production (licence for self-hosting unverified).
       { rel: "stylesheet", href: "https://fonts.cdnfonts.com/css/agustina" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

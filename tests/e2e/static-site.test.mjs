@@ -108,6 +108,16 @@ describe("taxonomy and pages", () => {
   });
 });
 
+describe("feeds", () => {
+  it("serves sitemap.xml and feed.xml as XML (both were 404 in the Jekyll production site)", async () => {
+    for (const file of ["sitemap.xml", "feed.xml"]) {
+      const r = await fetch(`${env.base}/weblog/${file}`);
+      assert.equal(r.status, 200, file);
+      assert.match(r.headers.get("content-type") ?? "", /xml/, file);
+    }
+  });
+});
+
 describe("curated covers", () => {
   it("home references every cover under /weblog/curated/ and each is served as a JPEG", async () => {
     const html = readFileSync("dist/client/index.html", "utf8");

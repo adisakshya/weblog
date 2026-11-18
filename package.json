@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "node --test tests/e2e/*.test.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"

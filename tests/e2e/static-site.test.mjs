@@ -192,19 +192,15 @@ describe("client navigation", () => {
     await page.waitForURL(
       /\/weblog\/2022\/07\/16\/setting-up-an-api-ateway-for-your-microservices\.html$/,
     );
-    assert.ok(
-      await page
-        .locator("h1")
-        .innerText()
-        .then((t) => /API Gateway/.test(t)),
-    );
+    await page
+      .locator("h1")
+      .filter({ hasText: /API Gateway/ })
+      .waitFor();
     await page.reload({ waitUntil: "networkidle" });
-    assert.ok(
-      await page
-        .locator("h1")
-        .innerText()
-        .then((t) => /API Gateway/.test(t)),
-    );
+    await page
+      .locator("h1")
+      .filter({ hasText: /API Gateway/ })
+      .waitFor();
     assert.deepEqual(
       problems.filter((p) => !/ERR_FAILED|fonts\./.test(p)),
       [],

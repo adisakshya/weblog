@@ -176,10 +176,12 @@ test(
     // it switches that child into a mode that exits 0 even when its tests fail, so it MUST be removed. `expect` is a
     // pattern the output has to contain, proving the gate really ran (and not just exited 0).
     const gate = (name, args, expect) => {
-      const env = { ...process.env };
+      const env = { ...process.env, FORCE_COLOR: "0" };
       delete env.NODE_TEST_CONTEXT;
+      delete env.NO_COLOR;
       const r = spawnSync(process.execPath, args, { cwd: tmp, encoding: "utf8", env });
-      const out = `${r.stdout}\n${r.stderr}`;
+      // CI forces colour; strip ANSI escapes so the patterns below match in every environment
+      const out = `${r.stdout}\n${r.stderr}`.replace(/\x1b\[[0-9;]*m/g, "");
       assert.equal(r.status, 0, `${name} failed on the modified copy:\n${out}`);
       assert.match(out, expect, `${name} did not report what it should have:\n${out}`);
     };

@@ -1,0 +1,9 @@
+{
+  "comment": "Legacy public URLs that are intentionally not reproduced by the static redesign. Everything else in docs/inventory/legacy-routes.json must exist in the build.",
+  "removed": {
+    "/weblog/assets/css/dark.css": "Jekyll theme stylesheet (replaced by the approved design's CSS); not authored content",
+    "/weblog/assets/js/main.min.js": "Minimal Mistakes theme bundle; not authored content",
+    "/weblog/assets/js/sayings.js": "Old site script; not authored content",
+    "/weblog/assets/js/theme-selector.js": "Old 2-state theme toggle, replaced by the 12-theme appearance menu"
+  }
+}

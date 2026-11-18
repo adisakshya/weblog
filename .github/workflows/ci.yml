@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master, redesign/weblog-static]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # the content-preservation test reads the baseline commit
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Bun (pinned)
+        run: npm install --global bun@1.4.4
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run lint
+      - run: bun run test
+      - name: Content preservation (original Markdown, front matter, comments, images byte-identical)
+        run: python3 tests/test_legacy_inventory.py
+      - name: Static build (prerender + 404 + .nojekyll)
+        run: bun run build
+      - name: Route manifest (every legacy public route exists)
+        run: node scripts/check-dist.mjs
+      - run: bunx playwright install --with-deps chromium
+      - name: Browser checks against the static artifact under /weblog/
+        run: node --test tests/e2e/static-site.test.mjs

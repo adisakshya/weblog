@@ -1,5 +1,22 @@
+# build output and caches (never commit generated files)
+dist/
+.output/
+.vinxi/
+.tanstack/
+.wrangler/
+node_modules/
+.cache/
+*.log
+# legacy Jekyll outputs, in case an old checkout is reused
 _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
 .todo
+# local environment
+.env
+.env.*
+
+# Python bytecode (verification scripts are Python)
+__pycache__/
+*.pyc

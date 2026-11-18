@@ -1,0 +1,104 @@
+{
+  "comment": "Legacy rendered items that are NOT authored content and are intentionally not reproduced. Everything else in docs/inventory/legacy-rendered.json must appear in the new output. Add a rule only with a reason; never to make a failing check pass.",
+  "blocks": [
+    {
+      "reason": "legacy layout date/read-time line; the approved design has its own meta line (date is checked via <time>)",
+      "pattern": "^[A-Z][a-z]+ \\d{1,2}, \\d{4} \\d+ minute read$"
+    },
+    {
+      "reason": "legacy layout 'part of series' banner; the approved design has series navigation",
+      "pattern": "^This post is part of .* series$"
+    },
+    {
+      "reason": "legacy layout share/report section (the approved design removes the layout's copy of Contribution)",
+      "pattern": "^(Enjoyed the article, found it useful|Found a mistake\\?)"
+    },
+    {
+      "reason": "comments are omitted by owner decision (data kept in _data/comments)",
+      "pattern": "^(Comments|Leave a Comment|All comments are held for moderation|Antoinette|October 4, 2021|Touche\\. Great arguments|Here is my site)"
+    },
+    {
+      "reason": "legacy home 'browse' sidebar lists; the approved home has Explore by subject (all tags remain reachable, checked separately)",
+      "pattern": "^(Browse by topic|Browse by series|api-gateway-101|[a-z-]+ \\d+)$",
+      "routes": [
+        "^/weblog/$"
+      ]
+    },
+    {
+      "reason": "boilerplate excerpt of the legacy tag layout",
+      "pattern": "^Post listing for the tag ",
+      "routes": [
+        "^/weblog/tags/"
+      ]
+    },
+    {
+      "reason": "approved design does not display the page date on Terms; front matter is untouched",
+      "pattern": "^May 23, 2021$",
+      "routes": [
+        "^/weblog/terms/$"
+      ]
+    },
+    {
+      "reason": "legacy 404 copy; the approved design has its own 404 page",
+      "pattern": "^(404|Page not found :\\(|The requested page could not be found\\.)$",
+      "routes": [
+        "^/weblog/404\\.html$"
+      ]
+    },
+    {
+      "reason": "legacy home heading; the approved home has its own section headings",
+      "pattern": "^Recent Posts$",
+      "routes": [
+        "^/weblog/$"
+      ]
+    },
+    {
+      "reason": "legacy layout 'Contribution' heading (only exempt when the Markdown has no such heading; the checker enforces that)",
+      "pattern": "^Contribution$"
+    }
+  ],
+  "anchors": [
+    {
+      "reason": "legacy layout ids",
+      "pattern": "^(page-title|sayingblock|citation)$"
+    },
+    {
+      "reason": "comments omitted by owner decision",
+      "pattern": "^(static-comments|new_comment|comment\\d*|comment-form-.*)$"
+    }
+  ],
+  "links": [
+    {
+      "reason": "legacy layout share/report/footer/series/topic links not present in the Markdown (topics checked separately)",
+      "pattern": "^(https://twitter\\.com/adisakshya\\|Twitter|https://github\\.com/adisakshya/weblog/issues\\|GitHub issues|https://docs\\.github\\.com/en/github/collaborating-with-pull-requests/.*\\|PR|https://github\\.com/adisakshya/weblog\\|adisakshya/weblog|/weblog/series/[a-z0-9-]+\\|[a-z0-9-]+|/weblog/tags/[a-z-]+\\|[a-z-]+ \\d+)$"
+    },
+    {
+      "reason": "comment form help links and comment anchors (comments omitted by owner decision)",
+      "pattern": "^(#comment\\d+|https://toshangrilainn\\.com/|https://daringfireball\\.net/projects/markdown/|https://gravatar\\.com/)\\|"
+    },
+    {
+      "reason": "legacy layout back-to-top link",
+      "pattern": "^#\\|\\(?Top\\)?$"
+    },
+    {
+      "reason": "tag chips on list cards: the approved design shows at most 3 per card; every tag stays linked from the home page (checked) and the article page",
+      "pattern": "^/weblog/tags/[a-z-]+\\|#[a-z-]+$",
+      "routes": [
+        "^/weblog/(series|tags)/",
+        "^/weblog/$"
+      ]
+    }
+  ],
+  "images": [
+    {
+      "reason": "gravatar of the (omitted) comment",
+      "pattern": "^https://www\\.gravatar\\.com/"
+    }
+  ],
+  "times": [
+    {
+      "reason": "timestamp of the omitted comment",
+      "pattern": "^2021-10-04T22:54:50Z$"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "books": [
+    {
+      "id": "metamorphosis",
+      "title": "The Metamorphosis",
+      "author": "Franz Kafka",
+      "cover": "metamorphosis.jpg",
+      "url": "https://openlibrary.org/books/OL7352239M/The_Metamorphosis",
+      "thoughts": null
+    },
+    {
+      "id": "child-star",
+      "title": "A Child’s Dream of a Star",
+      "author": "Charles Dickens",
+      "cover": "child-star.jpg",
+      "url": "https://www.gutenberg.org/ebooks/42232",
+      "thoughts": null
+    },
+    {
+      "id": "pride-prejudice",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "cover": "pride-prejudice.jpg",
+      "url": "https://www.penguin.co.uk/books/55905/pride-and-prejudice-by-austen-jane/9780141439518",
+      "thoughts": null
+    },
+    {
+      "id": "everything",
+      "title": "The Theory of Everything",
+      "author": "Stephen Hawking",
+      "cover": "everything.jpg",
+      "url": "https://www.jaicobooks.com/shop/popular-science/the-theory-of-everything/",
+      "thoughts": null
+    },
+    {
+      "id": "keeper",
+      "title": "The Time Keeper",
+      "author": "Mitch Albom",
+      "cover": "keeper.jpg",
+      "url": "https://www.mitchalbom.com/books/time-keeper/",
+      "thoughts": null
+    },
+    {
+      "id": "clocks",
+      "title": "Clocks",
+      "author": "Jerome K. Jerome",
+      "cover": "clocks.jpg",
+      "url": "https://www.gutenberg.org/ebooks/855",
+      "thoughts": null
+    },
+    {
+      "id": "brief-time",
+      "title": "A Brief History of Time",
+      "author": "Stephen Hawking",
+      "cover": "brief-time.jpg",
+      "url": "https://www.penguinrandomhouse.com/books/77010/a-brief-history-of-time-by-stephen-hawking/",
+      "thoughts": null
+    }
+  ],
+  "videos": [
+    {
+      "id": "KZeIEiBrT_w",
+      "title": "The Strange Math That Predicts (Almost) Anything",
+      "creator": "Veritasium",
+      "thumbnail": "video-markov.jpg",
+      "url": "https://www.youtube.com/watch?v=KZeIEiBrT_w&t=1448s",
+      "thoughts": null
+    },
+    {
+      "id": "fGKNUvivvnc",
+      "title": "Interpretability: Understanding how AI models think",
+      "creator": "Anthropic",
+      "thumbnail": "video-interpretability.jpg",
+      "url": "https://www.youtube.com/watch?v=fGKNUvivvnc&t=11s",
+      "thoughts": null
+    },
+    {
+      "id": "KfODG5REyss",
+      "title": "I finally saw quantum mechanics with my own eyes... (It's spookier than I expected)",
+      "creator": "Veritasium",
+      "thumbnail": "video-quantum.jpg",
+      "url": "https://www.youtube.com/watch?v=KfODG5REyss",
+      "thoughts": null
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 // Enhances rendered Markdown: copy buttons on code blocks and click-to-enlarge images.
 // Jekyll handoff: assets/js/copy-code.js and assets/js/lightbox.js.
@@ -6,6 +6,9 @@ export function ArticleBody({ html }: { html: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  // React 19 re-assigns innerHTML whenever the object identity changes, which would wipe the copy buttons, image
+  // handlers and focus targets added below the first time any state (e.g. the lightbox) changes.
+  const inner = useMemo(() => ({ __html: html }), [html]);
   const lastFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -66,7 +69,7 @@ export function ArticleBody({ html }: { html: string }) {
 
   return (
     <>
-      <div ref={ref} className="prose-j" dangerouslySetInnerHTML={{ __html: html }} />
+      <div ref={ref} className="prose-j" dangerouslySetInnerHTML={inner} />
       {zoom && (
         <div
           role="dialog"

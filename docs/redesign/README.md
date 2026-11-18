@@ -14,7 +14,7 @@ The approved design already exists as React components. Reusing them keeps visua
 - `scripts/serve-dist.mjs` serves `dist/client` like GitHub Pages (301 to trailing slash, `404.html` with status 404, nothing outside `/weblog/`).
 
 ## Checks
-`bun run typecheck && bun run lint && bun run test` · `python3 tests/test_legacy_inventory.py` (authored content byte-identical to `e812fd4`) · `bun run build && node scripts/check-dist.mjs` (every legacy route present) · `node --test tests/e2e/static-site.test.mjs` (browser).
+`bun run typecheck && bun run lint && bun run test` · `python3 tests/test_legacy_inventory.py` (authored content byte-identical to `e812fd4`) · `bun run build && node scripts/check-dist.mjs` (every legacy route present) · `bun run test:e2e` (browser: routes, search, appearance + WCAG contrast of all 12 themes, keyboard/a11y, overflow at 5 widths, home views, article features, link integrity) · `bun run visual` (50 shots vs the approved reference).
 
 ## Intentional removals (see `docs/inventory/intentional-removals.json`)
 Old Jekyll theme assets `/assets/css/dark.css`, `/assets/js/{main.min,sayings,theme-selector}.js` (not authored content). Comments UI and Staticman are omitted; `_data/comments/` is kept unrendered. Analytics are omitted (#65).

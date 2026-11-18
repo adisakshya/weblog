@@ -60,3 +60,29 @@ export function watch(page, base) {
   });
   return problems;
 }
+
+export const ARTICLES = ROUTES.filter((r) => r.endsWith(".html"));
+export const SETUP = "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html";
+export const INTRO = "/weblog/2022/02/01/introduction-to-api-gateway.html";
+export const EXT = "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html";
+
+const IGNORED = /ERR_FAILED|ERR_BLOCKED|fonts\./;
+
+/** A fresh page (third-party font stylesheets are blocked: they are not under test and may be slow). */
+export async function openPage(
+  env,
+  route,
+  { width = 1440, height = 900, colorScheme = "light", init, permissions } = {},
+) {
+  const ctx = await env.browser.newContext({
+    viewport: { width, height },
+    colorScheme,
+    permissions,
+  });
+  await ctx.route(/fonts\.(googleapis|gstatic|cdnfonts)\.com/, (r) => r.abort());
+  if (init) await ctx.addInitScript(init);
+  const page = await ctx.newPage();
+  const problems = watch(page, env.base);
+  if (route) await page.goto(env.base + route, { waitUntil: "networkidle" });
+  return { ctx, page, problems: () => problems.filter((p) => !IGNORED.test(p)) };
+}

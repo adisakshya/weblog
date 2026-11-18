@@ -44,7 +44,8 @@ export function Shell({ children }: { children: ReactNode }) {
             <a href="mailto:adisakshya98@gmail.com">Email</a>
           </nav>
           <p className="j-muted">
-            © {new Date().getFullYear()} Adisakshya Chauhan · Built in New Delhi, India (
+            © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Adisakshya Chauhan ·
+            Built in New Delhi, India (
             <a href="https://github.com/adisakshya/weblog">view source</a>)
           </p>
         </div>

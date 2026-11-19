@@ -1,0 +1,16 @@
+node_modules
+dist
+.output
+.vinxi
+pnpm-lock.yaml
+package-lock.json
+bun.lock
+routeTree.gen.ts
+# authored content and fixtures must never be reformatted
+_posts
+_pages
+_data
+docs/inventory
+reference
+public
+*.md

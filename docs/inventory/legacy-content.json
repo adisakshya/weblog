@@ -1,0 +1,543 @@
+{
+  "baseline_commit": "e812fd40751c11b34b3ee9d8a4cba9c8ca5f2206",
+  "files": [
+    {
+      "path": ".gitignore",
+      "kind": "site-source",
+      "sha256": "57e46106277d5d948f4cfa3e8ce4633c7b118bab305757d97299711dfc59fedf",
+      "bytes": 57
+    },
+    {
+      "path": "404.html",
+      "kind": "site-source",
+      "sha256": "2ecc4c87548e466cc23e0dd6945c751ebd88d808d9ac28a419d983309f750a2d",
+      "bytes": 419,
+      "front_matter": "permalink: /404.html\nlayout: default\n"
+    },
+    {
+      "path": "Gemfile",
+      "kind": "site-source",
+      "sha256": "2b7f8fb4d861684cfce2111b217e9ac4c821ae8ffe62b4999a2fb1bc78026d12",
+      "bytes": 242
+    },
+    {
+      "path": "Gemfile.lock",
+      "kind": "site-source",
+      "sha256": "a4a59695bcf0582b72da5661547113ced4c3af3893fb1eb7358e51ea06a2778c",
+      "bytes": 7904
+    },
+    {
+      "path": "LICENSE",
+      "kind": "site-source",
+      "sha256": "81d596e07a696abd0117a027ba175df435f552833e4ac4e3410cbee49d12d24a",
+      "bytes": 1075
+    },
+    {
+      "path": "README.md",
+      "kind": "site-source",
+      "sha256": "314492b653d6284a5e95730173da37da7586015c43fbf2e9589e8f93e98fa212",
+      "bytes": 1148
+    },
+    {
+      "path": "_config.yml",
+      "kind": "site-source",
+      "sha256": "b0dbefa985f0a094cdf59a2756b9ae735891115a4e2b4e38e9cdde52227dcf73",
+      "bytes": 2489
+    },
+    {
+      "path": "_data/comments/extension-pack-for-vscode-and-code-server/comment-1633388090418-Antoinette.yml",
+      "kind": "comment",
+      "sha256": "8aaad74551d9d0a3c3f92c183680664178ff2955b3847b39f682de2bf7fb4485",
+      "bytes": 327
+    },
+    {
+      "path": "_data/comments/my-name-is-adisakshya/comment-1619369758848-adisakshya.yml",
+      "kind": "comment",
+      "sha256": "4169744c0a7515c4c4bcc91599937a6d82a0da5c9cc4aae4a16f8e810a035ae1",
+      "bytes": 186
+    },
+    {
+      "path": "_data/comments/welcome-to-jekyll/comment-1619284033333-adi.yml",
+      "kind": "comment",
+      "sha256": "8a0c04321e55a5d236553d64f688fa42fc9098cb9abc17b053ef4ea2b7f7533f",
+      "bytes": 157
+    },
+    {
+      "path": "_data/comments/welcome-to-jekyll/comment-1619372174841-mr-consistent.yml",
+      "kind": "comment",
+      "sha256": "3acc383d23d522c306b592ae0b1082d2997d6a94d9dc4128de9d488fbd596f0c",
+      "bytes": 208
+    },
+    {
+      "path": "_includes/archive-single.html",
+      "kind": "site-source",
+      "sha256": "e3668d1eb8c35fd34c4c4166725036051bc0c2ecbbea706935def704e1f96416",
+      "bytes": 1515
+    },
+    {
+      "path": "_includes/author-profile.html",
+      "kind": "site-source",
+      "sha256": "a65fd1527e46c465239ef149de0e701baf0880370ea11cd8709442d2cf4d6710",
+      "bytes": 10006
+    },
+    {
+      "path": "_includes/comment.html",
+      "kind": "site-source",
+      "sha256": "032bb70cf59b049ecc0db87b9ec0ee42ee3ff2db6d1c92735162ef7759f73a8b",
+      "bytes": 1183
+    },
+    {
+      "path": "_includes/comments.html",
+      "kind": "site-source",
+      "sha256": "5466fe1fa86fa1f906007ebade68c05e98ecc28ef247c91ff77a48301b337954",
+      "bytes": 11095
+    },
+    {
+      "path": "_includes/footer.html",
+      "kind": "site-source",
+      "sha256": "957393fcf6df8061093d3296aa79e6fdbb28a955508fd25018ee0a927b29c194",
+      "bytes": 2050
+    },
+    {
+      "path": "_includes/footnotes.html",
+      "kind": "site-source",
+      "sha256": "dba1ee1efccc7f4c4ecc6eb12fbe9185064943e844a269f12eedf62157a6f162",
+      "bytes": 799
+    },
+    {
+      "path": "_includes/head/custom.html",
+      "kind": "site-source",
+      "sha256": "9539b4d3894496151fb5ab2165f3319ed62e871f0b0445a771b913cb5adddcd4",
+      "bytes": 1150
+    },
+    {
+      "path": "_includes/intro.html",
+      "kind": "site-source",
+      "sha256": "a0ced8b0437ee58fbaad61506a5820757e0774b5b5a5acb621bd01379710e5ba",
+      "bytes": 339
+    },
+    {
+      "path": "_includes/post-series.html",
+      "kind": "site-source",
+      "sha256": "f54ba80132331bf59a32a18c140b335a2827253b441c92fd94156685c377f43a",
+      "bytes": 865
+    },
+    {
+      "path": "_includes/post_pagination.html",
+      "kind": "site-source",
+      "sha256": "7793d13a58fc7a7fe5f42a415af59b0087ef4be9ac08403e85c2748142da4514",
+      "bytes": 1025
+    },
+    {
+      "path": "_includes/posts-tag.html",
+      "kind": "site-source",
+      "sha256": "e377a8ba5beb8ad5981c7c78a273b35120998e82a9402578774cb66f41a48f2e",
+      "bytes": 1024
+    },
+    {
+      "path": "_includes/series-list.html",
+      "kind": "site-source",
+      "sha256": "c60cc80a0d045730ab0d635093fffec800bae56fc670556578e1f8cb22addc59",
+      "bytes": 649
+    },
+    {
+      "path": "_includes/series-post.html",
+      "kind": "site-source",
+      "sha256": "3a29b86b3f87890b95947b34178f3590fdf01d46bbf689438c4573ca15f7a988",
+      "bytes": 1097
+    },
+    {
+      "path": "_includes/tag-list.html",
+      "kind": "site-source",
+      "sha256": "7e4182b64682553263cdacffd68df8f84ad0d7bcc200c68e1875bdd20a898370",
+      "bytes": 726
+    },
+    {
+      "path": "_layouts/archive.html",
+      "kind": "site-source",
+      "sha256": "98f9a442cc457ab94fa61a89a9824451b64c8ccd5538471cb5847d39f6a424d5",
+      "bytes": 508,
+      "front_matter": "layout: default\n"
+    },
+    {
+      "path": "_layouts/default.html",
+      "kind": "site-source",
+      "sha256": "ce30ba5c65fe61a6451a1e0843d179e231a9bd76c933b911d2efb50f91b1c7e1",
+      "bytes": 1466
+    },
+    {
+      "path": "_layouts/home.html",
+      "kind": "site-source",
+      "sha256": "882119f04f134b726b8f93771ee85828d689d5975371f98876584e65668aa220",
+      "bytes": 718,
+      "front_matter": "layout: archive\n"
+    },
+    {
+      "path": "_layouts/series.html",
+      "kind": "site-source",
+      "sha256": "95cbfd19e7beab6c0490f37935da37ca10cb5265892e1ed6c36de7b254affb8c",
+      "bytes": 234,
+      "front_matter": "layout: archive\n"
+    },
+    {
+      "path": "_layouts/single.html",
+      "kind": "site-source",
+      "sha256": "d55f5e3deae369dffbef1601804eb54f78bf441e3bffa78dac8dbfa9cf3b2483",
+      "bytes": 4050,
+      "front_matter": "layout: default\n"
+    },
+    {
+      "path": "_pages/about.md",
+      "kind": "page",
+      "sha256": "42ec64a6ee045287004bc6023b312022f5ff5bb9032d370eea5fd29c40a153e6",
+      "bytes": 526,
+      "front_matter": "title: About\npermalink: /about/\n",
+      "external_assets": [
+        "https://github.com/jekyll",
+        "https://github.com/jekyll/jekyll",
+        "https://github.com/jekyll/minima",
+        "https://jekyllrb.com/"
+      ]
+    },
+    {
+      "path": "_pages/contact.md",
+      "kind": "page",
+      "sha256": "f01772326fbc8da3e6ccb2b2341b8e8e978025be2ec152def302e5f3fc2b1f34",
+      "bytes": 328,
+      "front_matter": "title: \"Contact\"\npermalink: /contact/\nexcerpt: \"Preferred methods of sending your questions, inquires, messages, and love letters to me.\"\n",
+      "external_assets": [
+        "https://linkedin.com/in/adisakshya",
+        "https://twitter.com/adisakshya"
+      ]
+    },
+    {
+      "path": "_pages/series/api-gateway-101.md",
+      "kind": "series",
+      "sha256": "1ec258b2fc390d9a47f4aeec2687076eebf89209611d0e9d2ab7b3b4806b66cb",
+      "bytes": 347,
+      "front_matter": "title: \"API Gateway 101\"\nlayout: series\npermalink: /series/api-gateway-101/\nexcerpt: In this series, we’ll understand what gateways are and set up one in front of an application using a microservices architecture.\nteaser: https://raw.githubusercontent.com/adisakshya/weblog/static-assets/series/api-gateway.png\ntaxonomy: api-gateway-101\n",
+      "external_assets": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/series/api-gateway.png"
+      ]
+    },
+    {
+      "path": "_pages/series/blogging-101.md",
+      "kind": "series",
+      "sha256": "5de6af01c0553209cf32cc4c29a51c0add3941ce707b72d54c5cff652405d039",
+      "bytes": 226,
+      "front_matter": "title: \"Blogging 101\"\nlayout: series\npermalink: /series/blogging-101/\nexcerpt: In this series, I will write about everything that relates to technical blogging.\nteaser: /assets/images/jekyll.png\ntaxonomy: blogging-101\n",
+      "external_assets": []
+    },
+    {
+      "path": "_pages/tags/api-gateway.md",
+      "kind": "tag",
+      "sha256": "9b768c51c783e488e6503f26fb949d4eace27a785835c417815496a97d82ccdf",
+      "bytes": 235,
+      "front_matter": "title: \"API Gateway\"\nlayout: tag\npermalink: /tags/api-gateway/\nexcerpt: Post listing for the tag api-gateway.\nteaser: https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/api-gateway.jpg\ntaxonomy: api-gateway\n",
+      "external_assets": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/api-gateway.jpg"
+      ]
+    },
+    {
+      "path": "_pages/tags/ci-cd.md",
+      "kind": "tag",
+      "sha256": "3caa83eed6b507a65b49b1435b35041aa2e062c9ec42f63dbbd1bc66af9c4ba4",
+      "bytes": 255,
+      "front_matter": "title: \"Continuous Integration & Continuous Delivery\"\nlayout: tag\npermalink: /tags/ci-cd/\nexcerpt: Post listing for the tag ci-cd.\nteaser: https://res.cloudinary.com/adisakshya/image/upload/v1627667194/weblog/tags/ci-cd_tzfosl.png\ntaxonomy: ci-cd\n",
+      "external_assets": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667194/weblog/tags/ci-cd_tzfosl.png"
+      ]
+    },
+    {
+      "path": "_pages/tags/code-server.md",
+      "kind": "tag",
+      "sha256": "15764de05640a2ff4878ece93281c9c489ba72a936e6092e3cace616f076a1d5",
+      "bytes": 246,
+      "front_matter": "title: \"Code Server\"\nlayout: tag\npermalink: /tags/code-server/\nexcerpt: Post listing for the tag code-server.\nteaser: https://res.cloudinary.com/adisakshya/image/upload/v1627667201/weblog/tags/code-server_lfqjfr.png\ntaxonomy: code-server\n",
+      "external_assets": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667201/weblog/tags/code-server_lfqjfr.png"
+      ]
+    },
+    {
+      "path": "_pages/tags/docker.md",
+      "kind": "tag",
+      "sha256": "8bdc239f3d099ec19b957b534b6e66e4cf16e8ccf0dc452170aaa62bda03df05",
+      "bytes": 211,
+      "front_matter": "title: \"Docker\"\nlayout: tag\npermalink: /tags/docker/\nexcerpt: Post listing for the tag docker.\nteaser: https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/docker.webp\ntaxonomy: docker\n",
+      "external_assets": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/docker.webp"
+      ]
+    },
+    {
+      "path": "_pages/tags/github.md",
+      "kind": "tag",
+      "sha256": "e8ae9351a2c4dc3742862691d399855e1a8f08f5b9ac7986bd303781bfed544f",
+      "bytes": 221,
+      "front_matter": "title: \"Github\"\nlayout: tag\npermalink: /tags/github/\nexcerpt: Post listing for the tag github.\nteaser: https://res.cloudinary.com/adisakshya/image/upload/v1627667198/weblog/tags/github_ksz1hw.png\ntaxonomy: github\n",
+      "external_assets": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667198/weblog/tags/github_ksz1hw.png"
+      ]
+    },
+    {
+      "path": "_pages/tags/kong.md",
+      "kind": "tag",
+      "sha256": "23059033f8eb16a977241458f18202d52cbbf0b69db036ce9417b5965da3bff0",
+      "bytes": 200,
+      "front_matter": "title: \"Kong\"\nlayout: tag\npermalink: /tags/kong/\nexcerpt: Post listing for the tag kong.\nteaser: https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/kong.jpg\ntaxonomy: kong\n",
+      "external_assets": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/kong.jpg"
+      ]
+    },
+    {
+      "path": "_pages/tags/microservices.md",
+      "kind": "tag",
+      "sha256": "282dcb3b126f89329bc084270f6bbc09f51ecdd5f74589b4ce883c382f333646",
+      "bytes": 246,
+      "front_matter": "title: \"Microservices\"\nlayout: tag\npermalink: /tags/microservices/\nexcerpt: Post listing for the tag microservices.\nteaser: https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/microservices.webp\ntaxonomy: microservices\n",
+      "external_assets": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/microservices.webp"
+      ]
+    },
+    {
+      "path": "_pages/tags/travis.md",
+      "kind": "tag",
+      "sha256": "04e0c2a3e47e47a8b936f525203dc4a82d262b80ff823181303884be095c75f5",
+      "bytes": 224,
+      "front_matter": "title: \"Travis CI\"\nlayout: tag\npermalink: /tags/travis/\nexcerpt: Post listing for the tag travis.\nteaser: https://res.cloudinary.com/adisakshya/image/upload/v1627667200/weblog/tags/travis_hezjbq.png\ntaxonomy: travis\n",
+      "external_assets": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667200/weblog/tags/travis_hezjbq.png"
+      ]
+    },
+    {
+      "path": "_pages/tags/vscode.md",
+      "kind": "tag",
+      "sha256": "01be0fcebcb633aa7bb1362e40d69e91e07e243b60e41bbba5411b805d29f349",
+      "bytes": 233,
+      "front_matter": "title: \"Visual Studio Code\"\nlayout: tag\npermalink: /tags/vscode/\nexcerpt: Post listing for the tag vscode.\nteaser: https://res.cloudinary.com/adisakshya/image/upload/v1627667198/weblog/tags/vscode_ubhobg.png\ntaxonomy: vscode\n",
+      "external_assets": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667198/weblog/tags/vscode_ubhobg.png"
+      ]
+    },
+    {
+      "path": "_pages/terms.md",
+      "kind": "page",
+      "sha256": "ee47f46662c9708bf2bf8b881ff8a0d03ceac48d9a946f5c67b4308da08519fa",
+      "bytes": 1914,
+      "front_matter": "title: \"Terms and policies\"\npermalink: /terms/\ndate: 2021-05-23\nexcerpt: \"Privacy policy, license, and other legal stuff you won't read.\"\n",
+      "external_assets": [
+        "https://adisakshya.codes",
+        "https://policies.google.com/privacy?hl=en"
+      ]
+    },
+    {
+      "path": "_posts/2021-07-30-extension-pack-for-vscode-and-code-server.md",
+      "kind": "post",
+      "sha256": "d5b4ab9aee69fb6051afae51403f6d8127fb91eb50824db797b20a1edd8967a2",
+      "bytes": 13963,
+      "front_matter": "title:  \"Extension Pack for VSCode & Code Server\"\ndate:   2021-07-30 11:30:00 +0530\ntags: [vscode, code-server, github, ci-cd, travis]\nheader:\n  teaser: https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png\n  image: https://res.cloudinary.com/adisakshya/image/upload/v1627494023/weblog/extension-pack-for-vscode-and-codeserver/meta/banner_ccueds.png\nexcerpt: Creating extension pack for VS Code & Code Server and publishing on GitHub release using Travis CI\ncomments: true\n",
+      "external_assets": [
+        "https://code.visualstudio.com/api/references/extension-manifest",
+        "https://code.visualstudio.com/api/working-with-extensions/publishing-extension#visual-studio-code-compatibility",
+        "https://code.visualstudio.com/download",
+        "https://docs.github.com/en/get-started/quickstart/create-a-repo",
+        "https://docs.travis-ci.com/user/using-workspaces",
+        "https://github.com/adisakshya/extension-pack",
+        "https://github.com/adisakshya/extension-pack/releases",
+        "https://github.com/adisakshya/extension-pack/releases/download/<GIT_TAG",
+        "https://github.com/adisakshya/extension-pack/releases/latest/download/adisakshya-extension-pack.vsix",
+        "https://nodejs.org/en/download/",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627132522/weblog/extension-pack-for-vscode-and-codeserver/ci-build-stages_otyii9.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627132525/weblog/extension-pack-for-vscode-and-codeserver/code-server-welcome-screen_vbiiw6.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627132531/weblog/extension-pack-for-vscode-and-codeserver/github-release-page_pgtdf7.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627132554/weblog/extension-pack-for-vscode-and-codeserver/compatibility-issue_vjuq9p.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494023/weblog/extension-pack-for-vscode-and-codeserver/meta/banner_ccueds.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png",
+        "https://res.cloudinary.com/adisakshya/video/upload/v1627494262/weblog/extension-pack-for-vscode-and-codeserver/installing-extension-pack-on-code-server_tpoevc.webm",
+        "https://res.cloudinary.com/adisakshya/video/upload/v1627494509/weblog/extension-pack-for-vscode-and-codeserver/yo-code-main_awwy0t.webm",
+        "https://travis-ci.com/github/adisakshya/extension-pack/builds/226340367",
+        "https://www.npmjs.com/package/generator-code",
+        "https://www.npmjs.com/package/vsce",
+        "https://www.npmjs.com/package/yo"
+      ]
+    },
+    {
+      "path": "_posts/2022-02-01-introduction-to-api-gateway.md",
+      "kind": "post",
+      "sha256": "cb701895d4261dd3754c74dcc571626fbb4c2b165d4cbd41055352c1dadd3865",
+      "bytes": 9149,
+      "front_matter": "title: \"Introduction to API Gateway\"\ndate: 2022-02-01 11:30:00 +0530\ntags: [api-gateway, kong]\nseries: api-gateway-101\nheader:\n  teaser: https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/teaser.jpg\n  image: https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/api-gateway-banner.png\nexcerpt: Understanding what API Gateways are, how they differ from a reverse proxy & load balancer and their use in a microservices environment\ncomments: true\n",
+      "external_assets": [
+        "http://adisakshya.codes/weblog",
+        "https://konghq.com/faqs/",
+        "https://konghq.com/plugins",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/api-gateway.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/kong-api-gateway.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/loadbalancer.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/api-gateway-banner.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/teaser.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/reverse-proxy.png"
+      ]
+    },
+    {
+      "path": "_posts/2022-07-17-setting-up-an-api-ateway-for-your-microservices.md",
+      "kind": "post",
+      "sha256": "3f005a1abe9ad9fc3dc250a3785e210d72def1f513225ce522c6ff1737e587b8",
+      "bytes": 12088,
+      "front_matter": "title: \"Setting up an API Gateway for your Microservices\"\ndate: 2022-07-17 00:30:00 +0530\ntags: [api-gateway, kong, microservices, docker]\nseries: api-gateway-101\nheader:\n  teaser: https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg\nexcerpt: Deploying a single node Kong API gateway infront of multiple microservices\ncomments: true\n",
+      "external_assets": [
+        "https://docs.docker.com/get-started/",
+        "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+        "https://en.wikipedia.org/wiki/X-Forwarded-For",
+        "https://github.com/adisakshya/api-gateway",
+        "https://github.com/adisakshya/api-gateway/blob/master/single-node-kong-gateway/postman-collection/api-gateway.postman_collection",
+        "https://github.com/adisakshya/weblog",
+        "https://github.com/adisakshya/weblog/issues",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/create-app-server-a-service.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/create-route-for-httpbin-service.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/httpbin-service-post-route-no-auth.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/inspecting-ip-address-of-a-microservice.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/kong-admin-api-status-check.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/kong-admin-gui-dashboard.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/list-of-all-services.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/list-of-routes-kong-admin-api.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/nginx-service-get-route-no-auth.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/spinning-up-microservices-using-docker.png",
+        "https://twitter.com/adisakshya"
+      ]
+    },
+    {
+      "path": "_sass/custom/article.scss",
+      "kind": "site-source",
+      "sha256": "cb1ccf9a27e2938fe7b36394b6e8b3e48372044caa62d0d8592a3167751ebe26",
+      "bytes": 532
+    },
+    {
+      "path": "_sass/custom/comments.scss",
+      "kind": "site-source",
+      "sha256": "d25bd1b6ad2ce3cb5da6e7cafc830918651ed2334450f4e3924a255d18c527e1",
+      "bytes": 1238
+    },
+    {
+      "path": "_sass/custom/contact.scss",
+      "kind": "site-source",
+      "sha256": "cd513fef5327bc572dbf1e2f8bee2eaadf44621c63eb8d903fd9e86a6ba6f6de",
+      "bytes": 234
+    },
+    {
+      "path": "_sass/custom/footer.scss",
+      "kind": "site-source",
+      "sha256": "86a93afd7368ce8655b0552e489c942ac8cf13b405b1dc0ffddfba52c6bca393",
+      "bytes": 1125
+    },
+    {
+      "path": "_sass/custom/home.scss",
+      "kind": "site-source",
+      "sha256": "5c759f48c2060dda5cb6d8fff125dd1d0f2f8f063d658a271d7ca8291c20eade",
+      "bytes": 1058
+    },
+    {
+      "path": "_sass/custom/main.scss",
+      "kind": "site-source",
+      "sha256": "39acfeeafc8c421fdb27077bed4fcc2995f91a7ef68be72ea486e2f3019d1d8b",
+      "bytes": 1636
+    },
+    {
+      "path": "_sass/custom/post.scss",
+      "kind": "site-source",
+      "sha256": "906f7a38103630ef4c1eda86de4f2e41424e558be3d8f5b89e1f2e539c564acb",
+      "bytes": 2777
+    },
+    {
+      "path": "_sass/custom/sayings.scss",
+      "kind": "site-source",
+      "sha256": "dce5fcd09320c33e11b7a6737a60f584cad68333b9319ebd9d27317ee7f4e794",
+      "bytes": 661
+    },
+    {
+      "path": "_sass/custom/series.scss",
+      "kind": "site-source",
+      "sha256": "e1a61296c06f9384db0fbb508d219b18ad283120c314db9dfc8a86ac7961f0f0",
+      "bytes": 394
+    },
+    {
+      "path": "_sass/custom/tag.scss",
+      "kind": "site-source",
+      "sha256": "9a26c977f108f3f006ab93b64aeaa975b1a347290f2654e570ceaeed95ccb5f6",
+      "bytes": 596
+    },
+    {
+      "path": "_sass/custom/theme.scss",
+      "kind": "site-source",
+      "sha256": "7333d4eac2ae5fce138f90896f64d29150d86960e8ea7ac7ac07d81ee7fd11b1",
+      "bytes": 1513
+    },
+    {
+      "path": "_sass/minimal-mistakes.scss",
+      "kind": "site-source",
+      "sha256": "57407a3ead6a26a842b561aaf1fee82ba40aad3ec97a10028c97711874c0194b",
+      "bytes": 1112
+    },
+    {
+      "path": "assets/css/dark.css",
+      "kind": "asset",
+      "sha256": "43e15395d88c39613b759b0e24a74da9b53301e518a3e36d6bff35ef9a603308",
+      "bytes": 916
+    },
+    {
+      "path": "assets/favicon.ico",
+      "kind": "asset",
+      "sha256": "35531ae7537c603566735a8e2e286787baed1d0856a131373768957920a02548",
+      "bytes": 15406
+    },
+    {
+      "path": "assets/images/avatar.jpg",
+      "kind": "asset",
+      "sha256": "323bb0b02b388bca3c339dbd1049284e739547cfb969c8f42ea2b2ce38290a8a",
+      "bytes": 96020
+    },
+    {
+      "path": "assets/images/jekyll.png",
+      "kind": "asset",
+      "sha256": "e37e92dffdcf941889d5152776d710e19281060036c6887a29625924d9410bcb",
+      "bytes": 48581
+    },
+    {
+      "path": "assets/images/sun.webp",
+      "kind": "asset",
+      "sha256": "7a9d5686b03d01e19333642716d7d9d2274e4a85383d23e732ef5e59c47d67ec",
+      "bytes": 31224
+    },
+    {
+      "path": "assets/js/main.min.js",
+      "kind": "asset",
+      "sha256": "58c052955943f19f4228d5bff43a7bfcd5aec071c36bece61ada9566255be637",
+      "bytes": 122701
+    },
+    {
+      "path": "assets/js/sayings.js",
+      "kind": "asset",
+      "sha256": "681bbf100c44ff3b6ebfbc214cd4fdc1286c3a301ad1cf99282677b1a665cc24",
+      "bytes": 1193
+    },
+    {
+      "path": "assets/js/theme-selector.js",
+      "kind": "asset",
+      "sha256": "de4bf4a48af228b99be8000b0121f885082ad806e145e0658f8c953b27bcb193",
+      "bytes": 787
+    },
+    {
+      "path": "index.html",
+      "kind": "site-source",
+      "sha256": "ea8da4cc84d4c8d0671177053895c128841c97257d5e43585302642318a7504e",
+      "bytes": 21,
+      "front_matter": "layout: home\n"
+    },
+    {
+      "path": "staticman.yml",
+      "kind": "site-source",
+      "sha256": "fc4028302f54acae1640b8024af8e6c3de56fdb2a603166773644b82bdc0777f",
+      "bytes": 585
+    }
+  ]
+}

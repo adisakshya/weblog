@@ -1,0 +1,306 @@
+{
+  "baseUrl": "http://127.0.0.1:4174",
+  "capturedAt": "2026-11-18T19:47:53.864Z",
+  "shots": [
+    {
+      "name": "home-posts",
+      "w": "desktop",
+      "file": "home-posts--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "home-index",
+      "w": "desktop",
+      "file": "home-index--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "home-subjects",
+      "w": "desktop",
+      "file": "home-subjects--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "post-introduction-to-api-gateway",
+      "w": "desktop",
+      "file": "post-introduction-to-api-gateway--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "post-setting-up-api-gateway",
+      "w": "desktop",
+      "file": "post-setting-up-api-gateway--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "post-extension-pack",
+      "w": "desktop",
+      "file": "post-extension-pack--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "tag-kong",
+      "w": "desktop",
+      "file": "tag-kong--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "series-api-gateway-101",
+      "w": "desktop",
+      "file": "series-api-gateway-101--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "page-contact",
+      "w": "desktop",
+      "file": "page-contact--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "page-terms",
+      "w": "desktop",
+      "file": "page-terms--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "not-found",
+      "w": "desktop",
+      "file": "not-found--desktop.png",
+      "status": 404
+    },
+    {
+      "name": "ui-search-open",
+      "w": "desktop",
+      "file": "ui-search-open--desktop.png",
+      "status": 404
+    },
+    {
+      "name": "ui-appearance-open",
+      "w": "desktop",
+      "file": "ui-appearance-open--desktop.png",
+      "status": 404
+    },
+    {
+      "name": "theme-original",
+      "w": "desktop",
+      "file": "theme-original--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-system",
+      "w": "desktop",
+      "file": "theme-system--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-paper",
+      "w": "desktop",
+      "file": "theme-paper--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-sepia",
+      "w": "desktop",
+      "file": "theme-sepia--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-dark-modern",
+      "w": "desktop",
+      "file": "theme-dark-modern--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-solarized-light",
+      "w": "desktop",
+      "file": "theme-solarized-light--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-solarized-dark",
+      "w": "desktop",
+      "file": "theme-solarized-dark--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-space",
+      "w": "desktop",
+      "file": "theme-space--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-spiderman",
+      "w": "desktop",
+      "file": "theme-spiderman--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-batman",
+      "w": "desktop",
+      "file": "theme-batman--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-superman",
+      "w": "desktop",
+      "file": "theme-superman--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "theme-ironman",
+      "w": "desktop",
+      "file": "theme-ironman--desktop.png",
+      "status": 200
+    },
+    {
+      "name": "home-posts",
+      "w": "mobile",
+      "file": "home-posts--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "home-index",
+      "w": "mobile",
+      "file": "home-index--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "home-subjects",
+      "w": "mobile",
+      "file": "home-subjects--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "post-introduction-to-api-gateway",
+      "w": "mobile",
+      "file": "post-introduction-to-api-gateway--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "post-setting-up-api-gateway",
+      "w": "mobile",
+      "file": "post-setting-up-api-gateway--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "post-extension-pack",
+      "w": "mobile",
+      "file": "post-extension-pack--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "tag-kong",
+      "w": "mobile",
+      "file": "tag-kong--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "series-api-gateway-101",
+      "w": "mobile",
+      "file": "series-api-gateway-101--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "page-contact",
+      "w": "mobile",
+      "file": "page-contact--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "page-terms",
+      "w": "mobile",
+      "file": "page-terms--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "not-found",
+      "w": "mobile",
+      "file": "not-found--mobile.png",
+      "status": 404
+    },
+    {
+      "name": "ui-search-open",
+      "w": "mobile",
+      "file": "ui-search-open--mobile.png",
+      "status": 404
+    },
+    {
+      "name": "ui-appearance-open",
+      "w": "mobile",
+      "file": "ui-appearance-open--mobile.png",
+      "status": 404
+    },
+    {
+      "name": "theme-original",
+      "w": "mobile",
+      "file": "theme-original--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-system",
+      "w": "mobile",
+      "file": "theme-system--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-paper",
+      "w": "mobile",
+      "file": "theme-paper--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-sepia",
+      "w": "mobile",
+      "file": "theme-sepia--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-dark-modern",
+      "w": "mobile",
+      "file": "theme-dark-modern--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-solarized-light",
+      "w": "mobile",
+      "file": "theme-solarized-light--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-solarized-dark",
+      "w": "mobile",
+      "file": "theme-solarized-dark--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-space",
+      "w": "mobile",
+      "file": "theme-space--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-spiderman",
+      "w": "mobile",
+      "file": "theme-spiderman--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-batman",
+      "w": "mobile",
+      "file": "theme-batman--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-superman",
+      "w": "mobile",
+      "file": "theme-superman--mobile.png",
+      "status": 200
+    },
+    {
+      "name": "theme-ironman",
+      "w": "mobile",
+      "file": "theme-ironman--mobile.png",
+      "status": 200
+    }
+  ]
+}

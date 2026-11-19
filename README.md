@@ -1,53 +1,28 @@
-# Adisakshya Chauhan's blog
+# weblog
 
-## Local development
+✒ The blog of [Adisakshya Chauhan](https://adisakshya.github.io/) — <https://adisakshya.github.io/weblog/>
 
-### Prerequisites
+A fully prerendered static site (TanStack Start + Vite + React) published to GitHub Pages under `/weblog/`.
+Articles are Markdown in `_posts/`, pages in `_pages/`. Architecture notes: [`docs/redesign/README.md`](docs/redesign/README.md).
 
-- Ruby 3.1
-- Bundler
-- An available UTF-8 locale
+## Develop
 
-Ruby 3.1 is the only supported Ruby release for this dependency set. Nokogiri
-1.18.10 requires Ruby 3.1 or later, while Liquid 4.0.3 calls APIs that Ruby 3.2
-removed.
-
-Install the locked dependencies from the repository root:
+Requires Node 22+ and [Bun](https://bun.sh) 1.4.
 
 ```sh
-bundle install
+bun install --frozen-lockfile
+bun run dev        # http://localhost:3000/weblog/
+bun run build      # static artifact in dist/client (+ 404.html)
+bun run preview    # serve dist/client like GitHub Pages at http://127.0.0.1:4300/weblog/
 ```
 
-### Build the site
-
-Jekyll must run under a UTF-8 locale to compile the site's Sass assets. For
-example, if your operating system provides the locale as `C.utf8`, run:
+## Check
 
 ```sh
-LANG=C.utf8 bundle exec jekyll build
+bun run typecheck && bun run lint && bun run test
+python3 tests/test_legacy_inventory.py          # original content byte-identical to the legacy baseline
+node scripts/check-dist.mjs                     # every legacy public route exists in the build
+bun run test:e2e                                 # all browser checks (run `bunx playwright install chromium` once)
 ```
 
-The exact UTF-8 locale name is operating-system dependent. Check the locales
-available on your system (for example, with `locale -a`) and set `LANG` to an
-available UTF-8 locale. If your shell already uses one, the usual build command
-is sufficient:
-
-```sh
-bundle exec jekyll build
-```
-
-The generated site is written to `_site/`.
-
-### Serve the site
-
-Start Jekyll's local development server under an available UTF-8 locale:
-
-```sh
-LANG=C.utf8 bundle exec jekyll serve
-```
-
-When the shell already uses a UTF-8 locale, use:
-
-```sh
-bundle exec jekyll serve
-```
+The previous Jekyll site is preserved in git history (baseline `e812fd4`).

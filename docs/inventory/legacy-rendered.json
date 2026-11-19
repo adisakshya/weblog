@@ -1,0 +1,1565 @@
+{
+  "source_commit": "e812fd40751c11b34b3ee9d8a4cba9c8ca5f2206",
+  "renderer": "Ruby 3.1.7; Bundler 2.2.24; Jekyll 3.9.0; LANG=C.utf8; TZ=UTC",
+  "routes": [
+    {
+      "route": "/weblog/",
+      "source": "index.html",
+      "links": [
+        [
+          "/weblog/tags/api-gateway",
+          "api-gateway 2"
+        ],
+        [
+          "/weblog/tags/kong",
+          "kong 2"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "vscode 1"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "code-server 1"
+        ],
+        [
+          "/weblog/tags/github",
+          "github 1"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "ci-cd 1"
+        ],
+        [
+          "/weblog/tags/travis",
+          "travis 1"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "microservices 1"
+        ],
+        [
+          "/weblog/tags/docker",
+          "docker 1"
+        ],
+        [
+          "/weblog/series/api-gateway-101",
+          "api-gateway-101"
+        ],
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ],
+      "blocks": [
+        "A compilation of my musings 🤔, inspirations 🌟, mistakes 😅, and other ramblings 🧐.",
+        "Browse by topic",
+        "api-gateway 2",
+        "kong 2",
+        "vscode 1",
+        "code-server 1",
+        "github 1",
+        "ci-cd 1",
+        "travis 1",
+        "microservices 1",
+        "docker 1",
+        "Browse by series",
+        "api-gateway-101",
+        "Recent Posts",
+        "Setting up an API Gateway for your Microservices",
+        "July 16, 2022 6 minute read",
+        "Deploying a single node Kong API gateway infront of multiple microservices",
+        "Introduction to API Gateway",
+        "February 1, 2022 6 minute read",
+        "Understanding what API Gateways are, how they differ from a reverse proxy & load balancer and their use in a microservices environment",
+        "Extension Pack for VSCode & Code Server",
+        "July 30, 2021 8 minute read",
+        "Creating extension pack for VS Code & Code Server and publishing on GitHub release using Travis CI"
+      ],
+      "code": [],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/teaser.jpg",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png"
+      ],
+      "anchors": [
+        "main",
+        "sayingblock",
+        "citation"
+      ],
+      "times": [
+        "2022-07-16T19:00:00+00:00",
+        "2022-02-01T06:00:00+00:00",
+        "2021-07-30T06:00:00+00:00"
+      ],
+      "contribution_count": 0
+    },
+    {
+      "route": "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+      "source": "_posts/2021-07-30-extension-pack-for-vscode-and-code-server.md",
+      "blocks": [
+        "Extension Pack for VSCode & Code Server",
+        "July 30, 2021 8 minute read",
+        "In this article, we’ll create a common extension pack for VS Code and code-server, explore the involved compatibility issue and Travis Workspaces. Finally, we’ll build a CI/CD pipeline to publish our extension pack to a GitHub release.",
+        "Extension packs in VS Code are useful when we want to bundle and install a set of extensions together. It also provides us with a way to share and organize our favourite extensions.",
+        "Prerequisites",
+        "If you’ve never built an extension before, you’ll need VS Code and NodeJS installed.",
+        "We’ll create a versioned extension pack, so a git repository is needed where we can maintain the source code of our extension pack. Also on this repository, a CI/CD pipeline will be built later in the article. The extension pack will be published on the repository release page by the pipeline, from where anyone can install and use it.",
+        "The source code of the extension pack created for this article can be found at my GitHub repository - adisakshya/extension-pack.",
+        "Once NodeJS is installed, the git repository is created and cloned we can move forward to get started.",
+        "Installing Yeoman & Code Generator",
+        "To get started creating an extension pack,",
+        "We’ll need to install the Yeoman scaffolding CLI tools as well as the generator.",
+        "Yeoman can be installed using the following command -",
+        "npm install -g yo",
+        "Then we can install the generator tools like so -",
+        "npm install -g generator-code",
+        "Generating a New Extension Project",
+        "With the correct tools installed, we are now ready to generate a new extension pack project. This is pretty easy as all of the scaffolding is already provided. So all we have to do is add to the list of extensions to be included.",
+        "We can start this process by running the following command in our git project directory (extension-pack) -",
+        "yo code",
+        "Understanding the generated code",
+        "The following directory structure will be created inside the project directory by the generator -",
+        "+-- .vscode | +-- launch.json +-- .vscodeignore +-- CHANGELOG.md +-- package.json +-- README.md +-- vsc-extension-quickstart.md",
+        "Let’s explore everything in it -",
+        "vscode/launch.json is a file used to configure the debugger in VS Code.",
+        "The .vscodeignore file excludes some files from being included in your extension’s package.",
+        "Record of all notable changes made to the project is maintained in CHANGELOG.md.",
+        "README.md is the project readme file, it’ll also be used in the extension packs page in the VS Code marketplace.",
+        "Every VS Code extension needs a manifest file package.json at the root of the project directory structure. Most of the time we’ll find ourselves tweaking the manifest file. A great reference can be found here at VS Code API Reference.",
+        "vsc-extension-quickstart.md feature some quick-start tips.",
+        "Make it yours",
+        "Cool, so now that we understand (hopefully 😅) what everything means! We can move forward to update the package.json manifest to customize our extension pack. The field names are quite clear with their meaning.",
+        "First things first - Let’s name, describe and version our package.",
+        "\"name\": \"adisakshya-extension-pack\", \"displayName\": \"adisakshya-extension-pack\", \"description\": \"Adisakshya's extension-pack for VS Code & Code Server\", \"version\": \"1.0.0\"",
+        "Second things second - Update the list of extensions in our pack.",
+        "The extensionPack field is a list of extension-ids. The ID of the extension can be obtained from VS Code Marketplace.",
+        "\"extensionPack\": [ \"cssho.vscode-svgviewer\", \"docsmsft.docs-markdown\", \"eamodio.gitlens\", \"EditorConfig.EditorConfig\", \"esbenp.prettier-vscode\", \"formulahendry.code-runner\", \"GitHub.github-vscode-theme\", \"GrapeCity.gc-excelviewer\", \"humao.rest-client\", \"johnpapa.vscode-peacock\", \"ms-azuretools.vscode-docker\", \"ms-python.python\", \"ms-python.vscode-pylance\", \"ms-vscode-remote.vscode-remote-extensionpack\", \"ms-vscode.cpptools\", \"ms-vscode.vscode-typescript-next\", \"ritwickdey.LiveServer\", \"VisualStudioExptTeam.vscodeintellicode\", \"vscode-icons-team.vscode-icons\", \"vsls-contrib.codetour\" ]",
+        "Third things third - Specify an icon",
+        "We can specify an icon for our extension pack by placing our icon-file.png in our project directory. Its path has to be mentioned in the package.json manifest like -",
+        "\"icon\": \"path/to/icon-file.png\"",
+        "Now that we’ve specified what extensions need to be included and other associated information. We can pack the extensions in a file that can be used to install the extension pack on VS Code and code-server.",
+        "Packing the extensions",
+        "Visual Studio Code Extensions (aka vsce) is a command-line tool for packing, publishing and managing VS Code extensions. It can be installed using the following command -",
+        "npm install --global vsce",
+        "We’ll choose to pack our extension into a VSIX file, using which people who wish to use the same pack can install it.",
+        "We can package the extensions in a VSIX file using the following command in our project directory -",
+        "vsce package",
+        "For users who receive the VSIX file, they can install the extension pack on VS Code and code-server like so -",
+        "# VS Code code --install-extension adisakshya-extension-pack-1.0.0.vsix # Code Server code-server --install-extension adisakshya-extension-pack-1.0.0.vsix",
+        "A handy NPM script can be included in package.json -",
+        "\"scripts\": { \"pack\": \"vsce package\" }",
+        "This can be used as an npm run pack or yarn run pack in CI.",
+        "Understanding the VS Code compatibility",
+        "This is one of the most important things we (or at least I) unconsciously ignored.",
+        "I packed the extensions in a VSIX file and tried installing it on my local system with VS Code installed. Great, it worked as expected.",
+        "I took the same VSIX file and tried installing it on a code-server setup in Windows Subsystem for Linux (WSL). And… saw the below message -",
+        "Okay… so it said - Unable to install extension ‘adisakshya-extension-pack’ as it is not compatible with VS Code ‘1.53.2’. I figured out that it had something to do with the version of VS Code for which the extension pack was created.",
+        "One thing that looked SUS was the engines.vscode field inside package.json, which was the only thing I left as default. I went through the VS Code Extension API Reference to find out what this field really is and what I found was -",
+        "When authoring an extension, you will need to describe what is the extension’s compatibility to Visual Studio Code itself. — API Reference",
+        "The engines.vscode field is an object that contains a key matching the versions of VS Code that the extension or extension pack is compatible with. If I’m generating the scaffolding code on my system then this field is set to the version of VS Code I’m using by default.",
+        "\"engines\": { \"vscode\": \"^1.56.0\" }",
+        "I was using the 1.56.0 version of VS Code and generated the VSIX file with this configuration. 1.53.0 was the version of VS Code associated with the code-server release that I was using.",
+        "Okay, the extension pack that I created was meant to be compatible with version 1.56.0 and above. While the code-server was using 1.53.0 — this was the reason for that incompatibility message!",
+        "I updated the engines.vscode field to ^1.53.0 to make it work, but still, the installation failed on code-server as some extensions inside the pack were not compatible with this version of VS Code. So next possible solution was to upgrade the code-server.",
+        "I installed the 3.10.2 version of code-server which used VS Code 1.56.0 and tried installing my extension pack with engines.vscode field set to 1.56.0. Great, it worked!",
+        "So,",
+        "Before packing our extension we must ensure that we’ve mentioned the engines.vscode field correctly according to our use.",
+        "To find out what version of VS Code engine is our code-server setup using, see the Welcome Screen -",
+        "Publishing the extension pack",
+        "We’ll be publishing the VSIX file of our extension pack to a GitHub Release using Travis CI. Let’s define our expectations — The CI workflow should do the following -",
+        "Pack the extensions in a VSIX file",
+        "Publish the VSIX file to GitHub release",
+        "We should be able to download the latest release of the extension pack (using a single terminal command so that we don’t have to install it from the marketplace every time and can use this command in automation scripts)",
+        "While writing the Travis YML file I came across a much-awaited (at least for me) beta feature - Workspaces.",
+        "Workspaces allow jobs within a build to share files. They are useful when you want to use build artefacts from a previous job. — Travis Workspaces Docs",
+        "Cool, this means we can have two stages where the first stage would pack the extensions in the VSIX file and upload it to a workspace. Then the second stage would use the same workspace to get the VSIX file and publish it to a GitHub release.",
+        "Now once released how we’ll use our extension pack’s VSIX file?",
+        "VSIX files uploaded to a GitHub release can be downloaded using the curl command. Then we can use the code [or code-server] --install-extension command to install the extension pack. If you use an automation script to set up VS Code or code-server then this way you can write a single line in the script to install the extension pack as well.",
+        "Cool, now we’ve defined what each stage in the pipeline should do -",
+        "✅ What do we release?",
+        "✅ How do we release?",
+        "✅ How are we using, what we are releasing?",
+        "So, let’s write the Travis CI configuration .travis.yml -",
+        "# Language and Node Engine language: node_js node_js: 12 # Environment Variables env: global: - PACK_NAME=adisakshya-extension-pack - VERSION=$(node assets/version.js -p) # Jobs jobs: include: # STAGE 1 - stage: build name: \"Build\" install: # Install VSCE - npm install --global vsce script: # Pack extensions - npm run pack # Create a workspace workspaces: create: name: ws1 # Upload artifact to the workspace paths: - ${PACK_NAME}-${VERSION}.vsix # STAGE 2 - stage: GitHub Release name: \"Publish VSIX file on GitHub Release\" # Use an existing workspace workspaces: use: ws1 install: skip script: skip # Publish VSIX file to GitHub release deploy: provider: releases api_key: ${GITHUB_SECURE_TOKEN} # The GitHub Access Token name: ${VERSION} # Name of release is set as the version of extension pack file: ${PACK_NAME}-${VERSION}.vsix # Attach VSIX file with the release skip_cleanup: true on: tags: true",
+        "Let’s push all our changes to the GitHub repository of the project and check the build stages status.",
+        "On success, the VSIX file will be published to a GitHub release.",
+        "The following command will download and install the VSIX file from the latest GitHub release -",
+        "curl https://github.com/adisakshya/extension-pack/releases/latest/download/adisakshya-extension-pack.vsix -O -L && \\ code --install-extension adisakshya-extension-pack.vsix",
+        "The format of the URL to download VSIX file from a specific GitHub release is -",
+        "https://github.com/adisakshya/extension-pack/releases/download/<GIT_TAG>/adisakshya-extension-pack.vsix",
+        "Voila!",
+        "Let’s use what we’ve created!",
+        "Contribution",
+        "Enjoyed the article, found it useful or learned something new? Consider sharing it so more people can benefit from it! Also, feel free to @ me on Twitter with your opinions. Found a mistake? Feel free to report it at GitHub issues or fix it using a PR at adisakshya/weblog.",
+        "Comments",
+        "Antoinette",
+        "October 4, 2021",
+        "Touche. Great arguments. Keep up the amazing effort.",
+        "Here is my site - https://toshangrilainn.com/",
+        "Leave a Comment",
+        "All comments are held for moderation so there can be a delay until they appear. Comments may be written in Markdown. Your email address is not published or stored in any way, it's used to get your Globally Recognised Avatar (Gravatar)."
+      ],
+      "code": [
+        "npm install -g yo\n",
+        "npm install -g generator-code\n",
+        "yo code\n",
+        "+-- .vscode\n|   +-- launch.json\n+-- .vscodeignore\n+-- CHANGELOG.md\n+-- package.json\n+-- README.md\n+-- vsc-extension-quickstart.md\n",
+        "\"name\": \"adisakshya-extension-pack\",\n\"displayName\": \"adisakshya-extension-pack\",\n\"description\": \"Adisakshya's extension-pack for VS Code & Code Server\",\n\"version\": \"1.0.0\"\n",
+        "\"extensionPack\": [\n    \"cssho.vscode-svgviewer\",\n    \"docsmsft.docs-markdown\",\n    \"eamodio.gitlens\",\n    \"EditorConfig.EditorConfig\",\n    \"esbenp.prettier-vscode\",\n    \"formulahendry.code-runner\",\n    \"GitHub.github-vscode-theme\",\n    \"GrapeCity.gc-excelviewer\",\n    \"humao.rest-client\",\n    \"johnpapa.vscode-peacock\",\n    \"ms-azuretools.vscode-docker\",\n    \"ms-python.python\",\n    \"ms-python.vscode-pylance\",\n    \"ms-vscode-remote.vscode-remote-extensionpack\",\n    \"ms-vscode.cpptools\",\n    \"ms-vscode.vscode-typescript-next\",\n    \"ritwickdey.LiveServer\",\n    \"VisualStudioExptTeam.vscodeintellicode\",\n    \"vscode-icons-team.vscode-icons\",\n    \"vsls-contrib.codetour\"\n]\n",
+        "\"icon\": \"path/to/icon-file.png\"\n",
+        "npm install --global vsce\n",
+        "vsce package\n",
+        "# VS Code\ncode --install-extension adisakshya-extension-pack-1.0.0.vsix\n\n# Code Server\ncode-server --install-extension adisakshya-extension-pack-1.0.0.vsix\n",
+        "\"scripts\": {\n    \"pack\": \"vsce package\"\n}\n",
+        "\"engines\": {\n    \"vscode\": \"^1.56.0\"\n}\n",
+        "# Language and Node Engine\nlanguage: node_js\nnode_js: 12\n\n# Environment Variables\nenv:\n  global:\n    - PACK_NAME=adisakshya-extension-pack\n    - VERSION=$(node assets/version.js -p)\n\n# Jobs\njobs:\n  include:\n    # STAGE 1\n    - stage: build\n      name: \"Build\"\n      install:\n        # Install VSCE\n        - npm install --global vsce\n      script:\n        # Pack extensions\n        - npm run pack\n      # Create a workspace\n      workspaces:\n        create:\n          name: ws1\n          # Upload artifact to the workspace\n          paths:\n            - ${PACK_NAME}-${VERSION}.vsix\n    # STAGE 2\n    - stage: GitHub Release\n      name: \"Publish VSIX file on GitHub Release\"\n      # Use an existing workspace\n      workspaces:\n        use: ws1\n      install: skip\n      script: skip\n      # Publish VSIX file to GitHub release\n      deploy:\n        provider: releases\n        api_key: ${GITHUB_SECURE_TOKEN} # The GitHub Access Token\n        name: ${VERSION} # Name of release is set as the version of extension pack\n        file: ${PACK_NAME}-${VERSION}.vsix # Attach VSIX file with the release\n        skip_cleanup: true\n        on:\n          tags: true\n",
+        "curl https://github.com/adisakshya/extension-pack/releases/latest/download/adisakshya-extension-pack.vsix -O -L && \\\ncode --install-extension adisakshya-extension-pack.vsix\n",
+        "https://github.com/adisakshya/extension-pack/releases/download/<GIT_TAG>/adisakshya-extension-pack.vsix\n"
+      ],
+      "images": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494023/weblog/extension-pack-for-vscode-and-codeserver/meta/banner_ccueds.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627132554/weblog/extension-pack-for-vscode-and-codeserver/compatibility-issue_vjuq9p.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627132525/weblog/extension-pack-for-vscode-and-codeserver/code-server-welcome-screen_vbiiw6.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627132522/weblog/extension-pack-for-vscode-and-codeserver/ci-build-stages_otyii9.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627132531/weblog/extension-pack-for-vscode-and-codeserver/github-release-page_pgtdf7.png",
+        "https://www.gravatar.com/avatar/15c8b8088dc6ae28e4e82fa817a08439?d=identicon&s=80"
+      ],
+      "anchors": [
+        "main",
+        "page-title",
+        "prerequisites",
+        "installing-yeoman--code-generator",
+        "generating-a-new-extension-project",
+        "understanding-the-generated-code",
+        "make-it-yours",
+        "packing-the-extensions",
+        "understanding-the-vs-code-compatibility",
+        "publishing-the-extension-pack",
+        "voila",
+        "static-comments",
+        "comment1",
+        "new_comment",
+        "comment-form-message-container",
+        "comment-form-message",
+        "comment-form-name-container",
+        "comment-form-email-container",
+        "comment-form-submit"
+      ],
+      "times": [
+        "2021-07-30T06:00:00+00:00",
+        "2021-10-04T22:54:50+00:00"
+      ],
+      "contribution_count": 1,
+      "links": [
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ],
+        [
+          "https://code.visualstudio.com/download",
+          "VS Code"
+        ],
+        [
+          "https://nodejs.org/en/download/",
+          "NodeJS"
+        ],
+        [
+          "https://docs.github.com/en/get-started/quickstart/create-a-repo",
+          "git repository"
+        ],
+        [
+          "https://github.com/adisakshya/extension-pack",
+          "adisakshya/extension-pack"
+        ],
+        [
+          "https://www.npmjs.com/package/yo",
+          "Yeoman"
+        ],
+        [
+          "https://www.npmjs.com/package/generator-code",
+          "generator"
+        ],
+        [
+          "https://code.visualstudio.com/api/references/extension-manifest",
+          "VS Code API Reference"
+        ],
+        [
+          "https://www.npmjs.com/package/vsce",
+          "vsce"
+        ],
+        [
+          "https://code.visualstudio.com/api/working-with-extensions/publishing-extension#visual-studio-code-compatibility",
+          "API Reference"
+        ],
+        [
+          "https://docs.travis-ci.com/user/using-workspaces",
+          "Workspaces"
+        ],
+        [
+          "https://travis-ci.com/github/adisakshya/extension-pack/builds/226340367",
+          "build stages status"
+        ],
+        [
+          "https://github.com/adisakshya/extension-pack/releases",
+          "GitHub release"
+        ],
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://github.com/adisakshya/weblog/issues",
+          "GitHub issues"
+        ],
+        [
+          "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+          "PR"
+        ],
+        [
+          "https://github.com/adisakshya/weblog",
+          "adisakshya/weblog"
+        ],
+        [
+          "#comment1",
+          "October 4, 2021"
+        ],
+        [
+          "https://toshangrilainn.com/",
+          "https://toshangrilainn.com/"
+        ],
+        [
+          "https://daringfireball.net/projects/markdown/",
+          "Markdown"
+        ],
+        [
+          "https://gravatar.com/",
+          "Gravatar"
+        ],
+        [
+          "#",
+          "Top"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway →"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/2022/02/01/introduction-to-api-gateway.html",
+      "source": "_posts/2022-02-01-introduction-to-api-gateway.md",
+      "blocks": [
+        "Introduction to API Gateway",
+        "February 1, 2022 6 minute read",
+        "Let’s say we are building an application that uses the microservices architecture. These types of applications provide API delivering a specific use case. Additionally, the number of running service instances or the number of services in an application itself can change, which should be hidden from clients.",
+        "So how do the clients of Microservices-based applications access the individual services? The client application would need to interact with multiple different services to get the required information for the user and any update in a service should be hidden from clients.",
+        "This is where the concept of API Gateway comes into the picture. It follows the literal meaning of a “Gateway” - the place which you must go through to get to somewhere else.",
+        "The API Gateway acts as a single entry point to the available backend services in an application for all the clients. It can also implement security, e.g. verify that the client is authorized to perform the request. Just like a security guard standing in front of the gateway and verifying if you are allowed to go beyond the gateway.",
+        "In this API Gateway 101 series, we’ll understand what these gateways are all about and get our hands dirty by setting up an API Gateway in front of an application that uses the microservices architecture deployed on Kubernetes. But one step at a time.",
+        "What is an API?",
+        "Firstly we need to understand what exactly an API is?",
+        "Application Programming Interface (API) provides a blueprint that specifies how application services in a software system should interact with each other. It acts as a bridge between different services and abstracts away the underlying complexity to present it as a well-defined product.",
+        "Cool, now let’s get started and understand -",
+        "What is an API Gateway?",
+        "What is the difference between API Gateway, Load Balancer and Reverse Proxy?",
+        "What is Kong?",
+        "What is the use of an API Gateway in a microservices environment?",
+        "What is an API Gateway?",
+        "At the most basic level, an API follows a request-response cycle i.e., the API service accepts a remote request and returns a response. But this isn’t that simple, let’s think about various concerns when we host large-scale API -",
+        "We want to protect our API services from overuse and abuse, so we should use an authentication service and rate-limiting etc.",
+        "We want to understand how people use our APIs, so we’d like added analytics and monitoring tools.",
+        "Over time we’ll add some new API services and retire others, but our clients will still want to find all our services in the same place.",
+        "The challenge is to provide the clients with a simple & dependable interface for enabling them to interact with our system and manage remote requests in a centralized manner.",
+        "An API gateway is an API management tool that sits in front of the backend API services and acts as a single entry point for all clients wanting to consume the services.",
+        "The gateway intercepts all the incoming remote requests and can apply a variety of necessary checks and functions.",
+        "API Gateway vs Load Balancer vs Reverse Proxy",
+        "At this point, an API gateway might sound pretty similar to a load balancer and reverse proxy. These applications sit between the clients and backend servers, accepting remote requests from the former and delivering responses from the latter.",
+        "To understand the difference, let’s explore when and why they’re typically used -",
+        "Load Balancer",
+        "Load balancing helps prevent the overloading of individual systems & prevent failure due to the same. A load balancer offers the ability to distribute incoming remote requests across multiple backend services.",
+        "Say, we are running 5 instances of a backend service behind the load balancer. The incoming requests will be distributed between these 5 servers following the load balancing strategy like round-robin, least utilized etc. If any of these 5 servers fail due to any reason then the load balancer would distribute the incoming requests to the remaining operational backend services.",
+        "Reverse Proxy",
+        "A Reverse Proxy acts as a mediator between the client and one or more backend services.",
+        "It can rewrite the URLs, so the client will not know who is sitting behind the reverse proxy. Its responsibility is to forward the remote request to the appropriate backend service that can fulfil it.",
+        "A typical reverse proxy can be used for -",
+        "Load Balancing: it offers the ability to distribute incoming requests across multiple backend servers.",
+        "Caching: content is often kept in a place called proxy cache. So for recurring requests, it can answer autonomously in less time.",
+        "SSL Encryption: it can be configured to decrypt all incoming requests and encrypt all outgoing responses.",
+        "API Gateway",
+        "We can think of the API Gateway as a superset of a Reverse Proxy.",
+        "The gateway hides the backend architecture from the clients. It addresses some common utilities like -",
+        "Example - It offers the possibility to control the access to specific backend services based upon the plans that the API consumer have purchased.",
+        "Authentication and Authorization: It can control who can request what Example - It offers the possibility to control the access to specific backend services based upon the plans that the API consumer have purchased.",
+        "IP Whitelisting: It can grant the ability to use the API services only to specific IP addresses",
+        "Looking at the commercial aspect, it offers the possibility to control the traffic that API consumers are using based on the plan they’ve purchased",
+        "Rate Limiting, Throttling, and Quota: A limit can be set based on how many requests the backend servers can handle for a certain unit of time. Looking at the commercial aspect, it offers the possibility to control the traffic that API consumers are using based on the plan they’ve purchased",
+        "Logging, Tracing, Correlation: It can gather all the logs for each specific remote request.",
+        "Differences at a glance -",
+        "Function",
+        "Load Balancer",
+        "Reverse Proxy",
+        "API Gateway",
+        "Balance incoming requests",
+        "✅",
+        "✅",
+        "✅",
+        "URL Rewrite",
+        "✅",
+        "✅",
+        "Caching",
+        "✅",
+        "✅",
+        "Prevention from Attack",
+        "✅",
+        "Protocol Translation",
+        "✅",
+        "Authentication",
+        "✅",
+        "IP Whitelisting",
+        "✅",
+        "Rate Limiting, Quota",
+        "✅",
+        "Logging",
+        "✅",
+        "Tracing",
+        "✅",
+        "Health Checking",
+        "✅",
+        "Dynamic Config Updates",
+        "✅",
+        "What is Kong?",
+        "Kong Gateway is one of the most popular open-source API gateways. It securely manages the communication between clients & backend services via an API.",
+        "Kong sits in front of backend services and extends these APIs using Plugins to provide extra utilities like authentication, rate-limiting etc",
+        "A typical Kong API Gateway setup looks something like this -",
+        "Once the architecture is deployed and running, every remote request to the backend services will hit kong first thus becoming the entry point for any API request.",
+        "If you want to deep dive into working of Kong then you can refer to this - https://konghq.com/faqs/",
+        "What is the use of an API Gateway in a microservices environment?",
+        "In a microservices architecture, each microservice exposes a set of endpoints with specific functionalities.",
+        "Client applications usually want to consume functionality from more than one microservice. If there is a direct Client‑to‑Microservice Communication, then the client application would need to handle multiple calls to the backend microservice endpoints. When the client application is linked with the internal endpoints then evolving the microservices would mean updating the client application too. But ideally updating internal APIs should have minimal impact on the client application.",
+        "This is where the API Gateway comes to the rescue, it encapsulates the backend services architecture and provides an API that can be customized for each client application.",
+        "Next Steps",
+        "We’ll get our hands dirty in the next article where we’ll",
+        "Spin several microservices",
+        "Setup a Kong API Gateway in front of the microservices",
+        "Access the created services them using the gateway",
+        "See you there!",
+        "This post is part of api-gateway-101 series",
+        "Setting up an API Gateway for your Microservices",
+        "Introduction to API Gateway",
+        "Contribution",
+        "Enjoyed the article, found it useful or learned something new? Consider sharing it so more people can benefit from it! Also, feel free to @ me on Twitter with your opinions. Found a mistake? Feel free to report it at GitHub issues or fix it using a PR at adisakshya/weblog.",
+        "Leave a Comment",
+        "All comments are held for moderation so there can be a delay until they appear. Comments may be written in Markdown. Your email address is not published or stored in any way, it's used to get your Globally Recognised Avatar (Gravatar)."
+      ],
+      "code": [],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/api-gateway-banner.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/api-gateway.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/loadbalancer.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/reverse-proxy.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/kong-api-gateway.png"
+      ],
+      "anchors": [
+        "main",
+        "page-title",
+        "what-is-an-api",
+        "what-is-an-api-gateway",
+        "api-gateway-vs-load-balancer-vs-reverse-proxy",
+        "load-balancer",
+        "reverse-proxy",
+        "api-gateway",
+        "what-is-kong",
+        "what-is-the-use-of-an-api-gateway-in-a-microservices-environment",
+        "next-steps",
+        "static-comments",
+        "new_comment",
+        "comment-form-message-container",
+        "comment-form-message",
+        "comment-form-name-container",
+        "comment-form-email-container",
+        "comment-form-submit"
+      ],
+      "times": [
+        "2022-02-01T06:00:00+00:00"
+      ],
+      "contribution_count": 1,
+      "links": [
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "http://adisakshya.codes/weblog",
+          "API Gateway 101"
+        ],
+        [
+          "https://konghq.com/plugins",
+          "Plugins"
+        ],
+        [
+          "https://konghq.com/faqs/",
+          "https://konghq.com/faqs/"
+        ],
+        [
+          "/weblog/series/api-gateway-101",
+          "api-gateway-101"
+        ],
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://github.com/adisakshya/weblog/issues",
+          "GitHub issues"
+        ],
+        [
+          "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+          "PR"
+        ],
+        [
+          "https://github.com/adisakshya/weblog",
+          "adisakshya/weblog"
+        ],
+        [
+          "https://daringfireball.net/projects/markdown/",
+          "Markdown"
+        ],
+        [
+          "https://gravatar.com/",
+          "Gravatar"
+        ],
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "← Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices →"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+      "source": "_posts/2022-07-17-setting-up-an-api-ateway-for-your-microservices.md",
+      "blocks": [
+        "Setting up an API Gateway for your Microservices",
+        "July 16, 2022 6 minute read",
+        "In the previous article from the API Gateway 101 Series we saw an Introduction to API Gateway, understanding the basic know-how. Now it’s time to see an API gateway in action in front of multiple microservices.",
+        "We’ll be spinning up multiple mock microservices within a private network (docker network) making them inaccessible from the host. The API gateway will be accessible from the host and all the microservices will be attached to the gateway. Thus any client request needs to go through the gateway first before being served by the actual microservice in the backend.",
+        "Prerequisites",
+        "We’ll be deploying the API gateway and the mock microservices using Docker. If you’re not familiar with Docker & Docker Compose then here is a quick link to understand the basics - Docker Docs.",
+        "For exploring and utilizing the Kong Admin API we’ll be using Postman Collections.",
+        "Postman is an API Client that assists to create, share, test and documenting APIs.",
+        "Postman collections are basically a group of saved API requests that are executable.",
+        "You’ll see that I’ve organized the postman collection for this series in folders making it easy for you to explore saved APIs section-wise. Postman isn’t necessary for this series, you can easily replicate the saved APIs into your favourite API client.",
+        "NOTE: I’m using Docker installed on a windows machine. In this article where ever I mention ‘192.168.99.100’, it refers to the ‘docker-machine ip’.",
+        "Cool, now that once Docker, Docker Compose & Postman are installed, we can move forward to get started. Let’s now get our hands dirty by spinning up some mock microservices and setting up an API Gateway in front of them.",
+        "Spinning up mock microservices",
+        "The source code for the mock microservices created for this article can be found on my GitHub repository - adisakshya/api-gateway",
+        "To get started let’s clone the git repository -",
+        "git clone https://github.com/adisakshya/api-gateway cd api-gateway/single-node-kong-gateway",
+        "Source code for each mock microservice lives in the respective directory named after them. Some services are defined directly in the docker-compose file. All the microservices and the API gateway can be started at once using the following command -",
+        "docker-compose up -d",
+        "This will start the respective docker containers in the background of your terminal (aka docker detached mode). You can check the list of containers that are up using the following command -",
+        "docker ps -a",
+        "Since we’re running docker containers in the detached mode we’ll not be able to see any logs. But If you want to see logs of a specific container you can use the following command -",
+        "docker container logs '<<CONTAINER_ID>>'",
+        "The IP for the internal docker gateway is 172.18.0.1, to get the IP for a particular docker container you can use the following command -",
+        "docker inspect '<<CONTAINER_ID>>' | tail -n 20",
+        "I’ve used the tail command to see the IP address of the docker container, which is found towards the end of the response from the docker inspect command.",
+        "We’ll need the IPs of the docker containers to attach these microservices to our Kong API gateway. By now you’ll have the following containers up and running -",
+        "Container Name",
+        "IP (Docker Network)",
+        "IP (Host Network)",
+        "Konga (Admin GUI)",
+        "172.19.0.2",
+        "192.168.99.100:1337",
+        "Kong",
+        "172.18.0.9",
+        "192.168.99.100:8000-8001",
+        "Kong Database",
+        "172.18.0.3",
+        "192.168.99.100:5432",
+        "Nginx Web Server",
+        "172.18.0.6",
+        "Not accessible",
+        "Apache Server",
+        "172.18.0.2",
+        "Not accessible",
+        "HTTPBin",
+        "172.18.0.5",
+        "Not accessible",
+        "Application Server A",
+        "172.18.0.7",
+        "Not accessible",
+        "Application Server B",
+        "172.18.0.4",
+        "Not accessible",
+        "Kong Gateway APIs",
+        "Kong can be administered with an internal RESTful API called the Admin API. This API provides full control over the kong gateway.",
+        "8001 is the default port for HTTP traffic to the Admin API.",
+        "8444 is the default port for HTTPS traffic to the Admin API.",
+        "Apart from the Admin API, we have another API using which the API consumers can consume the services. This API needs to be exposed to the world in order for the services to be accessible.",
+        "8000 is the default port for HTTP traffic from Consumers.",
+        "8443 is the default port for HTTPS traffic from Consumers.",
+        "The traffic from consumers on 8000/8443 is forwarded to the corresponding service based upon the defined routes.",
+        "Accessing the Admin GUI (Konga)",
+        "The admin GUI can be found at 192.168.99.100:1337. Once you register yourself as an admin you’ll be prompted to specify the kong admin URL using which the Admin GUI can create objects like services/routes etc on the kong node.",
+        "The Kong Admin API is found at 192.168.99.100:8001. Once the Admin GUI is connected to the Admin API you’ll be directed to the main dashboard -",
+        "Interacting with the Kong Admin API",
+        "I’ve created a Postman collection containing the requests that can be made to the Kong APIs for administrating and accessing services from the gateway.",
+        "The Admin API provides a ‘/status’ route that can be used to check the status of a Kong node.",
+        "The Admin API provides you with complete control over the Kong Node so there’s a lot you can do with this API like attaching/detaching backend services, creating/removing consumers, creating passwords for users and much more.",
+        "To get the full list of routes provided by the Admin API you can call the ‘/endpoint’ route. I’ve included a few requests in the postman collection for you to explore the Admin API.",
+        "Registering the microservices with the API gateway",
+        "Having played with the Admin API now let’s attach our already running backend microservices with the API gateway.",
+        "Every microservice will have a service object corresponding to it on the API gateway that is identified by the service name, hostname (or IP address) and a port number.",
+        "Every service will have defined route(s) which can be called by the end-users.",
+        "The request to any route is proxied to the corresponding backend microservice and the generated response is returned back to the end-user by the API gateway.",
+        "To create a service object for a backend microservice, we can send a POST request to the Admin API on the ‘/services’ route with the service name, hostname and port number (default 80).",
+        "Having created a service object for all our microservices we can get a list of available services on the API gateway using the Admin API.",
+        "Having defined the service objects now we need to create the routes to which the API consumers can forward their requests. To create a route object for a gateway service, we can send a POST request to the Admin API on the ‘/routes’ route with the route name, route path and list of allowed methods on that path.",
+        "Having created route objects for all our gateway services we can get a list of all available routes using the Admin API.",
+        "Utilizing the microservices from the API gateway",
+        "All the routes defined on the gateway are reachable from port 8000. Let’s hit the routes we’ve created and analyze the response. We’re running a raw Nginx Web Server behind the route ‘/nginx’, let’s hit it first using the API -",
+        "As expected the response returned is the default Nginx welcome page, this means that the backend Nginx web service running on 172.18.0.6 (inside docker network) is now accessible on the host via the API gateway. Now let’s try hitting the HTTPBin service -",
+        "The purpose of using the HTTPBin service was to analyze the returned response in detail. Focus on the fields named ‘X-Forwarded-Host’, ‘X-Forwarded-Path’ and ‘X-Forwarded-Prefix’, these fields are often referred to as X-Forwarded-For (XFF) HTTP header fields.",
+        "XFF fields are used for identifying the originating IP address of the consumer who is connecting to the service. There can be more details like UserId and Username of the consumer as part of XFF which can be utilized by the backend microservices. We’ll be exploring them in detail in upcoming articles.",
+        "Next Steps",
+        "As you might have noticed already that all the services that we’ve created are open to access for anyone on the host. In the next article, we’ll understand some key concepts about authentication and authorization to secure our backend services. We’ll see how we can restrict access to a particular backend service on the user level.",
+        "See you there!",
+        "Contribution",
+        "Enjoyed the article, found it useful or learned something new? Consider sharing it so more people can benefit from it! Also, feel free to @ me on Twitter with your opinions.",
+        "Found a mistake? Feel free to report it at GitHub issues or fix it using a PR at adisakshya/weblog.",
+        "This post is part of api-gateway-101 series",
+        "Setting up an API Gateway for your Microservices",
+        "Introduction to API Gateway",
+        "Contribution",
+        "Enjoyed the article, found it useful or learned something new? Consider sharing it so more people can benefit from it! Also, feel free to @ me on Twitter with your opinions. Found a mistake? Feel free to report it at GitHub issues or fix it using a PR at adisakshya/weblog.",
+        "Leave a Comment",
+        "All comments are held for moderation so there can be a delay until they appear. Comments may be written in Markdown. Your email address is not published or stored in any way, it's used to get your Globally Recognised Avatar (Gravatar)."
+      ],
+      "code": [
+        "git clone https://github.com/adisakshya/api-gateway\ncd api-gateway/single-node-kong-gateway\n",
+        "docker-compose up -d\n",
+        "docker ps -a\n",
+        "docker container logs '<<CONTAINER_ID>>'\n",
+        "docker inspect '<<CONTAINER_ID>>' | tail -n 20\n"
+      ],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/spinning-up-microservices-using-docker.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/inspecting-ip-address-of-a-microservice.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/kong-admin-gui-dashboard.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/kong-admin-api-status-check.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/create-app-server-a-service.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/list-of-all-services.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/create-route-for-httpbin-service.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/list-of-routes-kong-admin-api.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/nginx-service-get-route-no-auth.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/httpbin-service-post-route-no-auth.png"
+      ],
+      "anchors": [
+        "main",
+        "page-title",
+        "prerequisites",
+        "spinning-up-mock-microservices",
+        "kong-gateway-apis",
+        "accessing-the-admin-gui-konga",
+        "interacting-with-the-kong-admin-api",
+        "registering-the-microservices-with-the-api-gateway",
+        "utilizing-the-microservices-from-the-api-gateway",
+        "next-steps",
+        "contribution",
+        "static-comments",
+        "new_comment",
+        "comment-form-message-container",
+        "comment-form-message",
+        "comment-form-name-container",
+        "comment-form-email-container",
+        "comment-form-submit"
+      ],
+      "times": [
+        "2022-07-16T19:00:00+00:00"
+      ],
+      "contribution_count": 2,
+      "links": [
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/series/api-gateway-101/",
+          "API Gateway 101 Series"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "https://docs.docker.com/get-started/",
+          "Docker Docs"
+        ],
+        [
+          "https://github.com/adisakshya/api-gateway",
+          "adisakshya/api-gateway"
+        ],
+        [
+          "https://github.com/adisakshya/api-gateway/blob/master/single-node-kong-gateway/postman-collection/api-gateway.postman_collection",
+          "Postman collection"
+        ],
+        [
+          "https://en.wikipedia.org/wiki/X-Forwarded-For",
+          "X-Forwarded-For"
+        ],
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://github.com/adisakshya/weblog/issues",
+          "GitHub issues"
+        ],
+        [
+          "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+          "PR"
+        ],
+        [
+          "https://github.com/adisakshya/weblog",
+          "adisakshya/weblog"
+        ],
+        [
+          "/weblog/series/api-gateway-101",
+          "api-gateway-101"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://github.com/adisakshya/weblog/issues",
+          "GitHub issues"
+        ],
+        [
+          "https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests",
+          "PR"
+        ],
+        [
+          "https://github.com/adisakshya/weblog",
+          "adisakshya/weblog"
+        ],
+        [
+          "https://daringfireball.net/projects/markdown/",
+          "Markdown"
+        ],
+        [
+          "https://gravatar.com/",
+          "Gravatar"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "← Introduction to API Gateway"
+        ],
+        [
+          "#",
+          "Top"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/404.html",
+      "source": "404.html",
+      "links": [],
+      "blocks": [
+        "404",
+        "Page not found :(",
+        "The requested page could not be found."
+      ],
+      "code": [],
+      "images": [],
+      "anchors": [],
+      "times": [],
+      "contribution_count": 0
+    },
+    {
+      "route": "/weblog/about/",
+      "source": "_pages/about.md",
+      "blocks": [
+        "About",
+        "This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at jekyllrb.com",
+        "You can find the source code for Minima at GitHub: jekyll / minima",
+        "You can find the source code for Jekyll at GitHub: jekyll / jekyll"
+      ],
+      "code": [],
+      "images": [],
+      "anchors": [
+        "main",
+        "page-title"
+      ],
+      "times": [],
+      "contribution_count": 0,
+      "links": [
+        [
+          "https://jekyllrb.com/",
+          "jekyllrb.com"
+        ],
+        [
+          "https://github.com/jekyll",
+          "jekyll"
+        ],
+        [
+          "https://github.com/jekyll/minima",
+          "minima"
+        ],
+        [
+          "https://github.com/jekyll",
+          "jekyll"
+        ],
+        [
+          "https://github.com/jekyll/jekyll",
+          "jekyll"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/assets/css/dark.css",
+      "source": "assets/css/dark.css",
+      "sha256": "43e15395d88c39613b759b0e24a74da9b53301e518a3e36d6bff35ef9a603308"
+    },
+    {
+      "route": "/weblog/assets/favicon.ico",
+      "source": "assets/favicon.ico",
+      "sha256": "35531ae7537c603566735a8e2e286787baed1d0856a131373768957920a02548"
+    },
+    {
+      "route": "/weblog/assets/images/avatar.jpg",
+      "source": "assets/images/avatar.jpg",
+      "sha256": "323bb0b02b388bca3c339dbd1049284e739547cfb969c8f42ea2b2ce38290a8a"
+    },
+    {
+      "route": "/weblog/assets/images/jekyll.png",
+      "source": "assets/images/jekyll.png",
+      "sha256": "e37e92dffdcf941889d5152776d710e19281060036c6887a29625924d9410bcb"
+    },
+    {
+      "route": "/weblog/assets/images/sun.webp",
+      "source": "assets/images/sun.webp",
+      "sha256": "7a9d5686b03d01e19333642716d7d9d2274e4a85383d23e732ef5e59c47d67ec"
+    },
+    {
+      "route": "/weblog/assets/js/main.min.js",
+      "source": "assets/js/main.min.js",
+      "sha256": "58c052955943f19f4228d5bff43a7bfcd5aec071c36bece61ada9566255be637"
+    },
+    {
+      "route": "/weblog/assets/js/sayings.js",
+      "source": "assets/js/sayings.js",
+      "sha256": "681bbf100c44ff3b6ebfbc214cd4fdc1286c3a301ad1cf99282677b1a665cc24"
+    },
+    {
+      "route": "/weblog/assets/js/theme-selector.js",
+      "source": "assets/js/theme-selector.js",
+      "sha256": "de4bf4a48af228b99be8000b0121f885082ad806e145e0658f8c953b27bcb193"
+    },
+    {
+      "route": "/weblog/contact/",
+      "source": "_pages/contact.md",
+      "blocks": [
+        "Contact",
+        "Have a question for me? My direct messages are open on Twitter and LinkedIn for short and succinct messages."
+      ],
+      "code": [],
+      "images": [],
+      "anchors": [
+        "main",
+        "page-title"
+      ],
+      "times": [],
+      "contribution_count": 0,
+      "links": [
+        [
+          "https://twitter.com/adisakshya",
+          "Twitter"
+        ],
+        [
+          "https://linkedin.com/in/adisakshya",
+          "LinkedIn"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/series/api-gateway-101/",
+      "source": "_pages/series/api-gateway-101.md",
+      "blocks": [
+        "API Gateway 101",
+        "In this series, we’ll understand what gateways are and set up one in front of an application using a microservices architecture.",
+        "Setting up an API Gateway for your Microservices",
+        "July 16, 2022 6 minute read",
+        "Deploying a single node Kong API gateway infront of multiple microservices",
+        "Introduction to API Gateway",
+        "February 1, 2022 6 minute read",
+        "Understanding what API Gateways are, how they differ from a reverse proxy & load balancer and their use in a microservices environment"
+      ],
+      "code": [],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/series/api-gateway.png",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/teaser.jpg"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2022-07-16T19:00:00+00:00",
+        "2022-02-01T06:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/series/blogging-101/",
+      "source": "_pages/series/blogging-101.md",
+      "blocks": [
+        "Blogging 101",
+        "In this series, I will write about everything that relates to technical blogging."
+      ],
+      "code": [],
+      "images": [
+        "/weblog/assets/images/jekyll.png"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [],
+      "contribution_count": 0,
+      "links": []
+    },
+    {
+      "route": "/weblog/tags/api-gateway/",
+      "source": "_pages/tags/api-gateway.md",
+      "blocks": [
+        "API Gateway",
+        "Post listing for the tag api-gateway.",
+        "Setting up an API Gateway for your Microservices",
+        "July 16, 2022 6 minute read",
+        "Deploying a single node Kong API gateway infront of multiple microservices",
+        "Introduction to API Gateway",
+        "February 1, 2022 6 minute read",
+        "Understanding what API Gateways are, how they differ from a reverse proxy & load balancer and their use in a microservices environment"
+      ],
+      "code": [],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/api-gateway.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/teaser.jpg"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2022-07-16T19:00:00+00:00",
+        "2022-02-01T06:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/tags/ci-cd/",
+      "source": "_pages/tags/ci-cd.md",
+      "blocks": [
+        "Continuous Integration & Continuous Delivery",
+        "Post listing for the tag ci-cd.",
+        "Extension Pack for VSCode & Code Server",
+        "July 30, 2021 8 minute read",
+        "Creating extension pack for VS Code & Code Server and publishing on GitHub release using Travis CI"
+      ],
+      "code": [],
+      "images": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667194/weblog/tags/ci-cd_tzfosl.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2021-07-30T06:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/tags/code-server/",
+      "source": "_pages/tags/code-server.md",
+      "blocks": [
+        "Code Server",
+        "Post listing for the tag code-server.",
+        "Extension Pack for VSCode & Code Server",
+        "July 30, 2021 8 minute read",
+        "Creating extension pack for VS Code & Code Server and publishing on GitHub release using Travis CI"
+      ],
+      "code": [],
+      "images": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667201/weblog/tags/code-server_lfqjfr.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2021-07-30T06:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/tags/docker/",
+      "source": "_pages/tags/docker.md",
+      "blocks": [
+        "Docker",
+        "Post listing for the tag docker.",
+        "Setting up an API Gateway for your Microservices",
+        "July 16, 2022 6 minute read",
+        "Deploying a single node Kong API gateway infront of multiple microservices"
+      ],
+      "code": [],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/docker.webp",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2022-07-16T19:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/tags/github/",
+      "source": "_pages/tags/github.md",
+      "blocks": [
+        "Github",
+        "Post listing for the tag github.",
+        "Extension Pack for VSCode & Code Server",
+        "July 30, 2021 8 minute read",
+        "Creating extension pack for VS Code & Code Server and publishing on GitHub release using Travis CI"
+      ],
+      "code": [],
+      "images": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667198/weblog/tags/github_ksz1hw.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2021-07-30T06:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/tags/kong/",
+      "source": "_pages/tags/kong.md",
+      "blocks": [
+        "Kong",
+        "Post listing for the tag kong.",
+        "Setting up an API Gateway for your Microservices",
+        "July 16, 2022 6 minute read",
+        "Deploying a single node Kong API gateway infront of multiple microservices",
+        "Introduction to API Gateway",
+        "February 1, 2022 6 minute read",
+        "Understanding what API Gateways are, how they differ from a reverse proxy & load balancer and their use in a microservices environment"
+      ],
+      "code": [],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/kong.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/introduction-to-api-gateway/meta/teaser.jpg"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2022-07-16T19:00:00+00:00",
+        "2022-02-01T06:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ],
+        [
+          "/weblog/2022/02/01/introduction-to-api-gateway.html",
+          "Introduction to API Gateway"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/tags/microservices/",
+      "source": "_pages/tags/microservices.md",
+      "blocks": [
+        "Microservices",
+        "Post listing for the tag microservices.",
+        "Setting up an API Gateway for your Microservices",
+        "July 16, 2022 6 minute read",
+        "Deploying a single node Kong API gateway infront of multiple microservices"
+      ],
+      "code": [],
+      "images": [
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/tags/microservices.webp",
+        "https://raw.githubusercontent.com/adisakshya/weblog/static-assets/setting-up-an-api-gateway-for-your-microservices/meta/teaser.jpg"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2022-07-16T19:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+          "Setting up an API Gateway for your Microservices"
+        ],
+        [
+          "/weblog/tags/api-gateway",
+          "#api-gateway"
+        ],
+        [
+          "/weblog/tags/kong",
+          "#kong"
+        ],
+        [
+          "/weblog/tags/microservices",
+          "#microservices"
+        ],
+        [
+          "/weblog/tags/docker",
+          "#docker"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/tags/travis/",
+      "source": "_pages/tags/travis.md",
+      "blocks": [
+        "Travis CI",
+        "Post listing for the tag travis.",
+        "Extension Pack for VSCode & Code Server",
+        "July 30, 2021 8 minute read",
+        "Creating extension pack for VS Code & Code Server and publishing on GitHub release using Travis CI"
+      ],
+      "code": [],
+      "images": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667200/weblog/tags/travis_hezjbq.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2021-07-30T06:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/tags/vscode/",
+      "source": "_pages/tags/vscode.md",
+      "blocks": [
+        "Visual Studio Code",
+        "Post listing for the tag vscode.",
+        "Extension Pack for VSCode & Code Server",
+        "July 30, 2021 8 minute read",
+        "Creating extension pack for VS Code & Code Server and publishing on GitHub release using Travis CI"
+      ],
+      "code": [],
+      "images": [
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627667198/weblog/tags/vscode_ubhobg.png",
+        "https://res.cloudinary.com/adisakshya/image/upload/v1627494025/weblog/extension-pack-for-vscode-and-codeserver/meta/teaser_zn6rdm.png"
+      ],
+      "anchors": [
+        "main"
+      ],
+      "times": [
+        "2021-07-30T06:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
+          "Extension Pack for VSCode & Code Server"
+        ],
+        [
+          "/weblog/tags/vscode",
+          "#vscode"
+        ],
+        [
+          "/weblog/tags/code-server",
+          "#code-server"
+        ],
+        [
+          "/weblog/tags/github",
+          "#github"
+        ],
+        [
+          "/weblog/tags/ci-cd",
+          "#ci-cd"
+        ],
+        [
+          "/weblog/tags/travis",
+          "#travis"
+        ]
+      ]
+    },
+    {
+      "route": "/weblog/terms/",
+      "source": "_pages/terms.md",
+      "blocks": [
+        "Terms and policies",
+        "May 23, 2021",
+        "This is my personal blog written and edited by me (Adisakshya Chauhan). Your use of this website, in any and all forms, constitutes an acceptance of these terms and policies. This page is reviewed and revised from time to time.",
+        "All content provided is for informational purposes only. The articles and posts on this website are my own and don’t necessarily represent the positions, strategies, or opinions of my employer or its subsidiaries. I make no representations as to the accuracy or completeness of any information found here or by following any links. I will not be liable for any errors or omissions in this information nor for the availability of this information. I will not be liable for any losses, injuries, or damages from the display or use of this information.",
+        "Privacy policy",
+        "This Privacy Policy outlines the types of personal information that is received and collected and how it is used on the website.",
+        "I will never share your email address or any other personal information to anyone without your direct consent.",
+        "Google Analytics",
+        "Google Analytics is a web analytics tool I use to help understand how visitors engage with this website. Read Google’s Privacy Policy.",
+        "License",
+        "You are free to share, transmit, distribute, alter, transform, and build on all original content available on adisakshya.codes, as long as you don’t use it for commercial purposes without my prior written consent.",
+        "Attribution",
+        "If you’re inclined to give credit – a link back to the source article attributed to Adisakshya Chauhan is good enough for me. If you don’t want to attribute my content, that’s cool too. Just don’t go stealing stuff and republishing it as your own."
+      ],
+      "code": [],
+      "images": [],
+      "anchors": [
+        "main",
+        "page-title",
+        "privacy-policy",
+        "google-analytics",
+        "license",
+        "attribution"
+      ],
+      "times": [
+        "2021-05-23T00:00:00+00:00"
+      ],
+      "contribution_count": 0,
+      "links": [
+        [
+          "https://policies.google.com/privacy?hl=en",
+          "Google’s Privacy Policy"
+        ],
+        [
+          "https://adisakshya.codes",
+          "Adisakshya Chauhan"
+        ]
+      ]
+    }
+  ]
+}

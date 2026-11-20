@@ -291,7 +291,12 @@ describe("footer: Follow Adi, Explore and the credit (#80)", () => {
           h: b.height,
         };
       };
-      const norm = (t) => t.textContent.trim().replace(/\s+/g, " ");
+      // text as a reader gets it: the footer seal (aria-hidden, only a tooltip) is not part of any line of text
+      const norm = (t) => {
+        const c = t.cloneNode(true);
+        c.querySelectorAll(".adi-seal").forEach((e) => e.remove());
+        return c.textContent.trim().replace(/\s+/g, " ");
+      };
       const link = (a) => {
         const cs = getComputedStyle(a);
         return {

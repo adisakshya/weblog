@@ -144,6 +144,7 @@ export function Shell({ children }: { children: ReactNode }) {
           </div>
           <div className="j-footer-meta">
             <p>
+              <AdiSeal className="j-footer-seal" />
               <span>
                 © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Adisakshya
                 Chauhan

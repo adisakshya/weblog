@@ -106,7 +106,7 @@ function Article() {
         )}
       </div>
       <div className="mt-8">
-        <ArticleBody html={post.html} />
+        <ArticleBody html={post.html} endMark />
       </div>
 
       <div className="j-measure mt-14 space-y-10 !text-base">

@@ -81,6 +81,7 @@ export async function openPage(
     touch = false,
     storageState,
     fontScale,
+    reducedMotion,
   } = {},
 ) {
   const ctx = await env.browser.newContext({
@@ -88,6 +89,7 @@ export async function openPage(
     colorScheme,
     permissions,
     storageState,
+    ...(reducedMotion ? { reducedMotion } : {}),
     // a phone: touch input, mobile viewport semantics (no hover), 2x pixels
     ...(touch ? { hasTouch: true, isMobile: true, deviceScaleFactor: 2 } : {}),
   });

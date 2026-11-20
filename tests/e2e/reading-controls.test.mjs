@@ -1,9 +1,10 @@
-// Reading controls (#75) against the BUILT static site under /weblog/: the Appearance menu must change what the reader
-// actually sees (computed article body font and size), update immediately, persist, show the selection, work from the
-// keyboard and on a short phone viewport, and keep stored-preference compatibility and the blocked-storage fallback.
+// Reading controls (#75, revised by #79) against the BUILT static site under /weblog/.
+// The article font is fixed to the default serif; Text size and Article width are offered only on valid individual article
+// pages; Theme is offered everywhere. What the reader actually sees (computed article body font, size and measure) must follow
+// the controls immediately and persist across navigation, reload and direct entry, including with an older saved payload.
 import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { EXT, INTRO, SETUP, openPage, start } from "./helpers.mjs";
+import { ARTICLES, EXT, INTRO, SETUP, openPage, start } from "./helpers.mjs";
 
 let env;
 before(async () => {
@@ -13,18 +14,18 @@ after(async () => {
   await env.stop();
 });
 
-// Default root font size (16px): Standard 1.125rem, Comfortable 1.25rem, Large 1.4375rem.
-const FAMILY = { serif: "Source Serif 4", sans: "IBM Plex Sans" };
+// Default root font size (16px): Standard 1.125rem, Comfortable 1.25rem, Large 1.4375rem. Measure = factor x body size.
+const SERIF = "Source Serif 4";
 const PX = { standard: 18, comfortable: 20, large: 23 };
+const MEASURE = { focused: 32, roomy: 37 };
 const LABEL = {
-  serif: "Serif",
-  sans: "Sans-serif",
   standard: "Standard",
   comfortable: "Comfortable",
   large: "Large",
   focused: "Focused",
   roomy: "Roomy",
 };
+const THEME_COUNT = 12;
 
 /** Computed style of the article body text, the thing a reader actually sees. */
 const typo = (page) =>
@@ -34,15 +35,29 @@ const typo = (page) =>
     return {
       family: cs.fontFamily.split(",")[0].replace(/["']/g, "").trim(),
       px: parseFloat(cs.fontSize),
+      measure: document.querySelector(".prose-j").getBoundingClientRect().width,
     };
   });
-const expectTypo = async (page, font, size, msg = "") =>
-  assert.deepEqual(await typo(page), { family: FAMILY[font], px: PX[size] }, msg);
+const expectTypo = async (page, size, width, msg = "", { measure = true } = {}) => {
+  const t = await typo(page);
+  assert.equal(t.family, SERIF, `${msg}: the article font is the default serif`);
+  assert.equal(t.px, PX[size], `${msg}: body size`);
+  // the measure is a maximum: on a phone the column is narrower than either choice, so it is only checked on wide screens
+  if (measure)
+    assert.ok(
+      Math.abs(t.measure - MEASURE[width] * PX[size]) < 1,
+      `${msg}: measure ${t.measure}px for ${width}/${size}`,
+    );
+};
 
 const act = (locator, touch) => (touch ? locator.tap() : locator.click());
 const openMenu = async (page, touch = false) => {
   await act(page.getByRole("button", { name: /Appearance/ }), touch);
   await page.locator(".j-appearance").waitFor();
+};
+const closeMenu = async (page) => {
+  await page.keyboard.press("Escape");
+  await page.locator(".j-appearance").waitFor({ state: "hidden" });
 };
 const choose = (page, id, touch = false) =>
   act(
@@ -50,10 +65,18 @@ const choose = (page, id, touch = false) =>
     touch,
   );
 const stored = (page) => page.evaluate(() => JSON.parse(localStorage.getItem("journal-prefs")));
+const legends = (page) =>
+  page.evaluate(() =>
+    [...document.querySelectorAll(".j-appearance legend")].map((l) => l.textContent.trim()),
+  );
+const optionLabels = (page) =>
+  page.evaluate(() =>
+    [...document.querySelectorAll(".j-appearance label")].map((l) => l.textContent.trim()),
+  );
 const checkedIds = (page) =>
   page.evaluate(() =>
     Object.fromEntries(
-      ["theme", "font", "size", "width"].map((n) => [
+      ["theme", "size", "width"].map((n) => [
         n,
         [...document.querySelectorAll(`.j-appearance input[name="${n}"]:checked`)].map(
           (i) => i.value,
@@ -62,35 +85,232 @@ const checkedIds = (page) =>
     ),
   );
 
-describe("computed article typography follows the controls", () => {
-  it("every Serif/Sans-serif x Standard/Comfortable/Large combination changes the computed body font and size immediately", async () => {
-    const { ctx, page, problems } = await openPage(env, INTRO);
-    await expectTypo(page, "serif", "comfortable", "defaults");
+describe("Appearance offers Text size and Article width only on valid article pages (#79)", () => {
+  for (const route of ARTICLES)
+    it(`${route}: Theme, Text size and Article width; no Article font`, async () => {
+      const { ctx, page, problems } = await openPage(env, route);
+      await openMenu(page);
+      assert.deepEqual(await legends(page), ["Theme", "Text size", "Article width"]);
+      const labels = await optionLabels(page);
+      for (const gone of ["Serif", "Sans-serif", "Article font"])
+        assert.ok(
+          !labels.includes(gone) &&
+            !(await page.locator(".j-appearance").innerText()).includes(gone),
+          `no "${gone}" control`,
+        );
+      assert.equal(await page.locator('.j-appearance input[name="font"]').count(), 0);
+      assert.equal(await page.locator('.j-appearance input[name="theme"]').count(), THEME_COUNT);
+      assert.deepEqual(problems(), []);
+      await ctx.close();
+    });
+
+  const NOT_ARTICLES = [
+    ["home", "/weblog/"],
+    ["about", "/weblog/about/"],
+    ["contact", "/weblog/contact/"],
+    ["terms", "/weblog/terms/"],
+    ["series", "/weblog/series/api-gateway-101/"],
+    ["series", "/weblog/series/blogging-101/"],
+    ["tag", "/weblog/tags/api-gateway/"],
+    ["tag", "/weblog/tags/kong/"],
+    ["tag", "/weblog/tags/github/"],
+  ];
+  for (const [name, route] of NOT_ARTICLES)
+    it(`${name} ${route}: only Theme, all ${THEME_COUNT} themes, neither reading control`, async () => {
+      const { ctx, page } = await openPage(env, route);
+      await openMenu(page);
+      assert.deepEqual(await legends(page), ["Theme"]);
+      const text = await page.locator(".j-appearance").innerText();
+      for (const gone of ["Text size", "Article width", "Article font", "Focused", "Roomy"])
+        assert.ok(!text.includes(gone), `no "${gone}"`);
+      assert.equal(await page.locator('.j-appearance input[name="theme"]').count(), THEME_COUNT);
+      await ctx.close();
+    });
+
+  for (const route of ["/weblog/no-such-page/", "/weblog/2099/01/01/not-an-article.html"])
+    it(`${route} (a direct load of an unknown URL) is the bare 404 page: no Appearance menu, so no reading controls`, async () => {
+      const { ctx, page } = await openPage(env, route);
+      assert.match(await page.locator("body").innerText(), /Page not found/);
+      assert.equal(await page.getByRole("button", { name: /Appearance/ }).count(), 0);
+      assert.equal(
+        await page.locator(".j-appearance, input[name=size], input[name=width]").count(),
+        0,
+      );
+      await ctx.close();
+    });
+
+  it("an unknown article-shaped URL reached by client navigation (not-found inside the site shell) offers Theme only", async () => {
+    const { ctx, page } = await openPage(env, INTRO);
     await openMenu(page);
-    for (const font of ["sans", "serif"])
+    assert.equal((await legends(page)).length, 3, "premise: a real article has the controls");
+    await closeMenu(page);
+    await page.evaluate(() => {
+      history.pushState({}, "", "/weblog/2099/01/01/not-an-article.html");
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    });
+    await page.getByText("This article doesn’t exist.").waitFor();
+    await openMenu(page);
+    assert.deepEqual(await legends(page), ["Theme"], "a not-found article match is not an article");
+    await ctx.close();
+  });
+
+  it("a theme chosen on a page without reading controls applies and persists", async () => {
+    const { ctx, page } = await openPage(env, "/weblog/");
+    await openMenu(page);
+    await page
+      .locator(".j-appearance label")
+      .filter({ hasText: /Batman/ })
+      .click();
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "batman");
+    assert.equal((await stored(page)).theme, "batman");
+    await page.reload({ waitUntil: "networkidle" });
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "batman");
+    await ctx.close();
+  });
+
+  it("direct entry, then client navigation away from and back to an article, shows the controls exactly there", async () => {
+    const { ctx, page, problems } = await openPage(env, INTRO);
+    await page.evaluate(() => (window.__spa = "same document"));
+    await openMenu(page);
+    await choose(page, "large");
+    await choose(page, "focused");
+    assert.deepEqual(await legends(page), ["Theme", "Text size", "Article width"]);
+    await closeMenu(page);
+    // away: article -> home (client side)
+    await page
+      .getByRole("link", { name: /All writing/ })
+      .first()
+      .click();
+    await page.waitForURL(/\/weblog\/$/);
+    await openMenu(page);
+    assert.deepEqual(await legends(page), ["Theme"], "home: Theme only");
+    await closeMenu(page);
+    // back: browser Back to the article (client side): the controls are back and show the saved choices
+    await page.goBack();
+    await page.waitForURL(/introduction-to-api-gateway\.html$/);
+    await openMenu(page);
+    assert.deepEqual(await legends(page), ["Theme", "Text size", "Article width"]);
+    const c = await checkedIds(page);
+    assert.deepEqual(
+      [c.size, c.width],
+      [["large"], ["focused"]],
+      "the menu shows the saved choices",
+    );
+    await expectTypo(page, "large", "focused", "after leaving and returning");
+    await closeMenu(page);
+    // and again through links: home -> latest article
+    await page
+      .getByRole("link", { name: /All writing/ })
+      .first()
+      .click();
+    await page.waitForURL(/\/weblog\/$/);
+    await page.getByRole("link", { name: /Read the article/ }).click();
+    await page.waitForURL(/\.html$/);
+    await openMenu(page);
+    assert.deepEqual(await legends(page), ["Theme", "Text size", "Article width"]);
+    await expectTypo(page, "large", "focused", "another article via links");
+    assert.equal(
+      await page.evaluate(() => window.__spa),
+      "same document",
+      "this was client navigation, not reloads",
+    );
+    assert.deepEqual(problems(), []);
+    await ctx.close();
+  });
+
+  it("with the menu already open, navigating to a non-article page removes the reading controls", async () => {
+    const { ctx, page } = await openPage(env, INTRO);
+    await openMenu(page);
+    assert.equal((await legends(page)).length, 3);
+    // the router changes page while the menu is open (browser Back to the previous entry via history API)
+    await page.evaluate(() => {
+      history.pushState({}, "", "/weblog/about/");
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    });
+    await page.waitForFunction(
+      () => !document.querySelector(".j-appearance legend:nth-of-type(2)"),
+    );
+    assert.deepEqual(await legends(page), ["Theme"]);
+    await ctx.close();
+  });
+});
+
+describe("computed article typography follows the controls (default serif, fixed)", () => {
+  it("every Text size x Article width combination changes the computed body size and measure immediately", async () => {
+    const { ctx, page, problems } = await openPage(env, INTRO);
+    await expectTypo(page, "comfortable", "roomy", "defaults");
+    await openMenu(page);
+    for (const width of ["focused", "roomy"])
       for (const size of ["standard", "comfortable", "large"]) {
-        await choose(page, font);
         await choose(page, size);
+        await choose(page, width);
         // no waiting: the very next read must already show the change
-        await expectTypo(page, font, size, `${font} / ${size}`);
+        await expectTypo(page, size, width, `${size} / ${width}`);
       }
     assert.deepEqual(problems(), []);
     await ctx.close();
   });
 
-  it("applies to the whole article body, not only the first paragraph", async () => {
-    const { ctx, page } = await openPage(env, SETUP);
-    await openMenu(page);
-    await choose(page, "sans");
-    await choose(page, "large");
-    const rows = await page.evaluate(() =>
-      [...document.querySelectorAll(".prose-j p, .prose-j li, .prose-j blockquote")].map((e) => {
-        const cs = getComputedStyle(e);
-        return [cs.fontFamily.split(",")[0].replace(/["']/g, ""), cs.fontSize];
-      }),
+  for (const route of ARTICLES)
+    it(`${route}: the default serif at all three sizes`, async () => {
+      const { ctx, page } = await openPage(env, route);
+      await openMenu(page);
+      for (const size of ["standard", "comfortable", "large"]) {
+        await choose(page, size);
+        const rows = await page.evaluate(() =>
+          [...document.querySelectorAll(".prose-j p, .prose-j li, .prose-j blockquote")].map(
+            (e) => {
+              const cs = getComputedStyle(e);
+              return [cs.fontFamily.split(",")[0].replace(/["']/g, ""), cs.fontSize];
+            },
+          ),
+        );
+        assert.ok(rows.length >= 3, `${rows.length} text blocks measured`);
+        for (const r of rows) assert.deepEqual(r, [SERIF, `${PX[size]}px`], size);
+      }
+      await ctx.close();
+    });
+
+  it("a saved Sans-serif selection from an older version is ignored: the article is serif (with the saved size and width)", async () => {
+    const legacy = JSON.stringify({
+      theme: "paper",
+      font: "sans",
+      size: "large",
+      width: "focused",
+    });
+    const early = () =>
+      document.addEventListener("DOMContentLoaded", () => {
+        const p = document.querySelector(".prose-j p");
+        window.__early =
+          p && getComputedStyle(p).fontSize + "|" + getComputedStyle(p).fontFamily.split(",")[0];
+      });
+    const { ctx, page, problems } = await openPage(env, SETUP, {
+      init: `(${early})();if(!localStorage.getItem("journal-prefs"))localStorage.setItem("journal-prefs", ${JSON.stringify(legacy)})`,
+    });
+    await expectTypo(page, "large", "focused", "legacy payload");
+    assert.equal(
+      await page.evaluate(() => window.__early),
+      `23px|"Source Serif 4"`,
+      "serif already before React hydrates",
     );
-    assert.ok(rows.length >= 10, `${rows.length} text blocks measured`);
-    for (const r of rows) assert.deepEqual(r, ["IBM Plex Sans", "23px"]);
+    assert.equal(
+      await page.evaluate(() => document.documentElement.hasAttribute("data-font")),
+      false,
+      "no data-font attribute is applied",
+    );
+    await openMenu(page);
+    assert.deepEqual(await legends(page), ["Theme", "Text size", "Article width"]);
+    const c = await checkedIds(page);
+    assert.deepEqual([c.theme, c.size, c.width], [["paper"], ["large"], ["focused"]]);
+    // the old payload is still stored until the reader changes something; then the font key is dropped, the rest is kept
+    assert.equal((await stored(page)).font, "sans");
+    await choose(page, "standard");
+    assert.deepEqual(await stored(page), { theme: "paper", size: "standard", width: "focused" });
+    await expectTypo(page, "standard", "focused", "after changing size");
+    // another article, a reload and a direct entry stay serif as well
+    await page.reload({ waitUntil: "networkidle" });
+    await expectTypo(page, "standard", "focused", "after reload");
+    assert.deepEqual(problems(), []);
     await ctx.close();
   });
 
@@ -103,8 +323,8 @@ describe("computed article typography follows the controls", () => {
       });
     const { ctx, page, problems } = await openPage(env, INTRO, { init: early });
     await openMenu(page);
-    await choose(page, "sans");
     await choose(page, "large");
+    await choose(page, "focused");
     await page.keyboard.press("Escape");
     // client-side navigation (no document reload): article -> home -> latest article
     await page.evaluate(() => (window.__spa = "same document"));
@@ -114,32 +334,32 @@ describe("computed article typography follows the controls", () => {
       .click();
     await page.waitForURL(/\/weblog\/$/);
     await page.getByRole("link", { name: /Read the article/ }).click();
-    await page.waitForURL(/ateway-for-your-microservices\.html$|\.html$/);
+    await page.waitForURL(/\.html$/);
     assert.equal(
       await page.evaluate(() => window.__spa),
       "same document",
       "this was a client navigation",
     );
-    await expectTypo(page, "sans", "large", "after client navigation");
+    await expectTypo(page, "large", "focused", "after client navigation");
     // reload
     await page.reload({ waitUntil: "networkidle" });
-    await expectTypo(page, "sans", "large", "after reload");
+    await expectTypo(page, "large", "focused", "after reload");
     assert.equal(
       await page.evaluate(() => window.__early),
-      `23px|"IBM Plex Sans"`,
+      `23px|"Source Serif 4"`,
       "no flash: the stored choice is on the page before React hydrates",
     );
     // direct entry from a fresh browser context that only carries the stored choice
     const state = await ctx.storageState();
     const fresh = await openPage(env, EXT, { init: early, storageState: state });
-    await expectTypo(fresh.page, "sans", "large", "direct entry");
-    assert.equal(await fresh.page.evaluate(() => window.__early), `23px|"IBM Plex Sans"`);
+    await expectTypo(fresh.page, "large", "focused", "direct entry");
+    assert.equal(await fresh.page.evaluate(() => window.__early), `23px|"Source Serif 4"`);
     assert.deepEqual(problems(), []);
     await fresh.ctx.close();
     await ctx.close();
   });
 
-  it("changing font and size keeps the theme and width, and stores all four choices", async () => {
+  it("changing size and width keeps the theme, and stores exactly the three choices (no font)", async () => {
     const { ctx, page } = await openPage(env, INTRO);
     await openMenu(page);
     await choose(page, "focused");
@@ -147,18 +367,14 @@ describe("computed article typography follows the controls", () => {
       .locator(".j-appearance label")
       .filter({ hasText: /Batman/ })
       .click();
-    await choose(page, "sans");
     await choose(page, "standard");
-    assert.deepEqual(await stored(page), {
-      theme: "batman",
-      font: "sans",
-      size: "standard",
-      width: "focused",
-    });
+    assert.deepEqual(await stored(page), { theme: "batman", size: "standard", width: "focused" });
     const h = await page.evaluate(() => ({ ...document.documentElement.dataset }));
     assert.equal(h.theme, "batman");
     assert.equal(h.width, "focused");
-    await expectTypo(page, "sans", "standard");
+    assert.equal(h.size, "standard");
+    assert.equal(h.font, undefined, "no data-font");
+    await expectTypo(page, "standard", "focused");
     await ctx.close();
   });
 });
@@ -178,11 +394,10 @@ describe("the selection is visible, on a mouse and on a touch screen", () => {
           "premise: a touch device has no hover",
         );
       await openMenu(page, touch);
-      await choose(page, "sans", touch);
       await choose(page, "large", touch);
       await choose(page, "focused", touch);
       const groups = await page.evaluate(() =>
-        ["font", "size", "width"].map((n) => {
+        ["size", "width"].map((n) => {
           const labels = [...document.querySelectorAll(`.j-appearance input[name="${n}"]`)].map(
             (i) => {
               const l = i.closest("label"),
@@ -241,7 +456,7 @@ describe("the selection is visible, on a mouse and on a touch screen", () => {
         (t) =>
           localStorage.setItem(
             "journal-prefs",
-            JSON.stringify({ theme: t, font: "sans", size: "large", width: "roomy" }),
+            JSON.stringify({ theme: t, size: "large", width: "roomy" }),
           ),
         id,
       );
@@ -289,20 +504,22 @@ describe("keyboard operation", () => {
     await trigger.focus();
     await page.keyboard.press("Enter");
     await page.locator(".j-appearance").waitFor();
-    await page.locator('.j-appearance input[name="font"]:checked').focus();
-    await page.keyboard.press("ArrowRight");
-    await expectTypo(page, "sans", "comfortable", "ArrowRight in Article font");
+    await page.locator('.j-appearance input[name="theme"]:checked').focus();
     await page.keyboard.press("Tab");
     assert.equal(
       await page.evaluate(() => document.activeElement.name),
       "size",
-      "Tab moves to the next group",
+      "Tab moves from Theme to Text size (the font group is gone)",
     );
     await page.keyboard.press("ArrowRight");
-    await expectTypo(page, "sans", "large", "ArrowRight in Text size");
+    await expectTypo(page, "large", "roomy", "ArrowRight in Text size");
     await page.keyboard.press("ArrowLeft");
     await page.keyboard.press("ArrowLeft");
-    await expectTypo(page, "sans", "standard", "ArrowLeft twice");
+    await expectTypo(page, "standard", "roomy", "ArrowLeft twice");
+    await page.keyboard.press("Tab");
+    assert.equal(await page.evaluate(() => document.activeElement.name), "width");
+    await page.keyboard.press("ArrowLeft");
+    await expectTypo(page, "standard", "focused", "ArrowLeft in Article width");
     const ring = await page.evaluate(() => {
       const cs = getComputedStyle(document.activeElement.closest("label"));
       return { style: cs.outlineStyle, width: parseFloat(cs.outlineWidth) };
@@ -316,7 +533,7 @@ describe("keyboard operation", () => {
       true,
       "focus returns to the trigger",
     );
-    await expectTypo(page, "sans", "standard", "choices survive closing the menu");
+    await expectTypo(page, "standard", "focused", "choices survive closing the menu");
     await ctx.close();
   });
 });
@@ -356,7 +573,7 @@ describe("the Appearance panel on short phone viewports", () => {
       assert.match(box.overflowY, /auto|scroll/);
       // keyboard: Tab through to the last group; the browser must keep the focused option visible
       await page.locator('.j-appearance input[name="theme"]:checked').focus();
-      for (let i = 0; i < 3; i++) await page.keyboard.press("Tab");
+      for (let i = 0; i < 2; i++) await page.keyboard.press("Tab");
       const last = await page.evaluate(() => {
         const a = document.activeElement,
           r = a.closest("label").getBoundingClientRect(),
@@ -373,10 +590,9 @@ describe("the Appearance panel on short phone viewports", () => {
       assert.equal(last.name, "width", "keyboard reached the last group");
       assert.ok(last.visible, "the focused option is scrolled into view");
       // touch: the lowest groups can be tapped (Playwright scrolls the panel as a finger would) and change the article
-      await choose(page, "sans", true);
       await choose(page, "large", true);
       await choose(page, "focused", true);
-      await expectTypo(page, "sans", "large");
+      await expectTypo(page, "large", "focused", "", { measure: false });
       assert.equal(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         true,
@@ -392,40 +608,44 @@ describe("stored preference compatibility and storage fallbacks", () => {
   const seed = (value) => `localStorage.setItem("journal-prefs", ${JSON.stringify(value)})`;
   const cases = [
     [
-      "a partial older value keeps what it has and defaults the rest",
+      "a partial older value (only the retired font) is ignored and the rest defaults",
       JSON.stringify({ font: "sans" }),
-      "sans",
       "comfortable",
+      "roomy",
     ],
     [
       "unknown extra keys are ignored",
       JSON.stringify({ size: "large", legacy: true }),
-      "serif",
       "large",
+      "roomy",
     ],
     [
-      "every valid combination is honoured",
+      "every valid size and width is honoured, and a stored font changes nothing",
       JSON.stringify({ theme: "paper", font: "sans", size: "standard", width: "focused" }),
-      "sans",
       "standard",
+      "focused",
     ],
     [
       "unknown values fall back to the defaults",
       JSON.stringify({ font: "cursive", size: "huge", width: "wide", theme: "nope" }),
-      "serif",
       "comfortable",
+      "roomy",
     ],
-    ["malformed JSON falls back to the defaults", "{not json", "serif", "comfortable"],
+    ["malformed JSON falls back to the defaults", "{not json", "comfortable", "roomy"],
   ];
-  for (const [name, value, font, size] of cases)
+  for (const [name, value, size, width] of cases)
     it(name, async () => {
       const { ctx, page, problems } = await openPage(env, INTRO, { init: seed(value) });
-      await expectTypo(page, font, size);
+      await expectTypo(page, size, width);
       await openMenu(page);
       const c = await checkedIds(page);
       for (const [group, ids] of Object.entries(c))
         assert.equal(ids.length, 1, `${group}: exactly one selected (${ids})`);
-      assert.deepEqual([c.font[0], c.size[0]], [font, size], "the menu shows what the page shows");
+      assert.deepEqual(
+        [c.size[0], c.width[0]],
+        [size, width],
+        "the menu shows what the page shows",
+      );
       assert.deepEqual(problems(), []);
       await ctx.close();
     });
@@ -439,9 +659,8 @@ describe("stored preference compatibility and storage fallbacks", () => {
       },
     });
     await openMenu(page);
-    await choose(page, "sans");
     await choose(page, "large");
-    await expectTypo(page, "sans", "large");
+    await expectTypo(page, "large", "roomy");
     assert.match(await page.locator(".j-appearance").innerText(), /isn’t saving preferences/);
     await page.keyboard.press("Escape");
     await page
@@ -451,12 +670,12 @@ describe("stored preference compatibility and storage fallbacks", () => {
     await page.waitForURL(/\/weblog\/$/);
     await page.getByRole("link", { name: /Read the article/ }).click();
     await page.waitForURL(/\.html$/);
-    await expectTypo(page, "sans", "large", "still applied after client navigation");
+    await expectTypo(page, "large", "roomy", "still applied after client navigation");
     await page.reload({ waitUntil: "networkidle" });
     await expectTypo(
       page,
-      "serif",
       "comfortable",
+      "roomy",
       "nothing was saved, so a reload starts from the defaults",
     );
     assert.deepEqual(problems(), []);
@@ -472,11 +691,11 @@ describe("stored preference compatibility and storage fallbacks", () => {
           },
         }),
     });
-    await expectTypo(page, "serif", "comfortable");
+    await expectTypo(page, "comfortable", "roomy");
     await openMenu(page);
-    await choose(page, "sans");
     await choose(page, "standard");
-    await expectTypo(page, "sans", "standard");
+    await choose(page, "focused");
+    await expectTypo(page, "standard", "focused");
     assert.deepEqual(problems(), []);
     await ctx.close();
   });

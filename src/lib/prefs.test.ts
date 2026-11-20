@@ -41,12 +41,7 @@ describe("reader preference compatibility", () => {
       "superman",
       "ironman",
     ]);
-    expect(readPrefs()).toEqual({
-      theme: "original",
-      font: "serif",
-      size: "comfortable",
-      width: "roomy",
-    });
+    expect(readPrefs()).toEqual({ theme: "original", size: "comfortable", width: "roomy" });
   });
   it("keeps System following the device instead of replacing its saved choice", () => {
     vi.spyOn(window, "matchMedia").mockImplementation(
@@ -69,18 +64,17 @@ describe("stored preference compatibility and fallbacks", () => {
   });
   it("completes partial or older stored values with the defaults", () => {
     localStorage.setItem(PREFS_KEY, JSON.stringify({ font: "sans" }));
-    expect(readPrefs()).toEqual({ ...DEFAULT_PREFS, font: "sans" });
+    expect(readPrefs()).toEqual(DEFAULT_PREFS);
     localStorage.setItem(PREFS_KEY, JSON.stringify({ theme: "batman", size: "large" }));
     expect(readPrefs()).toEqual({ ...DEFAULT_PREFS, theme: "batman", size: "large" });
   });
   it("keeps every valid combination exactly as stored", () => {
-    for (const font of ["serif", "sans"])
-      for (const size of ["standard", "comfortable", "large"])
-        for (const width of ["focused", "roomy"]) {
-          const p = { theme: "paper", font, size, width };
-          localStorage.setItem(PREFS_KEY, JSON.stringify(p));
-          expect(readPrefs()).toEqual(p);
-        }
+    for (const size of ["standard", "comfortable", "large"])
+      for (const width of ["focused", "roomy"]) {
+        const p = { theme: "paper", size, width };
+        localStorage.setItem(PREFS_KEY, JSON.stringify(p));
+        expect(readPrefs()).toEqual(p);
+      }
   });
   it("replaces unknown values and ignores unknown keys, junk and non-objects", () => {
     expect(
@@ -95,8 +89,7 @@ describe("stored preference compatibility and fallbacks", () => {
     vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
       throw new Error("blocked");
     });
-    expect(applyPrefs({ ...DEFAULT_PREFS, font: "sans", size: "large" })).toBe(false);
-    expect(document.documentElement.getAttribute("data-font")).toBe("sans");
+    expect(applyPrefs({ ...DEFAULT_PREFS, size: "large" })).toBe(false);
     expect(document.documentElement.getAttribute("data-size")).toBe("large");
   });
   it("falls back to the defaults when storage cannot even be read", () => {
@@ -107,14 +100,38 @@ describe("stored preference compatibility and fallbacks", () => {
   });
   it("applying on load puts the choices on the document without writing storage", () => {
     const set = vi.spyOn(Storage.prototype, "setItem");
-    applyPrefsToDocument({ theme: "paper", font: "sans", size: "standard", width: "focused" });
+    applyPrefsToDocument({ theme: "paper", size: "standard", width: "focused" });
     expect(set).not.toHaveBeenCalled();
     const h = document.documentElement;
-    expect([h.dataset["theme"], h.dataset["font"], h.dataset["size"], h.dataset["width"]]).toEqual([
+    expect([h.dataset["theme"], h.dataset["size"], h.dataset["width"]]).toEqual([
       "paper",
-      "sans",
       "standard",
       "focused",
     ]);
+  });
+  it("a saved Sans selection from an older version is ignored everywhere and dropped on the next save (#79)", () => {
+    localStorage.setItem(
+      PREFS_KEY,
+      JSON.stringify({ theme: "batman", font: "sans", size: "large", width: "focused" }),
+    );
+    expect(readPrefs()).toEqual({ theme: "batman", size: "large", width: "focused" });
+    // the pre-paint boot applies the same three choices and never a font
+    document.documentElement.setAttribute("data-font", "sans");
+    new Function(PREFS_BOOT)();
+    const h = document.documentElement;
+    expect([h.dataset["theme"], h.dataset["size"], h.dataset["width"]]).toEqual([
+      "batman",
+      "large",
+      "focused",
+    ]);
+    // reading and applying clears a stale attribute; the next save no longer stores a font
+    applyPrefsToDocument(readPrefs());
+    expect(h.hasAttribute("data-font")).toBe(false);
+    applyPrefs({ ...readPrefs(), size: "standard" });
+    expect(JSON.parse(localStorage.getItem(PREFS_KEY) as string)).toEqual({
+      theme: "batman",
+      size: "standard",
+      width: "focused",
+    });
   });
 });

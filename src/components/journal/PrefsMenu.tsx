@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { useMatches } from "@tanstack/react-router";
 import * as Popover from "@radix-ui/react-popover";
 import {
   THEMES,
-  FONTS,
   SIZES,
   WIDTHS,
   readPrefs,
@@ -12,9 +12,17 @@ import {
   type Prefs,
 } from "@/lib/prefs";
 
+const ARTICLE_ROUTE_ID = "/_site/$year/$month/$day/$file";
+
 export function PrefsMenu() {
   const [prefs, setPrefs] = useState<Prefs>(DEFAULT_PREFS);
   const [storageOk, setStorageOk] = useState(true);
+  // Text size and Article width only mean something on an individual article, so they are offered only there: the route must be
+  // the article route AND its match must have resolved to an article (an unknown article URL is a not-found match, not "success").
+  // Saved size/width still apply to the document everywhere, so they are there when the reader returns to an article.
+  const onArticle = useMatches({
+    select: (ms) => ms.some((m) => m.routeId === ARTICLE_ROUTE_ID && m.status === "success"),
+  });
   useEffect(() => {
     // The boot script already applied the stored choices before first paint; apply the validated ones again so the page and
     // the menu always agree (an unknown stored value becomes the default in both), without writing storage.
@@ -82,9 +90,8 @@ export function PrefsMenu() {
         >
           <h2 className="font-semibold mb-3">Appearance</h2>
           {group("Theme", "theme", THEMES)}
-          {group("Article font", "font", FONTS)}
-          {group("Text size", "size", SIZES)}
-          {group("Article width", "width", WIDTHS)}
+          {onArticle && group("Text size", "size", SIZES)}
+          {onArticle && group("Article width", "width", WIDTHS)}
           {!storageOk && (
             <p role="status" className="mt-3 text-sm j-muted">
               Your browser isn’t saving preferences, so they apply to this page only.

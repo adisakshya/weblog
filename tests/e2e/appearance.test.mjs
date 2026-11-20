@@ -60,10 +60,6 @@ describe("appearance", () => {
       .click();
     await page
       .locator(".j-appearance label")
-      .filter({ hasText: /Sans-serif/ })
-      .click();
-    await page
-      .locator(".j-appearance label")
       .filter({ hasText: /^\s*Large\s*$/ })
       .click();
     await page
@@ -71,7 +67,7 @@ describe("appearance", () => {
       .filter({ hasText: /Focused/ })
       .click();
     const stored = JSON.parse(await page.evaluate(() => localStorage.getItem("journal-prefs")));
-    assert.deepEqual(stored, { theme: "batman", font: "sans", size: "large", width: "focused" });
+    assert.deepEqual(stored, { theme: "batman", size: "large", width: "focused" });
     // reload: record the attribute at DOMContentLoaded (before React hydrates) in the fresh document
     await ctx.addInitScript(() =>
       document.addEventListener(
@@ -86,12 +82,8 @@ describe("appearance", () => {
       "no flash: theme is set by the inline boot script",
     );
     assert.deepEqual(
-      [
-        await attr(page, "data-font"),
-        await attr(page, "data-size"),
-        await attr(page, "data-width"),
-      ],
-      ["sans", "large", "focused"],
+      [await attr(page, "data-size"), await attr(page, "data-width")],
+      ["large", "focused"],
     );
     await page.keyboard.press("Escape");
     await page.goto(env.base + SETUP, { waitUntil: "networkidle" });
@@ -203,13 +195,13 @@ describe("contrast (WCAG AA 4.5:1) in every theme", () => {
     probe("Meet Adi button", document.querySelector(".j-meet"));
     probe("Search tool", document.querySelector(".j-header-tool"));
     probe("Follow Adi heading", document.querySelector("#follow-adi"));
-    probe("LinkedIn button", document.querySelector(".j-social-links a:nth-child(1)"));
-    probe("Twitter/X button", document.querySelector(".j-social-links a:nth-child(2)"));
-    probe("GitHub button", document.querySelector(".j-social-links a:nth-child(3)"));
-    probe("footer group heading", document.querySelector(".j-footer-groups h2"));
-    probe("footer group link", document.querySelector(".j-footer-groups a"));
-    probe("footer credit", document.querySelector(".j-footer-bottom p"));
-    probe("View source link", document.querySelector(".j-footer-bottom a"));
+    probe("LinkedIn button", document.querySelector(".j-footer-primary"));
+    probe("Twitter/X button", document.querySelector(".j-footer-x"));
+    probe("GitHub button", document.querySelector(".j-footer-gh"));
+    probe("footer group heading", document.querySelector("#footer-explore"));
+    probe("footer group link", document.querySelector(".j-footer-link"));
+    probe("footer credit", document.querySelector(".j-footer-meta p"));
+    probe("Open source link", document.querySelector(".j-footer-meta a"));
     for (const t of ["keyword", "string", "comment", "number", "built_in", "attr"])
       probe(`syntax ${t}`, document.querySelector(`.hljs-${t.replace("_", "-")}`));
     return out;
@@ -217,7 +209,7 @@ describe("contrast (WCAG AA 4.5:1) in every theme", () => {
   for (const id of Object.values(THEMES).filter((t) => t !== "system")) {
     it(`${id}: reading surfaces, links, code and syntax colours are >= 4.5:1`, async () => {
       const { ctx, page } = await openPage(env, null, {
-        init: `localStorage.setItem("journal-prefs", JSON.stringify({theme:"${id}",font:"serif",size:"comfortable",width:"roomy"}))`,
+        init: `localStorage.setItem("journal-prefs", JSON.stringify({theme:"${id}",size:"comfortable",width:"roomy"}))`,
       });
       await page.goto(env.base + SETUP, { waitUntil: "networkidle" });
       const r = await page.evaluate(measure);
@@ -233,7 +225,7 @@ describe("contrast (WCAG AA 4.5:1) in every theme", () => {
         "footer group heading",
         "footer group link",
         "footer credit",
-        "View source link",
+        "Open source link",
       ])
         assert.ok(k in r, `${id}: ${k} was measured`);
       const low = Object.entries(r).filter(([, v]) => v < 4.5);

@@ -72,15 +72,32 @@ const IGNORED = /ERR_FAILED|ERR_BLOCKED|fonts\./;
 export async function openPage(
   env,
   route,
-  { width = 1440, height = 900, colorScheme = "light", init, permissions } = {},
+  {
+    width = 1440,
+    height = 900,
+    colorScheme = "light",
+    init,
+    permissions,
+    touch = false,
+    storageState,
+    fontScale,
+  } = {},
 ) {
   const ctx = await env.browser.newContext({
     viewport: { width, height },
     colorScheme,
     permissions,
+    storageState,
+    // a phone: touch input, mobile viewport semantics (no hover), 2x pixels
+    ...(touch ? { hasTouch: true, isMobile: true, deviceScaleFactor: 2 } : {}),
   });
   await ctx.route(/fonts\.(googleapis|gstatic|cdnfonts)\.com/, (r) => r.abort());
   if (init) await ctx.addInitScript(init);
+  // enlarged text (a reader's browser font-size setting): scales everything sized in rem/em
+  if (fontScale)
+    await ctx.addInitScript(
+      `document.addEventListener("DOMContentLoaded",()=>{document.documentElement.style.fontSize="${fontScale * 100}%"})`,
+    );
   const page = await ctx.newPage();
   const problems = watch(page, env.base);
   if (route) await page.goto(env.base + route, { waitUntil: "networkidle" });

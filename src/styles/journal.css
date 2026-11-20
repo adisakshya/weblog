@@ -605,11 +605,17 @@ html,
   background: transparent;
   color: var(--j-fg);
 }
-.j-ghost:hover,
 .j-ghost[aria-pressed="true"],
 .j-ghost[aria-selected="true"] {
   background: var(--j-panel);
   border-color: var(--j-accent);
+}
+/* Hover only where a pointer can hover: on touch the last-tapped chip would otherwise stay highlighted and read as "selected". */
+@media (hover: hover) {
+  .j-ghost:hover {
+    background: var(--j-panel);
+    border-color: var(--j-accent);
+  }
 }
 .j-lime {
   background: var(--j-lime);
@@ -623,11 +629,214 @@ html,
   font-family: "JetBrains Mono", monospace;
   color: var(--j-muted);
 }
+/* Header, footer and preference chips (approved design: Lovable project a72cd5b7, rev 38e6990). Unlayered on purpose:
+   Tailwind utilities live in @layer utilities and lose to these rules, so state styles belong here, not in utility classes. */
 .j-masthead {
-  font-family: "Agustina", "Brush Script MT", cursive;
-  font-weight: 700;
-  line-height: 1.15;
-  overflow-wrap: anywhere;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  /* Whole-pixel line heights (the mockup's 1.4 / 1.5 rounded to 25 / 28 / 32 / 40px): a fractional header height would put
+     everything below it on a half-pixel, blurring text and making pixel comparisons of the page body impossible. */
+  line-height: 25px;
+  white-space: nowrap;
+  letter-spacing: 0;
+  display: block;
+  padding-block: 4px;
+}
+.j-header-inner,
+.j-footer-inner {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+}
+.j-header-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  padding-block: max(16px, env(safe-area-inset-top)) 16px;
+}
+.j-header-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+.j-header-tools {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.journal .j-header-tool,
+.journal .j-meet {
+  min-height: 44px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.journal .j-header-tool {
+  padding-inline: 10px;
+  gap: 5px;
+  justify-content: center;
+}
+.journal .j-meet {
+  padding-inline: 12px;
+}
+@media (max-width: 359px) {
+  .j-meet svg {
+    display: none;
+  }
+}
+/* Below 320px (page zoom of 200% or more on a phone) nothing may be clipped: let the masthead and the controls wrap. */
+@media (max-width: 319px) {
+  .j-masthead {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .j-header-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .j-header-tools {
+    flex-wrap: wrap;
+  }
+  .journal .j-header-tool,
+  .journal .j-meet {
+    white-space: normal;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+.j-pref-choice {
+  min-height: 44px;
+  cursor: pointer;
+}
+.j-pref-choice input {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  margin: 0;
+  accent-color: var(--j-accent);
+  /* Focus scrolls the 14px radio into view, not its 44px chip: keep the whole chip and its focus ring visible in the scrolling panel. */
+  scroll-margin-block: 28px;
+}
+.j-pref-choice:has(:checked) {
+  background: var(--j-lavender);
+  border-color: var(--j-accent);
+  color: var(--j-lavender-fg);
+}
+.j-pref-choice:has(:focus-visible) {
+  outline: 3px solid var(--j-focus);
+  outline-offset: 2px;
+}
+.journal a.j-ghost,
+.journal a.j-ghost:visited {
+  color: var(--j-fg);
+  text-decoration: none;
+}
+.j-footer-inner {
+  padding-top: 32px;
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+.j-footer-top {
+  display: grid;
+  gap: 32px;
+}
+.j-social-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+  max-width: 400px;
+}
+.j-social-links > :first-child {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+.journal .j-social-links a {
+  min-height: 44px;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.j-footer-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  font-size: 14px;
+}
+.j-footer-groups h2 {
+  margin-bottom: 8px;
+}
+.j-footer-groups a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  width: fit-content;
+}
+.j-footer-bottom {
+  display: grid;
+  gap: 8px;
+  border-top: 1px solid var(--j-border);
+  margin-top: 24px;
+  padding-top: 16px;
+}
+.j-footer-bottom a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+@media (min-width: 360px) {
+  .j-masthead {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+@media (min-width: 430px) {
+  .j-masthead {
+    font-size: 23px;
+    line-height: 32px;
+  }
+}
+@media (min-width: 640px) {
+  .j-header-inner,
+  .j-footer-inner {
+    padding-inline: max(24px, env(safe-area-inset-left)) max(24px, env(safe-area-inset-right));
+  }
+  .j-masthead {
+    font-family: "Agustina", "Brush Script MT", cursive;
+    font-size: 27px;
+    font-weight: 700;
+    line-height: 40px;
+  }
+  .journal .j-header-tool,
+  .journal .j-meet {
+    font-size: 14px;
+    padding-inline: 16px;
+  }
+  .j-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: none;
+  }
+  .j-footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+@media (min-width: 1024px) {
+  .j-header-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+  }
+  .j-header-actions {
+    display: flex;
+    gap: 16px;
+  }
+  .j-footer-top {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 48px;
+  }
 }
 
 /* Cosmos: static starfield + faint nebula, masked to the outer margins; reading and menu surfaces stay opaque */

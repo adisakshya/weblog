@@ -199,6 +199,17 @@ describe("contrast (WCAG AA 4.5:1) in every theme", () => {
     probe("tag chip", document.querySelector(".j-chip"));
     probe("masthead", document.querySelector(".j-masthead"));
     probe("footer link", document.querySelector("footer a"));
+    // header actions and footer (#74, #76): primary button, secondary tools, quiet bottom row, grouped links, headings
+    probe("Meet Adi button", document.querySelector(".j-meet"));
+    probe("Search tool", document.querySelector(".j-header-tool"));
+    probe("Follow Adi heading", document.querySelector("#follow-adi"));
+    probe("LinkedIn button", document.querySelector(".j-social-links a:nth-child(1)"));
+    probe("Twitter/X button", document.querySelector(".j-social-links a:nth-child(2)"));
+    probe("GitHub button", document.querySelector(".j-social-links a:nth-child(3)"));
+    probe("footer group heading", document.querySelector(".j-footer-groups h2"));
+    probe("footer group link", document.querySelector(".j-footer-groups a"));
+    probe("footer credit", document.querySelector(".j-footer-bottom p"));
+    probe("View source link", document.querySelector(".j-footer-bottom a"));
     for (const t of ["keyword", "string", "comment", "number", "built_in", "attr"])
       probe(`syntax ${t}`, document.querySelector(`.hljs-${t.replace("_", "-")}`));
     return out;
@@ -211,6 +222,20 @@ describe("contrast (WCAG AA 4.5:1) in every theme", () => {
       await page.goto(env.base + SETUP, { waitUntil: "networkidle" });
       const r = await page.evaluate(measure);
       assert.ok(Object.keys(r).length >= 8, `measured ${Object.keys(r).length} surfaces`);
+      // a probe skips a missing element silently, so require the header/footer surfaces to have been measured
+      for (const k of [
+        "Meet Adi button",
+        "Search tool",
+        "Follow Adi heading",
+        "LinkedIn button",
+        "Twitter/X button",
+        "GitHub button",
+        "footer group heading",
+        "footer group link",
+        "footer credit",
+        "View source link",
+      ])
+        assert.ok(k in r, `${id}: ${k} was measured`);
       const low = Object.entries(r).filter(([, v]) => v < 4.5);
       assert.deepEqual(low, [], `${id}: ${JSON.stringify(r)}`);
       await ctx.close();

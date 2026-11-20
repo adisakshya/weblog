@@ -7,6 +7,7 @@ import {
   WIDTHS,
   readPrefs,
   applyPrefs,
+  applyPrefsToDocument,
   DEFAULT_PREFS,
   type Prefs,
 } from "@/lib/prefs";
@@ -14,7 +15,13 @@ import {
 export function PrefsMenu() {
   const [prefs, setPrefs] = useState<Prefs>(DEFAULT_PREFS);
   const [storageOk, setStorageOk] = useState(true);
-  useEffect(() => setPrefs(readPrefs()), []);
+  useEffect(() => {
+    // The boot script already applied the stored choices before first paint; apply the validated ones again so the page and
+    // the menu always agree (an unknown stored value becomes the default in both), without writing storage.
+    const saved = readPrefs();
+    setPrefs(saved);
+    applyPrefsToDocument(saved);
+  }, []);
   useEffect(() => {
     if (prefs.theme !== "system") return;
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -40,11 +47,10 @@ export function PrefsMenu() {
         {items.map((i) => (
           <label
             key={i.id}
-            className="j-ghost cursor-pointer text-sm inline-flex items-center gap-1.5 has-[:checked]:border-[var(--j-accent)] has-[:checked]:bg-[var(--j-lavender)] has-[:checked]:text-[var(--j-lavender-fg)] has-[:focus-visible]:outline has-[:focus-visible]:outline-2"
+            className="j-ghost j-pref-choice text-sm inline-flex items-center gap-1.5"
           >
             <input
               type="radio"
-              className="sr-only"
               name={name}
               value={i.id}
               checked={prefs[name] === i.id}
@@ -59,7 +65,7 @@ export function PrefsMenu() {
   );
   return (
     <Popover.Root>
-      <Popover.Trigger className="j-ghost text-sm inline-flex items-center gap-1.5">
+      <Popover.Trigger className="j-ghost j-header-tool inline-flex items-center text-sm font-medium">
         <span aria-hidden="true" className="font-semibold">
           Aa
         </span>{" "}

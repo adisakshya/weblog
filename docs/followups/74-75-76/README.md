@@ -75,6 +75,9 @@ approved reference (46 of 46 in the tolerant mode); the header, footer and the f
   clip, but this is the tightest case.
 - The mockup also sets `min-height: 44px` on every `j-btn` / `j-ghost`, which would make the home view toggles (33px) and the "Read the article"
   button (40px) 44px tall. Not applied: it is outside #74–#76 and changes the home page. **Decision for Adi.**
+- CI's first run found that with the web fonts unavailable (the runner falls back to DejaVu Sans) the header controls overlapped at 320px. The
+  header actions are now a wrapping flex row (one row when they fit, two when they do not), and `header-footer.test.mjs` forces a wide fallback
+  face at all six widths (it fails on the previous CSS at 320px).
 - Masthead line heights are whole pixels (25 / 28 / 32 / 40px, the mockup's 1.4 / 1.5 rounded) so the header height is not fractional.
 - Short footer links ("Home", "Index", "Email") are 35–39px wide and 44px tall: above the WCAG 2.2 AA 24px minimum, below 44px wide.
 - Browsers other than Chromium were not run.

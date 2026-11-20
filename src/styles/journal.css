@@ -656,15 +656,21 @@ html,
   padding-block: max(16px, env(safe-area-inset-top)) 16px;
 }
 .j-header-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  /* Meet Adi and the tools share one row when they fit and wrap to two rows when they do not (for example when the web
+     fonts have not loaded and a wider fallback face is used), so they can never overlap. */
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+}
+.j-header-actions > nav {
+  flex: 0 0 auto;
 }
 .j-header-tools {
   display: flex;
   gap: 4px;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  margin-inline-start: auto;
 }
 .journal .j-header-tool,
 .journal .j-meet {
@@ -691,11 +697,15 @@ html,
     white-space: normal;
     overflow-wrap: anywhere;
   }
-  .j-header-actions {
-    grid-template-columns: minmax(0, 1fr);
+  .j-header-actions > nav {
+    flex: 1 1 100%;
+    min-width: 0;
   }
   .j-header-tools {
+    flex: 1 1 100%;
     flex-wrap: wrap;
+    min-width: 0;
+    margin-inline-start: 0;
   }
   .journal .j-header-tool,
   .journal .j-meet {

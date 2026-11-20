@@ -55,6 +55,38 @@ const measureHeader = (page) =>
 const overlaps = (a, b) => a.l < b.r - 0.5 && b.l < a.r - 0.5 && a.t < b.b - 0.5 && b.t < a.b - 0.5;
 
 describe("masthead and header actions (#74)", () => {
+  // CI's first run found a real gap: with the web fonts unavailable the controls fall back to a wider face (DejaVu Sans on
+  // the runner) and overlapped at 320px. They must wrap to a second row instead of overlapping or leaving the viewport.
+  for (const w of WIDTHS) {
+    it(`${w}px: with a wide fallback face the controls wrap instead of overlapping`, async () => {
+      const { ctx, page } = await openPage(env, INTRO, {
+        width: w,
+        height: 800,
+        touch: phone(w),
+      });
+      await page.addStyleTag({
+        content:
+          '.j-header-tool, .j-meet { font-family: "DejaVu Sans", Verdana, sans-serif !important; letter-spacing: 0.02em; }',
+      });
+      const m = await measureHeader(page);
+      assert.equal(m.docOverflow, false, "no horizontal page overflow");
+      for (const k of ["meet", "search", "appearance"]) {
+        assert.ok(
+          m[k].l >= -0.5 && m[k].r <= m.vw + 0.5,
+          `${k} inside the viewport (${m[k].l.toFixed(1)}..${m[k].r.toFixed(1)} of ${m.vw})`,
+        );
+      }
+      assert.equal(
+        overlaps(m.meet, m.search) ||
+          overlaps(m.search, m.appearance) ||
+          overlaps(m.meet, m.appearance),
+        false,
+        "controls do not overlap",
+      );
+      await ctx.close();
+    });
+  }
+
   for (const w of WIDTHS) {
     it(`${w}px: the full masthead is on one line and nothing is clipped or overflowing`, async () => {
       const { ctx, page, problems } = await openPage(env, INTRO, {

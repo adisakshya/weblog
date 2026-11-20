@@ -43,7 +43,7 @@ export async function generateFeeds(distDir) {
       .join("\n")}\n</urlset>\n`;
 
     const updated = new Date(Math.max(...posts.map((p) => +new Date(p.date)))).toISOString();
-    const feed = `<?xml version="1.0" encoding="UTF-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom">\n  <title>The blog of Adisakshya Chauhan</title>\n  <subtitle>A compilation of musings, inspirations, mistakes, and other ramblings.</subtitle>\n  <link rel="self" type="application/atom+xml" href="${abs(`${BASE}/feed.xml`)}"/>\n  <link rel="alternate" type="text/html" href="${abs(`${BASE}/`)}"/>\n  <id>${abs(`${BASE}/`)}</id>\n  <updated>${updated}</updated>\n  <author><name>Adisakshya Chauhan</name><uri>${SITE}/</uri></author>\n${posts
+    const feed = `<?xml version="1.0" encoding="UTF-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom">\n  <title>Adisakshya Chauhan</title>\n  <subtitle>A compilation of musings, inspirations, mistakes, and other ramblings.</subtitle>\n  <link rel="self" type="application/atom+xml" href="${abs(`${BASE}/feed.xml`)}"/>\n  <link rel="alternate" type="text/html" href="${abs(`${BASE}/`)}"/>\n  <id>${abs(`${BASE}/`)}</id>\n  <updated>${updated}</updated>\n  <author><name>Adisakshya Chauhan</name><uri>${SITE}/</uri></author>\n${posts
       .map(
         (p) =>
           `  <entry>\n    <title>${esc(p.title)}</title>\n    <link rel="alternate" type="text/html" href="${esc(abs(p.url))}"/>\n    <id>${esc(abs(p.url))}</id>\n    <published>${new Date(p.date).toISOString()}</published>\n    <updated>${new Date(p.date).toISOString()}</updated>\n${p.tags.map((t) => `    <category term="${esc(t)}"/>`).join("\n")}\n    <summary>${esc(p.excerpt)}</summary>\n    <content type="html">${esc(p.html)}</content>\n  </entry>`,

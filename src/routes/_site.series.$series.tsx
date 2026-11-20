@@ -13,7 +13,7 @@ export const Route = createFileRoute("/_site/series/$series")({
     const s = series.find((x) => x.slug === loaderData?.slug);
     return {
       meta: [
-        { title: `${s?.title ?? "Series"} - The blog of Adisakshya Chauhan` },
+        { title: `${s?.title ?? "Series"} — Adisakshya Chauhan` },
         { name: "description", content: s?.excerpt ?? "" },
         { property: "og:title", content: s?.title ?? "Series" },
         { property: "og:description", content: s?.excerpt ?? "" },

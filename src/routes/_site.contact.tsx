@@ -5,7 +5,7 @@ import { ArticleBody } from "@/components/journal/ArticleBody";
 export const Route = createFileRoute("/_site/contact")({
   head: () => ({
     meta: [
-      { title: "Contact - The blog of Adisakshya Chauhan" },
+      { title: "Contact — Adisakshya Chauhan" },
       { name: "description", content: pages["contact"]!.excerpt ?? "" },
       { property: "og:title", content: "Contact" },
       { property: "og:description", content: pages["contact"]!.excerpt ?? "" },

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_site/tags/$tag")({
   head: ({ params }) => ({
     meta: [
       {
-        title: `${tagPages.find((t) => t.tag === params.tag)?.title ?? `#${params.tag}`} - The blog of Adisakshya Chauhan`,
+        title: `${tagPages.find((t) => t.tag === params.tag)?.title ?? `#${params.tag}`} — Adisakshya Chauhan`,
       },
       {
         name: "description",

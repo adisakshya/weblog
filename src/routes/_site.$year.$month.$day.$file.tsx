@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_site/$year/$month/$day/$file")({
     const img = p.teaser?.startsWith("https://") ? p.teaser : undefined;
     return {
       meta: [
-        { title: `${p.title} - The blog of Adisakshya Chauhan` },
+        { title: `${p.title} — Adisakshya Chauhan` },
         { name: "description", content: p.excerpt },
         { property: "og:title", content: p.title },
         { property: "og:description", content: p.excerpt },

@@ -57,14 +57,14 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "The blog of Adisakshya Chauhan" },
+      { title: "Adisakshya Chauhan" },
       {
         name: "description",
         content:
           "A compilation of Adisakshya’s musings 🤔, inspirations 🌟, mistakes 😅, and other ramblings 🧐.",
       },
       { name: "author", content: "Adisakshya Chauhan" },
-      { property: "og:site_name", content: "The blog of Adisakshya Chauhan" },
+      { property: "og:site_name", content: "Adisakshya Chauhan" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@adisakshya" },
@@ -78,7 +78,7 @@ export const Route = createRootRoute({
       {
         rel: "alternate",
         type: "application/atom+xml",
-        title: "The blog of Adisakshya Chauhan",
+        title: "Adisakshya Chauhan",
         href: `${import.meta.env.BASE_URL}feed.xml`,
       },
       // Agustina loads from the same CDN stylesheet as production (licence for self-hosting unverified).

@@ -55,7 +55,7 @@ const sourceOf = Object.fromEntries(
   ]),
 );
 export function expectedH1(route) {
-  if (route === "/weblog/") return "The blog of Adisakshya Chauhan";
+  if (route === "/weblog/") return "Adisakshya Chauhan";
   const tag = route.match(/^\/weblog\/tags\/([^/]+)\/$/);
   if (tag) return `#${tag[1]}`;
   const src = sourceOf[route];

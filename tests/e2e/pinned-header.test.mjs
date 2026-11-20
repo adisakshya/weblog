@@ -415,6 +415,22 @@ describe("anchors and keyboard focus are never hidden under the pinned header", 
   for (const w of WIDTHS)
     it(`${w}px: tabbing backwards up a long article never focuses something under the header`, async () => {
       const { ctx, page } = await openPage(env, SETUP, { width: w, height: 700, touch: phone(w) });
+      // lazy images are ~2px tall until they load, then grow below the viewport after focus has scrolled to them; load them all first so
+      // the layout is final (the assertion below is unchanged)
+      await page.evaluate(async () => {
+        const imgs = [...document.images];
+        imgs.forEach((i) => (i.loading = "eager"));
+        await Promise.all(
+          imgs.map((i) =>
+            i.complete
+              ? 0
+              : new Promise((r) => {
+                  i.addEventListener("load", r);
+                  i.addEventListener("error", r);
+                }),
+          ),
+        );
+      });
       await page.locator("footer a").first().focus();
       await settle(page, 200);
       const rows = [];

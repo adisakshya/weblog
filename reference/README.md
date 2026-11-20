@@ -22,3 +22,7 @@ Each file is a real JPEG (magic bytes, dimensions parsed) whose byte length equa
 
 ## Known deviations from the reference
 Recorded as they are decided: comments omitted; analytics omitted (#65); Beyond the blog removed (already absent from the approved revision).
+
+### आदि brand (#82, owner-approved 21 November 2026)
+These are approved deviations from the frozen reference. `reference/screenshots/` is never recaptured; where a visual gate is affected, the exception is scoped to the route or region and documented in `docs/redesign/README.md`.
+- **#83 header.** The masthead reads "Adisakshya Chauhan" (the reference says "The blog of Adisakshya Chauhan"), in the same per-breakpoint faces. Once the header condenses the आदि seal replaces the name in the same box (tilted −3°, crossfade ≤ 150 ms, none under `prefers-reduced-motion`); the name and the seal never show together. The condensed height, `--j-header-h` and the 64 / 8 px thresholds are unchanged. The seal takes the theme's colours (tile = `--j-fg`, glyph = `--j-bg`, point `#E2452F`); in Dune and Deep Sea only the tile is overridden (`#1f2a30` / `#edf3f4`) because the point would otherwise be 2.74:1 and 2.995:1 against it (owner decision, option B).

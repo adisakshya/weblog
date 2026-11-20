@@ -628,7 +628,30 @@ html {
 }
 /* Header, footer and preference chips (approved design: Lovable project a72cd5b7, rev 38e6990). Unlayered on purpose:
    Tailwind utilities live in @layer utilities and lose to these rules, so state styles belong here, not in utility classes. */
+/* The आदि seal: colours come from the theme (tile = ink, glyph = paper, vermilion point is the one brand colour). */
+.adi-seal {
+  --adi-tile: var(--j-fg);
+  --adi-glyph: var(--j-bg);
+  --adi-point: #e2452f;
+  display: inline-block;
+  line-height: 0;
+}
+.adi-seal svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* The point (#E2452F) must stay at least 3:1 against the tile. With tile = --j-fg that holds in every theme except these two
+   (2.74:1 and 2.995:1), where only the tile is overridden (owner decision, #83): the point colour is never changed. */
+[data-theme="solarized-light"] .adi-seal {
+  --adi-tile: #1f2a30;
+}
+[data-theme="solarized-dark"] .adi-seal {
+  --adi-tile: #edf3f4;
+}
 .j-masthead {
+  position: relative;
+  --j-seal: 33px; /* the masthead box: line-height + 2 x 4px padding */
   font-family: "Source Serif 4", Georgia, serif;
   font-size: 18px;
   font-weight: 600;
@@ -690,6 +713,39 @@ html {
   transition:
     font-size 0.2s ease,
     line-height 0.2s ease;
+}
+/* Name at the top of the page, seal when the header is condensed: stacked in one box (never side by side), crossfade <= 150ms.
+   The seal is absolutely positioned, so it can never change the header's height (--j-header-h and the anchor offsets stay as they
+   are). prefers-reduced-motion removes the transition through the global rule below. */
+.j-masthead-name {
+  display: block;
+  transition: opacity 0.15s ease;
+}
+.j-masthead .j-masthead-seal {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: var(--j-seal);
+  height: var(--j-seal);
+  transform: translateY(-50%) rotate(-3deg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    visibility 0s linear 0.15s;
+}
+.j-header[data-condensed] .j-masthead-name {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.15s ease,
+    visibility 0s linear 0.15s;
+}
+.j-header[data-condensed] .j-masthead .j-masthead-seal {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.15s ease;
 }
 .j-header-actions {
   /* Meet Adi and the tools share one row when they fit and wrap to two rows when they do not (for example when the web
@@ -919,6 +975,7 @@ html {
   .j-masthead {
     font-size: 20px;
     line-height: 28px;
+    --j-seal: 36px;
   }
 }
 @media (min-width: 430px) {
@@ -928,6 +985,7 @@ html {
   .j-masthead {
     font-size: 23px;
     line-height: 32px;
+    --j-seal: 40px;
   }
 }
 @media (min-width: 640px) {
@@ -943,6 +1001,7 @@ html {
     font-size: 27px;
     font-weight: 700;
     line-height: 40px;
+    --j-seal: 42px; /* the condensed masthead box (34px line + 8px) */
   }
   .j-header[data-condensed] .j-masthead {
     font-size: 23px;

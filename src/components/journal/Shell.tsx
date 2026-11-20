@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Github, Linkedin } from "lucide-react";
+import { AdiSeal } from "@/components/brand/AdiSeal";
 import { SearchDialog } from "./SearchDialog";
 import { PrefsMenu } from "./PrefsMenu";
 
@@ -11,6 +12,7 @@ const TWITTER = "https://twitter.com/adisakshya";
 const GITHUB = "https://github.com/adisakshya";
 const SOURCE = "https://github.com/adisakshya/weblog";
 
+const SITE_NAME = "Adisakshya Chauhan";
 const EXTERNAL = { rel: "noopener noreferrer" } as const;
 const BUTTON = "inline-flex items-center text-sm font-medium";
 
@@ -79,8 +81,12 @@ export function Shell({ children }: { children: ReactNode }) {
       </a>
       <header ref={ref} className="j-header" data-condensed={condensed ? "true" : undefined}>
         <div className="j-header-inner">
-          <Link to="/" className="plain j-masthead min-w-0">
-            The blog of Adisakshya Chauhan
+          {/* One link, one accessible name in both states. Both faces are in the markup (so the server-rendered HTML and the hydrated
+              page have the same layout): the name at the top of the page, the seal in its place once the header condenses. They share
+              one box and never show together. */}
+          <Link to="/" aria-label={SITE_NAME} className="plain j-masthead min-w-0">
+            <span className="j-masthead-name">{SITE_NAME}</span>
+            <AdiSeal className="j-masthead-seal" />
           </Link>
           <div className="j-header-actions">
             <nav aria-label="Primary" className="min-w-0">

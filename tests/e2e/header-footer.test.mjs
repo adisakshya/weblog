@@ -30,7 +30,7 @@ const measureHeader = (page) =>
     };
     const mast = document.querySelector(".j-masthead");
     const range = document.createRange();
-    range.selectNodeContents(mast);
+    range.selectNodeContents(mast.querySelector(".j-masthead-name") ?? mast); // the visible name, not the seal that replaces it when condensed
     const lineTops = new Set([...range.getClientRects()].map((r) => Math.round(r.top)));
     const cs = getComputedStyle(mast);
     const meet = document.querySelector(".j-meet");
@@ -218,7 +218,8 @@ describe("masthead and header actions (#74)", () => {
           const a = document.activeElement,
             cs = getComputedStyle(a);
           return {
-            text: a.textContent.trim().replace(/\s+/g, " "),
+            // the accessible name: the masthead link is named by aria-label (its visible content is the name or the seal)
+            text: (a.getAttribute("aria-label") || a.textContent).trim().replace(/\s+/g, " "),
             outline: cs.outlineStyle,
             width: parseFloat(cs.outlineWidth),
           };
@@ -227,7 +228,7 @@ describe("masthead and header actions (#74)", () => {
     }
     assert.deepEqual(
       seen.map((s) => s.text),
-      ["Skip to content", "The blog of Adisakshya Chauhan", "Meet Adi", "Search/", "Aa Appearance"],
+      ["Skip to content", "Adisakshya Chauhan", "Meet Adi", "Search/", "Aa Appearance"],
     );
     for (const s of seen) {
       assert.notEqual(s.outline, "none", `${s.text}: has an outline`);
@@ -239,7 +240,10 @@ describe("masthead and header actions (#74)", () => {
   it("navigation: the masthead returns home (client-side), `/` opens search, Appearance opens its panel", async () => {
     const { ctx, page } = await openPage(env, INTRO);
     await page.evaluate(() => (window.__spa = 1));
-    await page.getByRole("link", { name: "The blog of Adisakshya Chauhan" }).click();
+    await page
+      .locator(".j-header")
+      .getByRole("link", { name: "Adisakshya Chauhan", exact: true })
+      .click();
     await page.waitForURL(/\/weblog\/$/);
     assert.equal(await page.evaluate(() => window.__spa), 1, "client navigation, no reload");
     await page.keyboard.press("/");

@@ -1301,3 +1301,50 @@ html {
 .end-mark-line .end-mark {
   margin-left: 0;
 }
+
+/* Branded 404 (#87): the आदि mark (glyph in the theme's ink, vermilion point), the line, one button; centred in the site shell. */
+.j-notfound {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  max-width: 36rem;
+  margin-inline: auto;
+  padding: clamp(3rem, 12vh, 6rem) 1rem 0;
+  text-align: center;
+}
+.j-notfound-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--j-muted);
+}
+.adi-mark {
+  display: inline-block;
+  color: var(--j-fg);
+  line-height: 0;
+}
+.adi-mark svg {
+  display: block;
+  height: 96px;
+  width: auto;
+  max-width: 100%;
+}
+@media (min-width: 640px) {
+  .adi-mark svg {
+    height: 150px;
+  }
+}
+.j-notfound-title {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+.j-notfound-text {
+  max-width: 30rem;
+  font-size: 1.05rem;
+  color: var(--j-muted);
+}
+.j-notfound-button {
+  margin-top: 0.5rem;
+  justify-content: center;
+}

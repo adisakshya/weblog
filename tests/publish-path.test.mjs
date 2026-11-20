@@ -225,6 +225,6 @@ test(
       `visual gate failed on the modified copy:\n${visual.stdout}\n${visual.stderr}`,
     );
     assert.match(visual.stdout, /content-dependent shots are skipped/);
-    assert.match(visual.stdout, /36\/36 body regions match the approved reference/);
+    assert.match(visual.stdout, /34\/34 body regions match the approved reference/);
   },
 );

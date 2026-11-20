@@ -5,6 +5,8 @@ import { postParams } from "@/content/links";
 import { Cover } from "@/components/journal/Cover";
 import { PostMeta } from "@/components/journal/PostMeta";
 import { ArticleBody } from "@/components/journal/ArticleBody";
+import { NotFoundPage } from "@/components/journal/NotFound";
+import { notFoundMeta } from "@/lib/not-found";
 
 export const Route = createFileRoute("/_site/$year/$month/$day/$file")({
   loader: ({ params }) => {
@@ -14,8 +16,7 @@ export const Route = createFileRoute("/_site/$year/$month/$day/$file")({
   },
   head: ({ loaderData }) => {
     const p = loaderData && findPost(loaderData.url);
-    if (!p)
-      return { meta: [{ title: "Article not found" }, { name: "robots", content: "noindex" }] };
+    if (!p) return { meta: notFoundMeta };
     const img = p.teaser?.startsWith("https://") ? p.teaser : undefined;
     return {
       meta: [
@@ -37,15 +38,7 @@ export const Route = createFileRoute("/_site/$year/$month/$day/$file")({
       links: [{ rel: "canonical", href: `https://adisakshya.github.io${p.url}` }],
     };
   },
-  notFoundComponent: () => (
-    <div className="mx-auto max-w-xl px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold">Page not found</h1>
-      <p className="mt-2 j-muted">This article doesn’t exist.</p>
-      <Link to="/" className="j-btn mt-6">
-        All writing
-      </Link>
-    </div>
-  ),
+  notFoundComponent: NotFoundPage,
   component: Article,
 });
 

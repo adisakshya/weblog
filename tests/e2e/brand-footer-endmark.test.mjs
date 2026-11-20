@@ -312,7 +312,7 @@ describe("article end-mark (#86)", () => {
       history.pushState({}, "", "/weblog/2099/01/01/not-an-article.html");
       window.dispatchEvent(new PopStateEvent("popstate"));
     });
-    await page.getByText("This article doesn’t exist.").waitFor();
+    await page.getByRole("heading", { name: "Back to the beginning." }).waitFor();
     assert.equal(await page.locator(".end-mark").count(), 0);
     await ctx.close();
   });

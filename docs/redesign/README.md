@@ -32,6 +32,7 @@ shot contains it. The reference is never regenerated from this implementation, s
   comparison is meaningless. Blank, erased or missing bodies still fail (`tests/visual-body.test.mjs`); a body that ends inside the screenshot must keep its height, and a body that runs to the screenshot edge in one shot but ends early in the other (truncated or grown) fails, so only the rows the screenshot itself cuts off are ignored;
 - the four search-dialog / Appearance-panel shots are anchored to the redesigned header and are skipped by name; they are covered by the
   browser tests (`reading-controls`, `search`, `header-footer`, `pinned-header`), which also verify the header and footer themselves;
+- the two not-found shots (`not-found--desktop.png`, `not-found--mobile.png`) are skipped by name: the 404 page was redesigned on purpose in #87 (it is now inside the site shell, with the आदि mark and a new heading) and the reference is the old bare page. This is a route-scoped exception, not a threshold change; `tests/e2e/brand-404.test.mjs` covers the page instead. When the reference is re-captured, remove both entries;
 - the home page on mobile has a measured allowance (long, text-heavy page; rows one pixel apart because of that sub-pixel phase).
 
 To return to whole-page comparison, re-capture `reference/screenshots` from the new Lovable design (never from this site), then remove

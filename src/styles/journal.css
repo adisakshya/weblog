@@ -495,12 +495,9 @@ html,
 [data-size="large"] {
   --j-body: 1.4375rem;
 } /* 23px */
-html,
-[data-font="serif"] {
-  --j-read-font: "Source Serif 4", Georgia, serif;
-}
-[data-font="sans"] {
-  --j-read-font: "IBM Plex Sans", system-ui, sans-serif;
+html {
+  --j-read-font:
+    "Source Serif 4", Georgia, serif; /* the article font is fixed (#79); no data-font attribute is read */
 }
 
 .journal {
@@ -654,6 +651,45 @@ html,
   grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   padding-block: max(16px, env(safe-area-inset-top)) 16px;
+  transition:
+    padding 0.2s ease,
+    gap 0.2s ease;
+}
+/* Pinned header (#78, approved design rev 2f72c13). Specificity is raised on purpose: the superhero themes put
+   `position: relative` on every direct child of the shell, which would otherwise un-pin the header in those themes. */
+.journal.j-shell > .j-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--j-bg);
+  border-bottom: 1px solid var(--j-border);
+  margin-bottom: 0;
+  transition:
+    box-shadow 0.2s ease,
+    margin-bottom 0.2s ease;
+}
+/* Anchors, headings and keyboard focus scroll into view below the pinned header. --j-header-h is published by the header
+   itself; the per-breakpoint fallbacks (the full, uncondensed heights) cover the moment before scripts run, so a direct load of
+   /article#section already lands below the header. */
+html {
+  --j-header-h: 122px;
+  scroll-padding-top: calc(var(--j-header-h) + 12px);
+}
+.journal.j-shell > .j-header[data-condensed] {
+  box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--j-fg) 45%, transparent);
+  /* Condensing shrinks the header by exactly this much (padding 2 x 8px + gap 6px; more where the masthead row also shrinks).
+     The same amount is kept as space below it, animated with the same duration and easing, so the page content never moves when
+     the header condenses or is restored: no layout jump. The space sits behind the pinned header once the page is scrolled. */
+  margin-bottom: 22px;
+}
+.j-header[data-condensed] .j-header-inner {
+  gap: 6px;
+  padding-block: max(8px, env(safe-area-inset-top)) 8px;
+}
+.j-masthead {
+  transition:
+    font-size 0.2s ease,
+    line-height 0.2s ease;
 }
 .j-header-actions {
   /* Meet Adi and the tools share one row when they fit and wrap to two rows when they do not (for example when the web
@@ -713,6 +749,13 @@ html,
     max-width: 100%;
     min-width: 0;
   }
+  .journal .j-footer-primary,
+  .journal .j-footer-pill {
+    white-space: normal;
+    max-width: 100%;
+    min-width: 0;
+    text-align: center;
+  }
 }
 .j-pref-choice {
   min-height: 44px;
@@ -741,71 +784,156 @@ html,
   color: var(--j-fg);
   text-decoration: none;
 }
+/* Footer (#80, approved design rev 2f72c13): compact, two groups, pills, one divider above the credit. */
+.j-footer {
+  margin-top: 5rem;
+  border-top: 1px solid var(--j-border);
+  background: var(--j-panel);
+  color: var(--j-panel-fg);
+}
 .j-footer-inner {
-  padding-top: 32px;
-  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-top: 24px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
 }
 .j-footer-top {
   display: grid;
-  gap: 32px;
+  gap: 20px;
 }
-.j-social-links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 16px;
-  max-width: 400px;
+.j-footer-group {
+  min-width: 0;
 }
-.j-social-links > :first-child {
-  grid-column: 1 / -1;
-  justify-self: start;
+.j-footer-label {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--j-muted);
+  margin-bottom: 4px;
 }
-.journal .j-social-links a {
+.j-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 18px;
+  row-gap: 0;
+  font-size: 15px;
+}
+.journal .j-footer-link,
+.journal .j-footer-link:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   min-height: 44px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 4px;
+}
+.journal .j-footer-link:hover {
+  color: var(--j-link);
+  text-decoration: underline;
+}
+/* LinkedIn (the existing accent fill), X and GitHub: identical rounded filled pills, 44px minimum touch target. */
+.j-footer-links:has(.j-footer-pill) {
+  gap: 8px;
+}
+.journal .j-footer-primary,
+.journal .j-footer-primary:visited,
+.journal .j-footer-pill,
+.journal .j-footer-pill:visited {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
   gap: 6px;
+  min-height: 44px;
+  padding-inline: 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
   white-space: nowrap;
 }
-.j-footer-groups {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  font-size: 14px;
+.journal .j-footer-primary,
+.journal .j-footer-primary:visited {
+  background: var(--j-accent);
+  color: var(--j-accent-fg);
 }
-.j-footer-groups h2 {
-  margin-bottom: 8px;
+/* The ring keeps the pill's boundary visible where its dark fill meets a dark footer surface. 60% (the mockup uses 50%) keeps the
+   boundary at 3:1 or better in every theme: at 50% X on the Deep Sea footer measured 2.77:1. */
+.journal .j-footer-pill,
+.journal .j-footer-pill:visited {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--j-panel-fg) 60%, transparent);
+  color: #ffffff;
 }
-.j-footer-groups a {
+.journal .j-footer-x,
+.journal .j-footer-x:visited {
+  background: #0b0b0d;
+}
+.journal .j-footer-gh,
+.journal .j-footer-gh:visited {
+  background: #24292f;
+}
+.journal .j-footer-primary:hover {
+  filter: brightness(1.08);
+}
+.journal .j-footer-pill:hover {
+  filter: brightness(1.18);
+}
+.j-footer svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+.j-footer-links svg:last-child {
+  width: 13px;
+  height: 13px;
+  opacity: 0.7;
+}
+.j-footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 20px;
+  border-top: 1px solid var(--j-border);
+  margin-top: 16px;
+  padding-top: 4px;
+  font-size: 13px;
+  color: var(--j-muted);
+}
+.j-footer-meta p {
+  min-height: 44px;
   display: flex;
   align-items: center;
-  min-height: 44px;
-  width: fit-content;
 }
-.j-footer-bottom {
-  display: grid;
-  gap: 8px;
-  border-top: 1px solid var(--j-border);
-  margin-top: 24px;
-  padding-top: 16px;
-}
-.j-footer-bottom a {
+.journal .j-footer-meta a,
+.journal .j-footer-meta a:visited {
+  color: var(--j-link);
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  margin-block: -12px;
+  border-radius: 4px;
 }
 @media (min-width: 360px) {
+  html {
+    --j-header-h: 125px;
+  }
   .j-masthead {
     font-size: 20px;
     line-height: 28px;
   }
 }
 @media (min-width: 430px) {
+  html {
+    --j-header-h: 129px;
+  }
   .j-masthead {
     font-size: 23px;
     line-height: 32px;
   }
 }
 @media (min-width: 640px) {
+  html {
+    --j-header-h: 137px;
+  }
   .j-header-inner,
   .j-footer-inner {
     padding-inline: max(24px, env(safe-area-inset-left)) max(24px, env(safe-area-inset-right));
@@ -816,24 +944,26 @@ html,
     font-weight: 700;
     line-height: 40px;
   }
+  .j-header[data-condensed] .j-masthead {
+    font-size: 23px;
+    line-height: 34px;
+  }
+  .journal.j-shell > .j-header[data-condensed] {
+    margin-bottom: 28px; /* 22px + the masthead row (48px -> 42px) */
+  }
   .journal .j-header-tool,
   .journal .j-meet {
     font-size: 14px;
     padding-inline: 16px;
   }
-  .j-social-links {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: none;
-  }
-  .j-footer-bottom {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-  }
 }
 @media (min-width: 1024px) {
+  html {
+    --j-header-h: 81px;
+  }
+  .journal.j-shell > .j-header[data-condensed] {
+    margin-bottom: 20px; /* one row: 16px padding + the 48px masthead row -> the 44px actions row */
+  }
   .j-header-inner {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 24px;
@@ -844,8 +974,11 @@ html,
     gap: 16px;
   }
   .j-footer-top {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    gap: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 64px;
+    row-gap: 20px;
+    align-items: flex-start;
   }
 }
 
@@ -931,7 +1064,7 @@ html,
   line-height: 1.25;
   margin-top: 2em;
   position: relative;
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 0; /* the pinned header is cleared by html scroll-padding-top */
 }
 .prose-j h2 {
   font-size: 1.45em;

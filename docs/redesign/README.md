@@ -29,7 +29,7 @@ shot contains it. The reference is never regenerated from this implementation, s
   reference exactly (the reference images are untouched); the new capture records its own bounds in `capture-log.json`;
 - the comparison is the tolerant structural one even when `exact` is asked for: the reference body sits at a fractional offset below the
   old header (e.g. 97.78px), so a body under a differently sized header is rasterised at another sub-pixel phase and pixel-exact
-  comparison is meaningless. Blank, erased or missing bodies still fail (`tests/visual-body.test.mjs`); a full-page body must keep its height;
+  comparison is meaningless. Blank, erased or missing bodies still fail (`tests/visual-body.test.mjs`); a body that ends inside the screenshot must keep its height, and a body that runs to the screenshot edge in one shot but ends early in the other (truncated or grown) fails, so only the rows the screenshot itself cuts off are ignored;
 - the four search-dialog / Appearance-panel shots are anchored to the redesigned header and are skipped by name; they are covered by the
   browser tests (`reading-controls`, `search`, `header-footer`), which also verify the header and footer themselves;
 - the home page on mobile has a measured allowance (long, text-heavy page; rows one pixel apart because of that sub-pixel phase).

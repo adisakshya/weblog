@@ -44,45 +44,58 @@ const bounds = (header, body) => ({ top: header, bottom: header + body });
 test("cropBodies: the same body under a different header and footer crops to identical pixels", () => {
   const ref = page({ header: 62, body: 400, footer: 90 });
   const neu = page({ header: 81, body: 400, footer: 140 });
-  const c = cropBodies(ref, neu, bounds(62, 400), bounds(81, 400), "full");
+  const c = cropBodies(ref, neu, bounds(62, 400), bounds(81, 400));
   assert.equal(c.error, undefined);
   assert.deepEqual([c.ref.width, c.ref.height], [W, 400]);
   assert.ok(Buffer.compare(c.ref.data, c.new.data) === 0, "the body pixels are the same");
 });
 
-test("cropBodies: a full-page shot whose body height changed is an error; clipped and viewport shots keep the shared rows", () => {
-  const ref = page({ header: 62, body: 400, footer: 0 });
-  const neu = page({ header: 81, body: 380, footer: 0 });
+test("cropBodies: a body that ends inside the screenshot must keep its height; bodies cut by the screenshot edge compare the shared rows", () => {
+  const ref = page({ header: 62, body: 400, footer: 90 });
+  const neu = page({ header: 81, body: 380, footer: 90 });
   assert.match(
-    cropBodies(ref, neu, bounds(62, 400), bounds(81, 380), "full").error,
+    cropBodies(ref, neu, bounds(62, 400), bounds(81, 380)).error,
     /BODY HEIGHT 400 vs 380/,
   );
-  const c = cropBodies(ref, neu, bounds(62, 400), bounds(81, 380), "viewport");
-  assert.equal(c.ref.height, 380, "viewport shot: the rows both shots share");
+  // viewport / clipped shots: both bodies run past the screenshot bottom, so the rows both show are compared
+  const a = page({ header: 62, body: 400, footer: 0 });
+  const b = page({ header: 81, body: 381, footer: 0 });
+  const c = cropBodies(a, b, { top: 62, bottom: 900 }, { top: 81, bottom: 900 });
+  assert.equal(c.error, undefined);
+  assert.equal(c.ref.height, 381, "the rows both shots share");
+});
+
+test("cropBodies: a truncated body is rejected even when the kept rows are unchanged (either direction)", () => {
+  // The reference body runs to the bottom of its screenshot; the new <main> was cut down to its first 400 rows.
+  const ref = page({ header: 62, body: 1000, footer: 0 });
+  const neu = page({ header: 81, body: 400, footer: 600 });
+  const truncated = cropBodies(ref, neu, { top: 62, bottom: 2000 }, bounds(81, 400));
+  assert.match(truncated.error, /truncated or grown/);
+  const grown = cropBodies(neu, ref, bounds(81, 400), { top: 62, bottom: 2000 });
+  assert.match(grown.error, /truncated or grown/);
+  // Neither fills the screenshot and the heights differ.
+  assert.match(
+    cropBodies(neu, neu, bounds(81, 400), bounds(81, 350)).error,
+    /BODY HEIGHT 400 vs 350/,
+  );
 });
 
 test("cropBodies: missing bounds, empty or tiny bodies and one-sided shells fail closed", () => {
   const img = page({ header: 10, body: 400, footer: 10 });
-  assert.match(cropBodies(img, img, undefined, bounds(10, 400), "full").error, /no <main> bounds/);
-  assert.match(cropBodies(img, img, bounds(10, 400), undefined, "full").error, /no <main> bounds/);
+  assert.match(cropBodies(img, img, undefined, bounds(10, 400)).error, /no <main> bounds/);
+  assert.match(cropBodies(img, img, bounds(10, 400), undefined).error, /no <main> bounds/);
+  assert.match(cropBodies(img, img, bounds(10, 400), bounds(500, 500)).error, /empty body region/);
   assert.match(
-    cropBodies(img, img, bounds(10, 400), bounds(500, 500), "full").error,
-    /empty body region/,
-  );
-  assert.match(
-    cropBodies(img, img, bounds(10, 100), bounds(10, 100), "full").error,
+    cropBodies(img, img, bounds(10, 100), bounds(10, 100)).error,
     /only 100 shared body rows/,
   );
-  assert.match(
-    cropBodies(img, img, { chromeless: true }, bounds(10, 400), "full").error,
-    /only one of/,
-  );
-  assert.match(cropBodies(img, img, bounds(10, 400), null, "full").error, /only one of/);
+  assert.match(cropBodies(img, img, { chromeless: true }, bounds(10, 400)).error, /only one of/);
+  assert.match(cropBodies(img, img, bounds(10, 400), null).error, /only one of/);
 });
 
 test("cropBodies: a page without the site shell (the 404 page) is compared whole when both agree", () => {
   const img = page({ header: 0, body: 400, footer: 0 });
-  const c = cropBodies(img, img, { chromeless: true }, null, "full");
+  const c = cropBodies(img, img, { chromeless: true }, null);
   assert.equal(c.ref, img);
   assert.equal(c.new, img);
 });
@@ -170,6 +183,19 @@ test("CLI: an erased section of the body fails", () => {
     }),
   );
   assert.equal(r.status, 1, r.stdout);
+});
+
+test("CLI: a truncated body in a clipped shot fails even though the kept rows are identical", () => {
+  const r = run(
+    setup({
+      refImg: page({ header: 62, body: 1000, footer: 0 }),
+      newImg: page({ header: 81, body: 400, footer: 600 }),
+      newBody: bounds(81, 400),
+      refBounds: { top: 62, bottom: 2000, mode: "viewport" },
+    }),
+  );
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stdout, /truncated or grown/);
 });
 
 test("CLI: a body that changed height fails; missing bounds for the shot fail closed", () => {

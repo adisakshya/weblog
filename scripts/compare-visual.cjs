@@ -74,10 +74,12 @@ function cropRows(png, top, rows) {
 }
 
 /** Body-region comparison: when the header/footer chrome was changed on purpose, compare only the page body (<main>).
- *  `refB` / `newB` are the <main> bounds (page coordinates) recorded for the reference shot and the new shot, `mode` how the
- *  shot was taken. A full-page shot must have a body of the same height; a clipped or viewport shot keeps the rows both share.
+ *  `refB` / `newB` are the <main> bounds (page coordinates) recorded for the reference shot and the new shot.
+ *  A body that ends INSIDE the screenshot must end inside it in both shots and have the same height (otherwise content was lost
+ *  or added); a body that runs to the screenshot boundary (viewport and clipped shots) is cut by the screenshot, so the rows both
+ *  shots show are compared. A body that fills one screenshot and ends early in the other was truncated (or grown): an error.
  *  Returns { ref, new } cropped to the same size, or { error }. */
-function cropBodies(refImg, newImg, refB, newB, mode) {
+function cropBodies(refImg, newImg, refB, newB) {
   if (!refB || newB === undefined)
     return {
       error: "no <main> bounds recorded (capture log or reference bounds are missing this shot)",
@@ -93,7 +95,15 @@ function cropBodies(refImg, newImg, refB, newB, mode) {
     nr = rows(newB, newImg);
   if (rr <= 0 || nr <= 0) return { error: `empty body region (${rr} / ${nr} rows)` };
   if (refImg.width !== newImg.width) return { error: `WIDTH ${refImg.width} vs ${newImg.width}` };
-  if (mode === "full" && rr !== nr) return { error: `BODY HEIGHT ${rr} vs ${nr} rows` };
+  // 2px of slack for sub-pixel rounding of the recorded bottom edge.
+  const fills = (b, img) => b.bottom >= img.height - 2;
+  const rf = fills(refB, refImg),
+    nf = fills(newB, newImg);
+  if (rf !== nf)
+    return {
+      error: `BODY HEIGHT ${rr} vs ${nr} rows: the body ends inside the screenshot in only one of reference and new (truncated or grown)`,
+    };
+  if (!rf && rr !== nr) return { error: `BODY HEIGHT ${rr} vs ${nr} rows` };
   const n = Math.min(rr, nr);
   if (n < MIN_BODY_ROWS) return { error: `only ${n} shared body rows (< ${MIN_BODY_ROWS})` };
   return { ref: cropRows(refImg, refB.top, n), new: cropRows(newImg, newB.top, n) };
@@ -233,7 +243,6 @@ function main() {
         newImg,
         refBounds[f],
         newBounds[f] ? newBounds[f].body : undefined,
-        refBounds[f]?.mode ?? newBounds[f]?.mode,
       );
       if (c.error) {
         failed++;

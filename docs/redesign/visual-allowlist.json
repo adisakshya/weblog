@@ -37,10 +37,23 @@
     "post-introduction-to-api-gateway--mobile.png": {
       "maxBadBlocks": 0.08,
       "reason": "CI (structural mode): text-dense shot; the GitHub runner's font rendering re-wraps lines (first CI calibration run measured 0.85-3.9% bad blocks on these shots). The limit is per shot and tests/visual-structural.test.mjs proves a blank, erased, inverted or shifted version of EACH of these shots is still rejected under it. | CI (structural mode): text-dense shot re-wrapped by the GitHub runner's fonts; measured 3.929% bad blocks on the first CI run, limit set per shot at ~2-2.5x. tests/visual-structural.test.mjs proves blank/erased/inverted/shifted versions of this shot are still rejected under it (blank pages score 10-35%)."
+    },
+    "home-posts--mobile.png": {
+      "maxBadBlocks": 0.09,
+      "reason": "Body-region comparison (#74/#76): the reference body starts at a fractional offset (97.78px below the old header), ours at a whole pixel (125px), so the long, text-heavy home page rasterises its rows one pixel apart (the view-toggle chips sit 1px lower, the images do not move). Measured 5.58% of blocks; limit 9%. tests/visual-structural.test.mjs proves blank, erased, inverted and shifted versions of this shot are still rejected under it."
     }
   },
   "contentDependent": {
     "pattern": "^(home-|tag-|series-|ui-)",
     "reason": "These shots render lists built from all articles, tags, series and curated items (home, tag and series pages, and the search / appearance panels opened over the home page). They cannot match a frozen reference once content has been added. Article pages, themes, Contact, Terms and 404 do not depend on other content and stay mandatory."
+  },
+  "bodyOnly": {
+    "reason": "The header (masthead, Meet Adi, Search, Appearance) and footer (Follow Adi, grouped links) were redesigned on purpose in #74/#76 against the approved Lovable design (project a72cd5b7, rev 38e6990), but the frozen reference screenshots still show the previous chrome. Until the reference is re-captured from that design, every shot is compared on its <main> region only, using the <main> bounds in docs/redesign/visual-reference-body.json. The header and footer are verified by tests/e2e/header-footer.test.mjs.",
+    "skip": {
+      "ui-search-open--desktop.png": "the search dialog / Appearance panel is positioned against the redesigned header, so a body-only crop cannot isolate it; covered by tests/e2e/reading-controls.test.mjs, search.test.mjs and header-footer.test.mjs",
+      "ui-search-open--mobile.png": "the search dialog / Appearance panel is positioned against the redesigned header, so a body-only crop cannot isolate it; covered by tests/e2e/reading-controls.test.mjs, search.test.mjs and header-footer.test.mjs",
+      "ui-appearance-open--desktop.png": "the search dialog / Appearance panel is positioned against the redesigned header, so a body-only crop cannot isolate it; covered by tests/e2e/reading-controls.test.mjs, search.test.mjs and header-footer.test.mjs",
+      "ui-appearance-open--mobile.png": "the search dialog / Appearance panel is positioned against the redesigned header, so a body-only crop cannot isolate it; covered by tests/e2e/reading-controls.test.mjs, search.test.mjs and header-footer.test.mjs"
+    }
   }
 }

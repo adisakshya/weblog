@@ -18,3 +18,22 @@ The approved design already exists as React components. Reusing them keeps visua
 
 ## Intentional removals (see `docs/inventory/intentional-removals.json`)
 Old Jekyll theme assets `/assets/css/dark.css`, `/assets/js/{main.min,sayings,theme-selector}.js` (not authored content). Comments UI and Staticman are omitted; `_data/comments/` is kept unrendered. Analytics are omitted (#65).
+
+## Body-region comparison (#74, #76)
+The header (masthead, Meet Adi, Search, Appearance) and the footer (Follow Adi, grouped links) were redesigned on purpose against the
+approved Lovable design (project `a72cd5b7`, revision `38e6990`), but `reference/screenshots` still shows the previous chrome, and every
+shot contains it. The reference is never regenerated from this implementation, so until it is re-captured from the new Lovable design:
+
+- every shot is compared on its `<main>` region only (`docs/redesign/visual-allowlist.json` → `bodyOnly`); the reference `<main>` bounds
+  are in `docs/redesign/visual-reference-body.json`, measured by `scripts/capture-visual.cjs` on commit `6f5e1f0`, the build that matched the
+  reference exactly (the reference images are untouched); the new capture records its own bounds in `capture-log.json`;
+- the comparison is the tolerant structural one even when `exact` is asked for: the reference body sits at a fractional offset below the
+  old header (e.g. 97.78px), so a body under a differently sized header is rasterised at another sub-pixel phase and pixel-exact
+  comparison is meaningless. Blank, erased or missing bodies still fail (`tests/visual-body.test.mjs`); a full-page body must keep its height;
+- the four search-dialog / Appearance-panel shots are anchored to the redesigned header and are skipped by name; they are covered by the
+  browser tests (`reading-controls`, `search`, `header-footer`), which also verify the header and footer themselves;
+- the home page on mobile has a measured allowance (long, text-heavy page; rows one pixel apart because of that sub-pixel phase).
+
+To return to whole-page comparison, re-capture `reference/screenshots` from the new Lovable design (never from this site), then remove
+`bodyOnly` from the allowlist and delete `visual-reference-body.json`.
+

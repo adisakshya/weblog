@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { shareImageMeta } from "@/content/site";
 import { findPost, posts, seriesFor } from "@/content/content";
 import { postParams } from "@/content/links";
 import { Cover } from "@/components/journal/Cover";
@@ -25,12 +26,13 @@ export const Route = createFileRoute("/_site/$year/$month/$day/$file")({
         { property: "og:type", content: "article" },
         { property: "article:published_time", content: p.date },
         { name: "twitter:card", content: "summary_large_image" },
+        // a post's own image wins and is left exactly as it was; posts without one get the default share image
         ...(img
           ? [
               { property: "og:image", content: img },
               { name: "twitter:image", content: img },
             ]
-          : []),
+          : shareImageMeta()),
       ],
       links: [{ rel: "canonical", href: `https://adisakshya.github.io${p.url}` }],
     };

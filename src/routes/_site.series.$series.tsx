@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { shareImageMeta } from "@/content/site";
 import { series } from "@/content/content";
 import { postParams } from "@/content/links";
 import { PostMeta } from "@/components/journal/PostMeta";
@@ -18,7 +19,8 @@ export const Route = createFileRoute("/_site/series/$series")({
         { property: "og:title", content: s?.title ?? "Series" },
         { property: "og:description", content: s?.excerpt ?? "" },
         { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary" },
+        { name: "twitter:card", content: "summary_large_image" },
+        ...shareImageMeta(),
       ],
       links: s
         ? [{ rel: "canonical", href: `https://adisakshya.github.io/weblog/series/${s.slug}/` }]

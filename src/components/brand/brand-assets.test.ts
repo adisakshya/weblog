@@ -42,3 +42,23 @@ describe("AdiSeal", () => {
     expect(svg).not.toMatch(/font-family|<text/);
   });
 });
+
+describe("shipped copies (#85)", () => {
+  const PUBLIC = [
+    "favicon.ico",
+    "favicon.svg",
+    "apple-touch-icon.png",
+    "favicon-192.png",
+    "favicon-512.png",
+    "og-image.png",
+  ];
+  it("public/ holds the approved files unchanged", () => {
+    for (const f of PUBLIC)
+      expect(
+        createHash("sha256")
+          .update(readFileSync(`public/${f}`))
+          .digest("hex"),
+        f,
+      ).toBe(sha(f));
+  });
+});

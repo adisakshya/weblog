@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { shareImageMeta } from "@/content/site";
 import { useHydrated } from "@/lib/use-hydrated";
 import { posts, series, groupings, subjects, formatShortDate, type Post } from "@/content/content";
 import { postParams } from "@/content/links";
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/_site/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...shareImageMeta(),
     ],
     links: [{ rel: "canonical", href: "https://adisakshya.github.io/weblog/" }],
   }),

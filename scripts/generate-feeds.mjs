@@ -4,15 +4,12 @@ import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { createServer } from "vite";
 
-const SITE = "https://adisakshya.github.io";
-const BASE = "/weblog";
 const esc = (s) =>
   String(s)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-const abs = (path) => `${SITE}${path}`;
 
 export async function generateFeeds(distDir) {
   const vite = await createServer({
@@ -25,6 +22,12 @@ export async function generateFeeds(distDir) {
     optimizeDeps: { noDiscovery: true },
   });
   try {
+    // the same site-origin definition the page heads use (src/content/site.ts)
+    const {
+      SITE_ORIGIN: SITE,
+      BASE_PATH: BASE,
+      absoluteUrl: abs,
+    } = await vite.ssrLoadModule("/src/content/site.ts");
     const content = await vite.ssrLoadModule("/src/content/content.ts");
     const { posts, series, tagPages, pages } = content;
 

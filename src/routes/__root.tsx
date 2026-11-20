@@ -74,7 +74,16 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, type: "image/x-icon" },
+      // आदि favicon set (docs/brand/assets, shipped unchanged from public/): the SVG where it is supported, the ICO (16/32/48) as the
+      // fallback, and the 180px Apple touch icon.
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.svg`, type: "image/svg+xml" },
+      {
+        rel: "icon",
+        href: `${import.meta.env.BASE_URL}favicon.ico`,
+        type: "image/x-icon",
+        sizes: "16x16 32x32 48x48",
+      },
+      { rel: "apple-touch-icon", href: `${import.meta.env.BASE_URL}apple-touch-icon.png` },
       {
         rel: "alternate",
         type: "application/atom+xml",

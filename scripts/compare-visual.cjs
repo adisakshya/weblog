@@ -16,6 +16,7 @@ const pixelmatch = require("pixelmatch").default ?? require("pixelmatch");
 
 const BLOCK = 16;
 const DEFAULTS = { blockThreshold: 0.1, maxBadBlocks: 0.005 };
+const MIN_BODY_ROWS = 300;
 
 /** Fraction of BLOCKxBLOCK blocks whose mean colour differs by more than `threshold` (max over RGB channels, 0..1). */
 function structuralDiff(a, b, threshold = DEFAULTS.blockThreshold) {
@@ -63,6 +64,49 @@ function currentContent(root = ".") {
     books: curated.books.map((b) => b.id),
     videos: curated.videos.map((v) => v.id),
   };
+}
+
+/** The rows of `png` from `top` for `rows` lines, as a new image. */
+function cropRows(png, top, rows) {
+  const out = new PNG({ width: png.width, height: rows });
+  PNG.bitblt(png, out, 0, top, png.width, rows, 0, 0);
+  return out;
+}
+
+/** Body-region comparison: when the header/footer chrome was changed on purpose, compare only the page body (<main>).
+ *  `refB` / `newB` are the <main> bounds (page coordinates) recorded for the reference shot and the new shot.
+ *  A body that ends INSIDE the screenshot must end inside it in both shots and have the same height (otherwise content was lost
+ *  or added); a body that runs to the screenshot boundary (viewport and clipped shots) is cut by the screenshot, so the rows both
+ *  shots show are compared. A body that fills one screenshot and ends early in the other was truncated (or grown): an error.
+ *  Returns { ref, new } cropped to the same size, or { error }. */
+function cropBodies(refImg, newImg, refB, newB) {
+  if (!refB || newB === undefined)
+    return {
+      error: "no <main> bounds recorded (capture log or reference bounds are missing this shot)",
+    };
+  // A page without the site shell (the 404 page) has no <main>, no header and no footer: compare it whole, but only if both agree.
+  if (refB.chromeless || newB === null) {
+    return refB.chromeless && newB === null
+      ? { ref: refImg, new: newImg }
+      : { error: "the page has the site shell in only one of reference and new" };
+  }
+  const rows = (b, img) => Math.min(b.bottom, img.height) - b.top;
+  const rr = rows(refB, refImg),
+    nr = rows(newB, newImg);
+  if (rr <= 0 || nr <= 0) return { error: `empty body region (${rr} / ${nr} rows)` };
+  if (refImg.width !== newImg.width) return { error: `WIDTH ${refImg.width} vs ${newImg.width}` };
+  // 2px of slack for sub-pixel rounding of the recorded bottom edge.
+  const fills = (b, img) => b.bottom >= img.height - 2;
+  const rf = fills(refB, refImg),
+    nf = fills(newB, newImg);
+  if (rf !== nf)
+    return {
+      error: `BODY HEIGHT ${rr} vs ${nr} rows: the body ends inside the screenshot in only one of reference and new (truncated or grown)`,
+    };
+  if (!rf && rr !== nr) return { error: `BODY HEIGHT ${rr} vs ${nr} rows` };
+  const n = Math.min(rr, nr);
+  if (n < MIN_BODY_ROWS) return { error: `only ${n} shared body rows (< ${MIN_BODY_ROWS})` };
+  return { ref: cropRows(refImg, refB.top, n), new: cropRows(newImg, newB.top, n) };
 }
 
 /** Content added since the approved reference, or null when the tree is not a pure superset of the baseline.
@@ -121,7 +165,7 @@ function main() {
   const refDir = arg("--ref", "reference/screenshots");
   const allowFile = arg("--allow", "docs/redesign/visual-allowlist.json");
   const outDir = arg("--out", null);
-  const mode = arg("--mode", process.env.VISUAL_MODE ?? "exact");
+  const requestedMode = arg("--mode", process.env.VISUAL_MODE ?? "exact");
   if (!newDir) {
     console.error(
       "usage: compare-visual.cjs <newDir> [--ref dir] [--allow file] [--out dir] [--mode exact|structural]",
@@ -148,7 +192,24 @@ function main() {
       );
     }
   }
+  // Body-region mode (docs/redesign/README.md): active when the allowlist declares `bodyOnly` and the reference <main> bounds exist.
+  const boundsFile = arg("--body-bounds", "docs/redesign/visual-reference-body.json");
+  const bodyCfg = allowDoc.bodyOnly && fs.existsSync(boundsFile) ? allowDoc.bodyOnly : null;
+  const refBounds = bodyCfg ? (JSON.parse(fs.readFileSync(boundsFile, "utf8")).shots ?? {}) : {};
+  const newLogFile = path.join(newDir, "capture-log.json");
+  const newBounds = {};
+  if (bodyCfg && fs.existsSync(newLogFile))
+    for (const e of JSON.parse(fs.readFileSync(newLogFile, "utf8")).shots ?? [])
+      newBounds[e.file] = e;
+  // The reference body sits at a fractional offset below the old header (e.g. 97.78px), so a body under any differently sized
+  // header is rasterised at another sub-pixel phase: pixel-exact comparison is meaningless there, the tolerant one is used.
+  const mode = bodyCfg ? "structural" : requestedMode;
+  if (bodyCfg)
+    console.log(
+      "NOTE body-region comparison: only the <main> region of each page is compared (header and footer were changed on purpose)",
+    );
   let skipped = 0;
+  let bodySkipped = 0;
   let failed = 0,
     total = 0;
   for (const f of fs
@@ -167,11 +228,31 @@ function main() {
       failed++;
       continue;
     }
-    const r = compareImages(
-      PNG.sync.read(fs.readFileSync(path.join(refDir, f))),
-      PNG.sync.read(fs.readFileSync(np)),
-      { mode, rule: allow[f] ?? {} },
-    );
+    let refImg = PNG.sync.read(fs.readFileSync(path.join(refDir, f)));
+    let newImg = PNG.sync.read(fs.readFileSync(np));
+    if (bodyCfg) {
+      const why = bodyCfg.skip?.[f];
+      if (why) {
+        bodySkipped++;
+        total--;
+        console.log(`SKIP ${f}: ${why}`);
+        continue;
+      }
+      const c = cropBodies(
+        refImg,
+        newImg,
+        refBounds[f],
+        newBounds[f] ? newBounds[f].body : undefined,
+      );
+      if (c.error) {
+        failed++;
+        console.log(`DIFF ${f}: ${c.error}`);
+        continue;
+      }
+      refImg = c.ref;
+      newImg = c.new;
+    }
+    const r = compareImages(refImg, newImg, { mode, rule: allow[f] ?? {} });
     if (!r.ok) {
       failed++;
       console.log(`DIFF ${f}: ${r.detail}`);
@@ -183,10 +264,18 @@ function main() {
       console.log(`ok   ${f}: ${r.detail}${allow[f] ? ` (allowed: ${allow[f].reason})` : ""}`);
   }
   console.log(
-    `${total - failed}/${total} shots match the approved reference (${mode})${skipped ? `, ${skipped} content-dependent shots skipped` : ""}`,
+    `${total - failed}/${total} ${bodyCfg ? "body regions" : "shots"} match the approved reference (${mode})${skipped ? `, ${skipped} content-dependent shots skipped` : ""}${bodySkipped ? `, ${bodySkipped} chrome-anchored shots skipped (see docs/redesign/README.md)` : ""}`,
   );
   process.exit(failed ? 1 : 0);
 }
 
-module.exports = { compareImages, structuralDiff, contentAdditions, currentContent, DEFAULTS };
+module.exports = {
+  compareImages,
+  structuralDiff,
+  contentAdditions,
+  currentContent,
+  cropRows,
+  cropBodies,
+  DEFAULTS,
+};
 if (require.main === module) main();

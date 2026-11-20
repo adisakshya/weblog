@@ -42,10 +42,12 @@ describe("home views", () => {
   }
   it("switching views updates the URL and the content, and Back returns to the previous view", async () => {
     const { ctx, page } = await openPage(env, "/weblog/");
-    await page.getByRole("link", { name: "Subjects" }).click();
+    // the footer also links to Subjects and Index (Explore), so the view toggle is addressed by its group
+    const toggle = page.getByRole("group", { name: "Choose view" });
+    await toggle.getByRole("link", { name: "Subjects" }).click();
     await page.waitForURL(/view=subjects/);
     assert.equal(await section(page), "subjects-h");
-    await page.getByRole("link", { name: "Index" }).click();
+    await toggle.getByRole("link", { name: "Index" }).click();
     await page.waitForURL(/view=index/);
     assert.match(
       await page.locator("main").innerText(),

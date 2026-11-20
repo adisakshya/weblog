@@ -74,7 +74,17 @@ const shots = (blank = []) => {
 const run = (dir, root, mode = "structural") =>
   spawnSync(
     process.execPath,
-    ["scripts/compare-visual.cjs", dir, "--mode", mode, "--content-root", root],
+    [
+      "scripts/compare-visual.cjs",
+      dir,
+      "--mode",
+      mode,
+      "--content-root",
+      root,
+      // these tests are about content-dependent skipping; body-region mode has its own tests (visual-body.test.mjs)
+      "--body-bounds",
+      "none",
+    ],
     { encoding: "utf8" },
   );
 

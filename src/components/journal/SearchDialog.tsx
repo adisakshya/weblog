@@ -75,7 +75,7 @@ export function SearchDialog() {
       }}
     >
       <Dialog.Trigger
-        className="j-ghost text-sm inline-flex items-center gap-2"
+        className="j-ghost j-header-tool inline-flex items-center text-sm font-medium"
         aria-keyshortcuts="/"
       >
         <svg

@@ -125,7 +125,17 @@ async function open(browser, size, theme) {
       opts.clip = { x: 0, y: 0, width: vp.width, height: 1800 };
     }
     await page.screenshot(opts);
-    log.push({ name, w, file: path.basename(file), status: page.__status });
+    // The <main> region in page coordinates: lets the comparison look at the page body alone when the header/footer chrome
+    // was changed on purpose (docs/redesign/README.md, "Body-region comparison").
+    const body = await page.evaluate(() => {
+      const m = document.querySelector("main");
+      if (!m) return null;
+      const b = m.getBoundingClientRect();
+      // top rounded, bottom = top + rounded height: two separately rounded edges can disagree by a row when the header above is fractional
+      const top = Math.round(b.top + window.scrollY);
+      return { top, bottom: top + Math.round(b.height) };
+    });
+    log.push({ name, w, file: path.basename(file), status: page.__status, mode, body });
   };
   for (const [w, size] of Object.entries(WIDTHS)) {
     const ctx = await open(browser, size);

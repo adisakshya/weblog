@@ -1,7 +1,19 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
+import { ArrowUpRight, Github, Linkedin } from "lucide-react";
 import { SearchDialog } from "./SearchDialog";
 import { PrefsMenu } from "./PrefsMenu";
+
+// Exact public destinations (unchanged from the published footer and masthead).
+const PERSONAL_SITE = "https://adisakshya.github.io/";
+const LINKEDIN = "https://www.linkedin.com/in/adisakshya/";
+const TWITTER = "https://twitter.com/adisakshya";
+const GITHUB = "https://github.com/adisakshya";
+const SOURCE = "https://github.com/adisakshya/weblog";
+const EMAIL = "mailto:adisakshya98@gmail.com";
+
+const EXTERNAL = { rel: "noopener noreferrer" } as const;
+const BUTTON = "inline-flex items-center text-sm font-medium";
 
 export function Shell({ children }: { children: ReactNode }) {
   return (
@@ -13,51 +25,79 @@ export function Shell({ children }: { children: ReactNode }) {
         Skip to content
       </a>
       <header className="border-b j-border">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 sm:px-6">
-          <Link to="/" className="plain j-masthead text-2xl sm:text-[1.7rem] mr-auto">
+        <div className="j-header-inner">
+          <Link to="/" className="plain j-masthead min-w-0">
             The blog of Adisakshya Chauhan
           </Link>
-          <nav aria-label="Primary" className="flex items-center gap-1 text-sm">
-            <a
-              href="https://adisakshya.github.io/"
-              rel="noopener noreferrer"
-              className="plain rounded-full px-3 py-1.5 hover:bg-[var(--j-panel)]"
-            >
-              Meet Adi
-            </a>
-          </nav>
-          <div className="flex items-center gap-1.5">
-            <SearchDialog />
-            <PrefsMenu />
+          <div className="j-header-actions">
+            <nav aria-label="Primary" className="min-w-0">
+              <a
+                href={PERSONAL_SITE}
+                {...EXTERNAL}
+                className={`j-btn j-meet justify-center gap-2 ${BUTTON}`}
+              >
+                Meet Adi <ArrowUpRight aria-hidden="true" size={16} />
+              </a>
+            </nav>
+            <div className="j-header-tools">
+              <SearchDialog />
+              <PrefsMenu />
+            </div>
           </div>
         </div>
       </header>
       <main id="main">{children}</main>
-      <footer className="mt-20 border-t j-border">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 text-sm sm:flex-row sm:justify-between sm:px-6">
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-4 gap-y-2">
-            <Link to="/">Home</Link>
-            <Link to="/contact">Contact</Link>
-            <Link to="/terms">Terms &amp; policies</Link>
-            <a href="https://twitter.com/adisakshya" rel="noopener noreferrer">
-              Twitter
-            </a>
-            <a href="https://github.com/adisakshya" rel="noopener noreferrer">
-              GitHub
-            </a>
-            <a href="https://www.linkedin.com/in/adisakshya/" rel="noopener noreferrer">
-              LinkedIn
-            </a>
-            <a href="mailto:adisakshya98@gmail.com">Email</a>
-          </nav>
-          <p className="j-muted">
-            © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Adisakshya Chauhan ·
-            Built in New Delhi, India (
-            <a href="https://github.com/adisakshya/weblog" rel="noopener noreferrer">
-              view source
-            </a>
-            )
-          </p>
+      <footer className="j-footer mt-20 border-t j-border">
+        <div className="j-footer-inner">
+          <div className="j-footer-top">
+            <section aria-labelledby="follow-adi">
+              <h2 id="follow-adi" className="text-2xl font-semibold">
+                Follow Adi
+              </h2>
+              <nav aria-label="Follow Adi" className="j-social-links">
+                <a href={LINKEDIN} {...EXTERNAL} className={`j-btn ${BUTTON}`}>
+                  <Linkedin aria-hidden="true" size={16} /> LinkedIn{" "}
+                  <ArrowUpRight aria-hidden="true" size={16} />
+                </a>
+                <a href={TWITTER} {...EXTERNAL} className={`j-ghost ${BUTTON}`}>
+                  Twitter/X <ArrowUpRight aria-hidden="true" size={16} />
+                </a>
+                <a href={GITHUB} {...EXTERNAL} className={`j-ghost ${BUTTON}`}>
+                  <Github aria-hidden="true" size={16} /> GitHub{" "}
+                  <ArrowUpRight aria-hidden="true" size={16} />
+                </a>
+              </nav>
+            </section>
+            <nav aria-label="Footer" className="j-footer-groups">
+              <div>
+                <h2 className="text-xs font-semibold uppercase j-muted">Explore</h2>
+                <Link to="/">Home</Link>
+                <Link to="/" search={{ view: "subjects" }}>
+                  Subjects
+                </Link>
+                <Link to="/" search={{ view: "index" }}>
+                  Index
+                </Link>
+              </div>
+              <div>
+                <h2 className="text-xs font-semibold uppercase j-muted">Get in touch &amp; help</h2>
+                <Link to="/contact">Contact</Link>
+                <a href={EMAIL}>Email</a>
+                <Link to="/terms">Terms &amp; policies</Link>
+              </div>
+            </nav>
+          </div>
+          <div className="j-footer-bottom text-xs j-muted">
+            <p>
+              © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Adisakshya Chauhan
+            </p>
+            <p>
+              Built in New Delhi, India ·{" "}
+              <a href={SOURCE} {...EXTERNAL}>
+                View source
+              </a>
+            </p>
+          </div>
         </div>
       </footer>
     </div>

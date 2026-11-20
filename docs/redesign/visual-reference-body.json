@@ -1,0 +1,254 @@
+{
+  "comment": "Bounds of the <main> region inside each frozen reference screenshot (page coordinates, CSS px); `chromeless` marks a page without the site shell (the 404 page), compared whole. Measured with scripts/capture-visual.cjs on commit 6f5e1f0, the build whose capture matched reference/screenshots exactly (50/50) before the header and footer were redesigned (#74, #76). Geometry only: the reference images themselves are untouched. Do not edit to make a check pass.",
+  "measured_on": "6f5e1f060d96dcef57839a3ba71f8c76cc19dd10",
+  "shots": {
+    "home-index--desktop.png": {
+      "top": 62,
+      "bottom": 551,
+      "mode": "full"
+    },
+    "home-index--mobile.png": {
+      "top": 98,
+      "bottom": 862,
+      "mode": "full"
+    },
+    "home-posts--desktop.png": {
+      "top": 62,
+      "bottom": 2173,
+      "mode": "full"
+    },
+    "home-posts--mobile.png": {
+      "top": 98,
+      "bottom": 4558,
+      "mode": "full"
+    },
+    "home-subjects--desktop.png": {
+      "top": 62,
+      "bottom": 369,
+      "mode": "full"
+    },
+    "home-subjects--mobile.png": {
+      "top": 98,
+      "bottom": 530,
+      "mode": "full"
+    },
+    "not-found--desktop.png": {
+      "chromeless": true,
+      "mode": "full"
+    },
+    "not-found--mobile.png": {
+      "chromeless": true,
+      "mode": "full"
+    },
+    "page-contact--desktop.png": {
+      "top": 62,
+      "bottom": 372,
+      "mode": "full"
+    },
+    "page-contact--mobile.png": {
+      "top": 98,
+      "bottom": 508,
+      "mode": "full"
+    },
+    "page-terms--desktop.png": {
+      "top": 62,
+      "bottom": 1519,
+      "mode": "full"
+    },
+    "page-terms--mobile.png": {
+      "top": 98,
+      "bottom": 2390,
+      "mode": "full"
+    },
+    "post-extension-pack--desktop.png": {
+      "top": 62,
+      "bottom": 12101,
+      "mode": "top"
+    },
+    "post-extension-pack--mobile.png": {
+      "top": 98,
+      "bottom": 16254,
+      "mode": "top"
+    },
+    "post-introduction-to-api-gateway--desktop.png": {
+      "top": 62,
+      "bottom": 8493,
+      "mode": "top"
+    },
+    "post-introduction-to-api-gateway--mobile.png": {
+      "top": 98,
+      "bottom": 11233,
+      "mode": "top"
+    },
+    "post-setting-up-api-gateway--desktop.png": {
+      "top": 62,
+      "bottom": 9417,
+      "mode": "top"
+    },
+    "post-setting-up-api-gateway--mobile.png": {
+      "top": 98,
+      "bottom": 12611,
+      "mode": "top"
+    },
+    "series-api-gateway-101--desktop.png": {
+      "top": 62,
+      "bottom": 592,
+      "mode": "full"
+    },
+    "series-api-gateway-101--mobile.png": {
+      "top": 98,
+      "bottom": 1191,
+      "mode": "full"
+    },
+    "tag-kong--desktop.png": {
+      "top": 62,
+      "bottom": 607,
+      "mode": "full"
+    },
+    "tag-kong--mobile.png": {
+      "top": 98,
+      "bottom": 800,
+      "mode": "full"
+    },
+    "theme-batman--desktop.png": {
+      "top": 86,
+      "bottom": 8517,
+      "mode": "viewport"
+    },
+    "theme-batman--mobile.png": {
+      "top": 122,
+      "bottom": 11257,
+      "mode": "viewport"
+    },
+    "theme-dark-modern--desktop.png": {
+      "top": 62,
+      "bottom": 8493,
+      "mode": "viewport"
+    },
+    "theme-dark-modern--mobile.png": {
+      "top": 98,
+      "bottom": 11233,
+      "mode": "viewport"
+    },
+    "theme-ironman--desktop.png": {
+      "top": 86,
+      "bottom": 8517,
+      "mode": "viewport"
+    },
+    "theme-ironman--mobile.png": {
+      "top": 122,
+      "bottom": 11257,
+      "mode": "viewport"
+    },
+    "theme-original--desktop.png": {
+      "top": 62,
+      "bottom": 8493,
+      "mode": "viewport"
+    },
+    "theme-original--mobile.png": {
+      "top": 98,
+      "bottom": 11233,
+      "mode": "viewport"
+    },
+    "theme-paper--desktop.png": {
+      "top": 62,
+      "bottom": 8493,
+      "mode": "viewport"
+    },
+    "theme-paper--mobile.png": {
+      "top": 98,
+      "bottom": 11233,
+      "mode": "viewport"
+    },
+    "theme-sepia--desktop.png": {
+      "top": 62,
+      "bottom": 8493,
+      "mode": "viewport"
+    },
+    "theme-sepia--mobile.png": {
+      "top": 98,
+      "bottom": 11233,
+      "mode": "viewport"
+    },
+    "theme-solarized-dark--desktop.png": {
+      "top": 62,
+      "bottom": 8493,
+      "mode": "viewport"
+    },
+    "theme-solarized-dark--mobile.png": {
+      "top": 98,
+      "bottom": 11233,
+      "mode": "viewport"
+    },
+    "theme-solarized-light--desktop.png": {
+      "top": 62,
+      "bottom": 8493,
+      "mode": "viewport"
+    },
+    "theme-solarized-light--mobile.png": {
+      "top": 98,
+      "bottom": 11233,
+      "mode": "viewport"
+    },
+    "theme-space--desktop.png": {
+      "top": 86,
+      "bottom": 8517,
+      "mode": "viewport"
+    },
+    "theme-space--mobile.png": {
+      "top": 122,
+      "bottom": 11257,
+      "mode": "viewport"
+    },
+    "theme-spiderman--desktop.png": {
+      "top": 86,
+      "bottom": 8517,
+      "mode": "viewport"
+    },
+    "theme-spiderman--mobile.png": {
+      "top": 122,
+      "bottom": 11257,
+      "mode": "viewport"
+    },
+    "theme-superman--desktop.png": {
+      "top": 86,
+      "bottom": 8517,
+      "mode": "viewport"
+    },
+    "theme-superman--mobile.png": {
+      "top": 122,
+      "bottom": 11257,
+      "mode": "viewport"
+    },
+    "theme-system--desktop.png": {
+      "top": 62,
+      "bottom": 8493,
+      "mode": "viewport"
+    },
+    "theme-system--mobile.png": {
+      "top": 98,
+      "bottom": 11233,
+      "mode": "viewport"
+    },
+    "ui-appearance-open--desktop.png": {
+      "top": 62,
+      "bottom": 2173,
+      "mode": "viewport"
+    },
+    "ui-appearance-open--mobile.png": {
+      "top": 98,
+      "bottom": 4558,
+      "mode": "viewport"
+    },
+    "ui-search-open--desktop.png": {
+      "top": 62,
+      "bottom": 2173,
+      "mode": "viewport"
+    },
+    "ui-search-open--mobile.png": {
+      "top": 98,
+      "bottom": 4558,
+      "mode": "viewport"
+    }
+  }
+}

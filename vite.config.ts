@@ -20,6 +20,9 @@ const extraPages = [
 export default defineConfig({
   base: "/weblog/",
   resolve: { tsconfigPaths: true },
+  // Dev server only (not part of the static build): Codespaces serves the forwarded port under *.app.github.dev and Vite
+  // rejects unknown Host headers with a 403 unless they are allowed.
+  server: { allowedHosts: [".app.github.dev"] },
   plugins: [
     tanstackStart({
       pages: extraPages,

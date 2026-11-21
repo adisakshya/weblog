@@ -39,6 +39,8 @@ jobs:
       - run: bun run test
       - name: Workflow dependencies pinned to commit SHAs (supply-chain guard)
         run: node --test tests/workflow-pins.test.mjs
+      - name: Dev container matches the CI toolchain and the Vite dev server allows Codespaces (#50)
+        run: node --test tests/devcontainer.test.mjs
       - name: Content preservation (original Markdown, front matter, comments, images byte-identical)
         run: python3 tests/test_legacy_inventory.py
       - name: Static build (prerender + 404 + .nojekyll + sitemap + feed)

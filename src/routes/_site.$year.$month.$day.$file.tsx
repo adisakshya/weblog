@@ -1,9 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { shareImageMeta } from "@/content/site";
 import { findPost, posts, seriesFor } from "@/content/content";
 import { postParams } from "@/content/links";
 import { Cover } from "@/components/journal/Cover";
 import { PostMeta } from "@/components/journal/PostMeta";
 import { ArticleBody } from "@/components/journal/ArticleBody";
+import { NotFoundPage } from "@/components/journal/NotFound";
+import { notFoundMeta } from "@/lib/not-found";
 
 export const Route = createFileRoute("/_site/$year/$month/$day/$file")({
   loader: ({ params }) => {
@@ -13,37 +16,29 @@ export const Route = createFileRoute("/_site/$year/$month/$day/$file")({
   },
   head: ({ loaderData }) => {
     const p = loaderData && findPost(loaderData.url);
-    if (!p)
-      return { meta: [{ title: "Article not found" }, { name: "robots", content: "noindex" }] };
+    if (!p) return { meta: notFoundMeta };
     const img = p.teaser?.startsWith("https://") ? p.teaser : undefined;
     return {
       meta: [
-        { title: `${p.title} - The blog of Adisakshya Chauhan` },
+        { title: `${p.title} — Adisakshya Chauhan` },
         { name: "description", content: p.excerpt },
         { property: "og:title", content: p.title },
         { property: "og:description", content: p.excerpt },
         { property: "og:type", content: "article" },
         { property: "article:published_time", content: p.date },
         { name: "twitter:card", content: "summary_large_image" },
+        // a post's own image wins and is left exactly as it was; posts without one get the default share image
         ...(img
           ? [
               { property: "og:image", content: img },
               { name: "twitter:image", content: img },
             ]
-          : []),
+          : shareImageMeta()),
       ],
       links: [{ rel: "canonical", href: `https://adisakshya.github.io${p.url}` }],
     };
   },
-  notFoundComponent: () => (
-    <div className="mx-auto max-w-xl px-4 py-20 text-center">
-      <h1 className="text-3xl font-bold">Page not found</h1>
-      <p className="mt-2 j-muted">This article doesn’t exist.</p>
-      <Link to="/" className="j-btn mt-6">
-        All writing
-      </Link>
-    </div>
-  ),
+  notFoundComponent: NotFoundPage,
   component: Article,
 });
 
@@ -106,7 +101,7 @@ function Article() {
         )}
       </div>
       <div className="mt-8">
-        <ArticleBody html={post.html} />
+        <ArticleBody html={post.html} endMark />
       </div>
 
       <div className="j-measure mt-14 space-y-10 !text-base">

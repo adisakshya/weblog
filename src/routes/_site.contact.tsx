@@ -1,16 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { shareImageMeta } from "@/content/site";
 import { pages } from "@/content/content";
 import { ArticleBody } from "@/components/journal/ArticleBody";
 
 export const Route = createFileRoute("/_site/contact")({
   head: () => ({
     meta: [
-      { title: "Contact - The blog of Adisakshya Chauhan" },
+      { title: "Contact — Adisakshya Chauhan" },
       { name: "description", content: pages["contact"]!.excerpt ?? "" },
       { property: "og:title", content: "Contact" },
       { property: "og:description", content: pages["contact"]!.excerpt ?? "" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
+      ...shareImageMeta(),
     ],
     links: [{ rel: "canonical", href: "https://adisakshya.github.io/weblog/contact/" }],
   }),

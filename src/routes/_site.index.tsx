@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { shareImageMeta } from "@/content/site";
 import { useHydrated } from "@/lib/use-hydrated";
 import { posts, series, groupings, subjects, formatShortDate, type Post } from "@/content/content";
 import { postParams } from "@/content/links";
@@ -13,13 +14,13 @@ export const Route = createFileRoute("/_site/")({
     s["view"] === "index" || s["view"] === "subjects" ? { view: s["view"] } : {},
   head: () => ({
     meta: [
-      { title: "The blog of Adisakshya Chauhan" },
+      { title: "Adisakshya Chauhan" },
       {
         name: "description",
         content:
           "A compilation of Adisakshya’s musings, inspirations, mistakes, and other ramblings — on API gateways, microservices and developer tools.",
       },
-      { property: "og:title", content: "The blog of Adisakshya Chauhan" },
+      { property: "og:title", content: "Adisakshya Chauhan" },
       {
         property: "og:description",
         content:
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/_site/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...shareImageMeta(),
     ],
     links: [{ rel: "canonical", href: "https://adisakshya.github.io/weblog/" }],
   }),
@@ -60,7 +62,7 @@ function Home() {
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
       {/* The masthead is a link, so the home page needs its own (visually hidden) page heading. */}
-      <h1 className="sr-only">The blog of Adisakshya Chauhan</h1>
+      <h1 className="sr-only">Adisakshya Chauhan</h1>
       <div className="flex flex-col gap-4 pt-8 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <p className="max-w-xl text-lg j-muted">
           A compilation of my musings 🤔, inspirations 🌟, mistakes 😅, and other ramblings 🧐.

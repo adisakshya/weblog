@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { shareImageMeta } from "@/content/site";
 import { posts, tags, tagPages } from "@/content/content";
 import { postParams } from "@/content/links";
 import { PostMeta } from "@/components/journal/PostMeta";
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/_site/tags/$tag")({
   head: ({ params }) => ({
     meta: [
       {
-        title: `${tagPages.find((t) => t.tag === params.tag)?.title ?? `#${params.tag}`} - The blog of Adisakshya Chauhan`,
+        title: `${tagPages.find((t) => t.tag === params.tag)?.title ?? `#${params.tag}`} — Adisakshya Chauhan`,
       },
       {
         name: "description",
@@ -20,7 +21,8 @@ export const Route = createFileRoute("/_site/tags/$tag")({
       { property: "og:title", content: `#${params.tag}` },
       { property: "og:description", content: `Articles tagged ${params.tag}.` },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
+      ...shareImageMeta(),
     ],
     links: [{ rel: "canonical", href: `https://adisakshya.github.io/weblog/tags/${params.tag}/` }],
   }),

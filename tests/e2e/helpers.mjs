@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { createServer } from "node:net";
 import { chromium } from "playwright";
 
 export const ROUTES = [
@@ -24,16 +25,37 @@ export const ROUTES = [
   ].map((t) => `/weblog/tags/${t}/`),
 ];
 
-/** Start scripts/serve-dist.mjs (a GitHub-Pages-faithful static server) and a browser. */
-export async function start(port = 4300 + Math.floor(Math.random() * 500)) {
-  const server = spawn(process.execPath, ["scripts/serve-dist.mjs"], {
-    env: { ...process.env, PORT: String(port) },
-    stdio: ["ignore", "pipe", "inherit"],
+/** Ask the OS for a free port (node --test runs every e2e file in parallel, so a random fixed range can collide). */
+function freePort() {
+  return new Promise((res, rej) => {
+    const s = createServer();
+    s.on("error", rej);
+    s.listen(0, "127.0.0.1", () => {
+      const { port } = s.address();
+      s.close(() => res(port));
+    });
   });
-  await new Promise((res, rej) => {
-    server.stdout.on("data", (d) => String(d).includes("serving") && res());
-    server.on("exit", (c) => rej(new Error(`server exited ${c}`)));
-  });
+}
+
+/** Start scripts/serve-dist.mjs (a GitHub-Pages-faithful static server) and a browser. A port taken in the meantime is retried. */
+export async function start() {
+  let server, port;
+  for (let attempt = 1; ; attempt++) {
+    port = await freePort();
+    server = spawn(process.execPath, ["scripts/serve-dist.mjs"], {
+      env: { ...process.env, PORT: String(port) },
+      stdio: ["ignore", "pipe", "inherit"],
+    });
+    try {
+      await new Promise((res, rej) => {
+        server.stdout.on("data", (d) => String(d).includes("serving") && res());
+        server.on("exit", (c) => rej(new Error(`server exited ${c}`)));
+      });
+      break;
+    } catch (e) {
+      if (attempt >= 5) throw e;
+    }
+  }
   const browser = await chromium.launch();
   const base = `http://127.0.0.1:${port}`;
   return {

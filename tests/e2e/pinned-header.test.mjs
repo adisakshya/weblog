@@ -47,7 +47,7 @@ const header = (page) =>
     };
     const mast = document.querySelector(".j-masthead");
     const range = document.createRange();
-    range.selectNodeContents(mast);
+    range.selectNodeContents(mast.querySelector(".j-masthead-name") ?? mast); // the visible name, not the seal that replaces it when condensed
     const lines = new Set([...range.getClientRects()].map((x) => Math.round(x.top))).size;
     const controls = {
       meet: document.querySelector(".j-meet"),
@@ -415,6 +415,22 @@ describe("anchors and keyboard focus are never hidden under the pinned header", 
   for (const w of WIDTHS)
     it(`${w}px: tabbing backwards up a long article never focuses something under the header`, async () => {
       const { ctx, page } = await openPage(env, SETUP, { width: w, height: 700, touch: phone(w) });
+      // lazy images are ~2px tall until they load, then grow below the viewport after focus has scrolled to them; load them all first so
+      // the layout is final (the assertion below is unchanged)
+      await page.evaluate(async () => {
+        const imgs = [...document.images];
+        imgs.forEach((i) => (i.loading = "eager"));
+        await Promise.all(
+          imgs.map((i) =>
+            i.complete
+              ? 0
+              : new Promise((r) => {
+                  i.addEventListener("load", r);
+                  i.addEventListener("error", r);
+                }),
+          ),
+        );
+      });
       await page.locator("footer a").first().focus();
       await settle(page, 200);
       const rows = [];
@@ -439,7 +455,12 @@ describe("anchors and keyboard focus are never hidden under the pinned header", 
           s.top >= s.hb - 0.5,
           `"${s.text}" focused at ${s.top}, under the header (${s.hb})`,
         );
-        assert.ok(s.bottom <= 700 + 1, `"${s.text}" is inside the viewport`);
+        // an element taller than the room under the header (a large image) cannot fit whole; it is top-aligned below the header
+        const fits = s.bottom - s.top <= 700 - s.hb - 12;
+        assert.ok(
+          !fits || s.bottom <= 700 + 1,
+          `"${s.text}" (${s.top}..${s.bottom}, header ends ${s.hb}) is inside the viewport`,
+        );
       }
       assert.ok(
         rows.filter((r) => !r.inHeader).length >= 8,

@@ -128,14 +128,13 @@ describe("Appearance offers Text size and Article width only on valid article pa
     });
 
   for (const route of ["/weblog/no-such-page/", "/weblog/2099/01/01/not-an-article.html"])
-    it(`${route} (a direct load of an unknown URL) is the bare 404 page: no Appearance menu, so no reading controls`, async () => {
+    it(`${route} (a direct load of an unknown URL) is the branded 404 in the site shell: Theme only, neither reading control (#87)`, async () => {
       const { ctx, page } = await openPage(env, route);
       assert.match(await page.locator("body").innerText(), /Page not found/);
-      assert.equal(await page.getByRole("button", { name: /Appearance/ }).count(), 0);
-      assert.equal(
-        await page.locator(".j-appearance, input[name=size], input[name=width]").count(),
-        0,
-      );
+      await openMenu(page);
+      assert.deepEqual(await legends(page), ["Theme"]);
+      assert.equal(await page.locator('.j-appearance input[name="theme"]').count(), THEME_COUNT);
+      assert.equal(await page.locator("input[name=size], input[name=width]").count(), 0);
       await ctx.close();
     });
 
@@ -148,7 +147,7 @@ describe("Appearance offers Text size and Article width only on valid article pa
       history.pushState({}, "", "/weblog/2099/01/01/not-an-article.html");
       window.dispatchEvent(new PopStateEvent("popstate"));
     });
-    await page.getByText("This article doesn’t exist.").waitFor();
+    await page.getByRole("heading", { name: "Back to the beginning." }).waitFor();
     await openMenu(page);
     assert.deepEqual(await legends(page), ["Theme"], "a not-found article match is not an article");
     await ctx.close();

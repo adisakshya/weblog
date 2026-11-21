@@ -49,7 +49,7 @@ describe("keyboard", () => {
     }
     const names = seen.map((s) => s.text);
     assert.match(names[0], /Skip to content/);
-    assert.match(names[1], /The blog of/);
+    assert.match(names[1], /^Adisakshya Chauhan$/);
     assert.match(names[2], /Meet Adi/);
     assert.match(names[3], /Search/);
     assert.match(names[4], /Appearance/);

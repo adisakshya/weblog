@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import { appendEndMark } from "@/lib/end-mark";
 
 // Enhances rendered Markdown: copy buttons on code blocks and click-to-enlarge images.
 // Jekyll handoff: assets/js/copy-code.js and assets/js/lightbox.js.
-export function ArticleBody({ html }: { html: string }) {
+export function ArticleBody({ html, endMark = false }: { html: string; endMark?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   // React 19 re-assigns innerHTML whenever the object identity changes, which would wipe the copy buttons, image
   // handlers and focus targets added below the first time any state (e.g. the lightbox) changes.
-  const inner = useMemo(() => ({ __html: html }), [html]);
+  const inner = useMemo(() => ({ __html: endMark ? appendEndMark(html) : html }), [html, endMark]);
   const lastFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {

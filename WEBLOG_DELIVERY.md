@@ -38,7 +38,7 @@ The approved design already existed as React components. Reusing them gives exac
    and `<video controls><source src="…" type="video/webm"></video>` if you need video.
    ```
 2. The URL is `/weblog/YYYY/MM/DD/your-title.html` using the **UTC** date of `date:` (a `+0530` time before 05:30 IST falls on the previous UTC day — this is how the existing `api-ateway` post got its `07/16` URL). Do not rename a published post's file: the file name is the URL.
-3. Preview: `bun run dev` → <http://localhost:3000/weblog/> (auto-reloads).
+3. Preview: `bun run dev` → <http://localhost:5173/weblog/> (auto-reloads).
 4. Open a pull request. CI runs every check; merging to `master` publishes.
 5. A new curated book/video: copy the cover image to `public/curated/`, add an entry to `_data/curated-content.json` (`cover`/`thumbnail` = the file name). No code change and no test edit — the unit, browser, live-check and visual gates derive their expectations from the data, and this exact path (a new article with a new tag **and** a new book) is run through all of them by `tests/publish-path.test.mjs`.
 

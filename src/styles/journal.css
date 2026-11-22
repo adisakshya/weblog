@@ -1,5 +1,17 @@
 /* Adi's Web Journal — reading themes. Handoff target: assets/css/journal.css in Jekyll.
    Every theme defines every token; components only read tokens. */
+
+/* Masthead script font, self-hosted (reuse confirmed by the site owner) — was previously
+   loaded from fonts.cdnfonts.com, a third-party mirror that silently failed to apply on
+   iPhone Safari and Android Chrome while working on desktop/iPad. */
+@font-face {
+  font-family: "Agustina";
+  src: url("./fonts/agustina.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root,
 [data-theme="original"] {
   --j-bg: #ffffff;
@@ -652,7 +664,7 @@ html {
 .j-masthead {
   position: relative;
   --j-seal: 33px; /* the masthead box: line-height + 2 x 4px padding */
-  font-family: "Source Serif 4", Georgia, serif;
+  font-family: "Agustina", "Brush Script MT", cursive;
   font-size: 18px;
   font-weight: 600;
   /* Whole-pixel line heights (the mockup's 1.4 / 1.5 rounded to 25 / 28 / 32 / 40px): a fractional header height would put
@@ -1009,7 +1021,6 @@ html {
     padding-inline: max(24px, env(safe-area-inset-left)) max(24px, env(safe-area-inset-right));
   }
   .j-masthead {
-    font-family: "Agustina", "Brush Script MT", cursive;
     font-size: 27px;
     font-weight: 700;
     line-height: 40px;

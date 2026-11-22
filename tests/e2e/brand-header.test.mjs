@@ -84,8 +84,9 @@ describe("name-only masthead at the top of the page", () => {
       assert.equal(s.lines, 1, "one line");
       assert.ok(s.textW <= s.linkBox.w + 0.5, `text ${s.textW}px fits its ${s.linkBox.w}px box`);
       assert.equal(s.docOverflow, false, "no horizontal overflow");
-      // the existing per-breakpoint faces: the script face from 640px, the compact serif below
-      assert.equal(s.family, w >= 640 ? "Agustina" : "Source Serif 4");
+      // the script face at every width (previously fell back to the serif face below 640px,
+      // which silently broke on iPhone Safari and Android Chrome)
+      assert.equal(s.family, "Agustina");
       assert.equal(s.nameShown, true, "the name is visible at the top");
       assert.equal(s.sealHidden, true, "the seal is not visible at the top");
       for (const k of ["meet", "search", "appearance"]) {

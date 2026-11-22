@@ -84,8 +84,9 @@ export const Route = createRootRoute({
           title: "Adisakshya Chauhan",
           href: `${import.meta.env.BASE_URL}feed.xml`,
         },
-        // Agustina loads from the same CDN stylesheet as production (licence for self-hosting unverified).
-        { rel: "stylesheet", href: "https://fonts.cdnfonts.com/css/agustina" },
+        // Agustina is self-hosted (src/styles/fonts/agustina.woff, @font-face in journal.css;
+        // reuse confirmed by the site owner). It previously loaded from fonts.cdnfonts.com,
+        // which silently failed to apply on iPhone Safari and Android Chrome.
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
         {

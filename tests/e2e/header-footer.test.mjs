@@ -15,11 +15,12 @@ after(async () => {
 const WIDTHS = [320, 375, 390, 430, 768, 1440];
 const phone = (w) => w < 768;
 
-// What each width must show: compact serif on narrow screens, the script face from 640px, at the mockup's sizes.
-const mastheadSpec = (w) =>
-  w >= 640
-    ? { family: "Agustina", px: 27 }
-    : { family: "Source Serif 4", px: w >= 430 ? 23 : w >= 360 ? 20 : 18 };
+// What each width must show: the script face at every width (previously fell back to the serif
+// face below 640px, which silently broke on iPhone Safari and Android Chrome), at the mockup's sizes.
+const mastheadSpec = (w) => ({
+  family: "Agustina",
+  px: w >= 640 ? 27 : w >= 430 ? 23 : w >= 360 ? 20 : 18,
+});
 
 /** Geometry of the header, measured in the page. */
 const measureHeader = (page) =>

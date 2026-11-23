@@ -12,6 +12,7 @@ const slugs = (dir: string) =>
     .map((f) => f.replace(/\.md$/, ""));
 const extraPages = [
   "/weblog/about/",
+  "/weblog/drafts/", // unlisted drafts preview (#92); its links lead the crawler to each draft
   ...slugs("_pages/series").map((s) => `/weblog/series/${s}/`),
   ...slugs("_pages/tags").map((t) => `/weblog/tags/${t}/`),
 ].map((path) => ({ path }));

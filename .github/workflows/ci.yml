@@ -43,6 +43,8 @@ jobs:
         run: bunx playwright install --with-deps chromium
       - name: Authoring path (add an article + a curated book to a copy, build, find them everywhere)
         run: node --test tests/publish-path.test.mjs
+      - name: Drafts preview (#92, listed at /drafts/ and never in the sitemap, feed or tags)
+        run: node --test tests/drafts.test.mjs
       - name: Sitemap and Atom feed
         run: python3 tests/test_feeds.py
       - name: Content fidelity (every legacy block/link/image/anchor/code block present unless explicitly exempt) + negative tests

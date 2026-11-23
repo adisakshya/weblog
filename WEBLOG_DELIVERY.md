@@ -44,6 +44,14 @@ The approved design already existed as React components. Reusing them gives exac
 
 A post first published elsewhere (for example HackerNoon) keeps its authored text exactly and adds `original_url: "https://…"` to the front matter: the page's `<link rel="canonical">` then points at that URL, and the text should say "Originally published on …". Its `header.teaser` image is shown on the home page and tag/series cards (only the three original posts have hand-made cover artwork).
 
+### Drafts (preview before publishing)
+Put an unfinished post in `_drafts/YYYY-MM-DD-your-title.md` (same front matter as a post). After the next deploy it is listed at `/weblog/drafts/` and opens at `/weblog/drafts/your-title/`, rendered like a published post with a "Draft preview" bar and a checklist of what is still missing (title, excerpt, tags, teaser image). Locally: `bun run dev` → <http://localhost:5173/weblog/drafts/>.
+
+- **Publish it:** `git mv _drafts/2026-12-01-your-title.md _posts/2026-12-01-your-title.md`. Nothing else changes.
+- **It is not private.** The page is unlisted, `noindex,nofollow`, has no canonical, and is absent from the home page, tags, series, search, `sitemap.xml` and `feed.xml`, but GitHub Pages has no access control: anyone with the URL can read it, and `_drafts/` is visible in the repository. Keep secrets out of drafts.
+- **Hold a file back completely:** start its name with `_` (`_2026-12-01-idea.md`). It is not built or bundled.
+- Tags on a draft are plain labels (they do not create tag pages). `tests/drafts.test.mjs` guards all of this.
+
 Raw HTML in Markdown is sanitized: only `<video>`/`<source>` and Markdown's own output survive; scripts, event handlers, iframes and `javascript:` URLs are removed (`sanitizePostHtml` in `content.ts`). To allow another tag, extend the allowlist there on purpose.
 
 ## 5. Commands

@@ -1359,3 +1359,38 @@ html {
   margin-top: 0.5rem;
   justify-content: center;
 }
+
+/* Drafts preview (#92): the only styling that is new. A tint of amber over the active theme's own background keeps the theme's text
+   colour readable in all 12 themes; nothing here sets a colour of its own for text. */
+.j-draft-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.9rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid color-mix(in srgb, #d99a06 70%, var(--j-bg));
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, #f5b301 22%, var(--j-bg));
+  color: var(--j-fg);
+  font-size: 0.875rem;
+}
+.j-draft-bar strong {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.j-draft-chip {
+  padding: 0.05rem 0.5rem;
+  border: 1px solid color-mix(in srgb, #d99a06 70%, var(--j-bg));
+  border-radius: 0.25rem;
+  background: color-mix(in srgb, #f5b301 22%, var(--j-bg));
+  color: var(--j-fg);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.j-chip[aria-pressed="true"] {
+  background: var(--j-accent);
+  color: var(--j-accent-fg);
+}

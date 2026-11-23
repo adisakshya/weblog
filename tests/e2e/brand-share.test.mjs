@@ -49,9 +49,10 @@ const fileFor = (route) => {
       ? `${DIST}/${rel}`
       : `${DIST}/${rel}index.html`;
 };
+// attribute values are HTML-escaped in the page (a URL with a query string carries &amp;)
 const metaAll = (h, attr, key) =>
-  [...h.matchAll(new RegExp(`<meta[^>]*${attr}="${key}"[^>]*content="([^"]*)"`, "g"))].map(
-    (m) => m[1],
+  [...h.matchAll(new RegExp(`<meta[^>]*${attr}="${key}"[^>]*content="([^"]*)"`, "g"))].map((m) =>
+    m[1].replaceAll("&amp;", "&"),
   );
 
 describe("the shipped files are the approved brand files, byte for byte", () => {
@@ -141,7 +142,7 @@ describe("share image per route", () => {
         const md = readFileSync(`_posts/${f}`, "utf8");
         return [
           f.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, ""),
-          md.match(/^\s*teaser:\s*(\S+)/m)?.[1] ?? null,
+          md.match(/^\s*teaser:\s*"?([^\s"]+)"?/m)?.[1] ?? null,
         ];
       }),
     );

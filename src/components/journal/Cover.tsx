@@ -1,5 +1,13 @@
 // Covers use fixed artwork palettes so labels never change with the page theme.
-type Props = { slug: string; className?: string };
+import { hasArtwork } from "./artwork";
+
+type Props = { slug: string; className?: string; title?: string; teaser?: string | undefined };
+
+// The three original posts have hand-made artwork below. Any other post shows its own teaser image (front matter
+// `header.teaser`, e.g. an imported HackerNoon post), never another post's artwork.
+// imgix serves a resized copy for ?w=; a 3840px-wide teaser is far larger than any card needs
+const cardImage = (url: string) =>
+  /^https:\/\/hackernoon\.imgix\.net\//.test(url) ? url.replace(/([?&]w=)\d+/, "$11280") : url;
 
 const C = {
   ink: "#14123a",
@@ -10,8 +18,30 @@ const C = {
   slate: "#2d2a5a",
 };
 
-export function Cover({ slug, className = "" }: Props) {
+export function Cover({ slug, className = "", title, teaser }: Props) {
   const cls = `block w-full h-auto rounded-xl ${className}`;
+  if (!hasArtwork(slug)) {
+    if (teaser?.startsWith("https://"))
+      return (
+        <img
+          src={cardImage(teaser)}
+          alt={title ? `Cover image: ${title}` : ""}
+          width={640}
+          height={360}
+          loading="lazy"
+          decoding="async"
+          className={`${cls} aspect-video object-cover`}
+        />
+      );
+    return (
+      <span
+        className={`${cls} grid aspect-video place-items-center p-4 text-center font-bold`}
+        style={{ background: C.indigo, color: C.white }}
+      >
+        {title ?? slug}
+      </span>
+    );
+  }
   if (slug === "introduction-to-api-gateway")
     return (
       <svg viewBox="0 0 640 360" className={cls} role="img" aria-labelledby="cv1">

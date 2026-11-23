@@ -3,6 +3,7 @@ import { shareImageMeta } from "@/content/site";
 import { findPost, posts, seriesFor } from "@/content/content";
 import { postParams } from "@/content/links";
 import { Cover } from "@/components/journal/Cover";
+import { hasArtwork } from "@/components/journal/artwork";
 import { PostMeta } from "@/components/journal/PostMeta";
 import { ArticleBody } from "@/components/journal/ArticleBody";
 import { NotFoundPage } from "@/components/journal/NotFound";
@@ -35,7 +36,8 @@ export const Route = createFileRoute("/_site/$year/$month/$day/$file")({
             ]
           : shareImageMeta()),
       ],
-      links: [{ rel: "canonical", href: `https://adisakshya.github.io${p.url}` }],
+      // an article first published elsewhere (imported from HackerNoon) names that page as canonical
+      links: [{ rel: "canonical", href: p.originalUrl ?? `https://adisakshya.github.io${p.url}` }],
     };
   },
   notFoundComponent: NotFoundPage,
@@ -49,7 +51,12 @@ function Article() {
   const idx = s ? s.posts.indexOf(post) : -1;
   const prev = s && idx > 0 ? s.posts[idx - 1] : undefined;
   const next = s && idx < s.posts.length - 1 ? s.posts[idx + 1] : undefined;
-  const related = posts.filter((p) => p !== post && !s?.posts.includes(p)).slice(0, 2);
+  // "More writing": the two posts nearest to this one in time (the old previous/next neighbours come first), not its series mates
+  const at = posts.indexOf(post);
+  const related = posts
+    .filter((p) => p !== post && !s?.posts.includes(p))
+    .sort((a, b) => Math.abs(posts.indexOf(a) - at) - Math.abs(posts.indexOf(b) - at))
+    .slice(0, 2);
 
   return (
     <article className="px-4 sm:px-6">
@@ -82,7 +89,8 @@ function Article() {
         </div>
       </div>
       <div className="mx-auto mt-8 max-w-3xl">
-        <Cover slug={post.slug} />
+        {/* an imported post already shows its image at the top of its own text */}
+        {hasArtwork(post.slug) && <Cover slug={post.slug} />}
       </div>
       <div className="j-measure">
         {post.headings.length > 1 && (

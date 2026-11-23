@@ -51,7 +51,7 @@ function SeriesPage() {
       <ol className="mt-8 space-y-8">
         {s.posts.map((p, i) => (
           <li key={p.url} className="grid gap-4 sm:grid-cols-[12rem_1fr]">
-            <Cover slug={p.slug} />
+            <Cover slug={p.slug} title={p.title} teaser={p.teaser} />
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest j-muted">
                 Part {i + 1}

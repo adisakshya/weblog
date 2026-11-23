@@ -38,6 +38,8 @@ export type Post = {
   tags: string[];
   series?: string | undefined;
   teaser?: string | undefined;
+  /** Where the article was first published (front matter `original_url`); it is the canonical URL when present. */
+  originalUrl?: string | undefined;
   html: string;
   text: string;
   headings: Heading[];
@@ -60,6 +62,7 @@ type FrontMatter = {
   tags?: string[];
   series?: string | undefined;
   header?: { teaser?: string };
+  original_url?: string;
   [key: string]: unknown;
 };
 
@@ -299,6 +302,10 @@ export const posts: Post[] = Object.entries(postFiles)
       tags: (data.tags ?? []) as string[],
       series: data.series,
       teaser: data.header?.teaser,
+      originalUrl:
+        typeof data.original_url === "string" && /^https:\/\//.test(data.original_url)
+          ? data.original_url
+          : undefined,
       readingTime: Math.max(1, Math.ceil(words / 200)), // Minimal Mistakes words_per_minute: 200
       ...r,
     } satisfies Post;

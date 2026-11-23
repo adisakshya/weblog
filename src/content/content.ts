@@ -67,7 +67,7 @@ type FrontMatter = {
   [key: string]: unknown;
 };
 
-function splitFrontMatter(raw: string): { data: FrontMatter; body: string } {
+export function splitFrontMatter(raw: string): { data: FrontMatter; body: string } {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!m) return { data: {}, body: raw };
   return { data: (YAML.parse(m[1]!) ?? {}) as FrontMatter, body: m[2]! };
@@ -297,32 +297,35 @@ function parseJekyllDate(v: unknown): Date {
   return new Date(s);
 }
 
+/** Builds one Post from a Markdown file path and its raw text. Shared by the published posts and the unlisted drafts preview. */
+export function buildPost(path: string, raw: string): Post {
+  const file = (path.split("/").pop() ?? "").replace(/\.md$/, "");
+  const slug = file.replace(/^\d{4}-\d\d-\d\d-/, "");
+  const { data, body } = splitFrontMatter(raw);
+  const date = parseJekyllDate(data.date ?? file.slice(0, 10));
+  const [y, m, d] = utcDateParts(date); // GitHub Pages builds in UTC
+  const r = render(body);
+  const words = r.text.split(/\s+/).filter(Boolean).length;
+  return {
+    slug,
+    url: `${BASE}/${y}/${m}/${d}/${slug}.html`,
+    title: String(data.title),
+    excerpt: String(data.excerpt ?? ""),
+    date: date.toISOString(),
+    tags: (data.tags ?? []) as string[],
+    series: data.series,
+    teaser: data.header?.teaser ? rehostedImage(data.header.teaser) : undefined,
+    originalUrl:
+      typeof data.original_url === "string" && /^https:\/\//.test(data.original_url)
+        ? data.original_url
+        : undefined,
+    readingTime: Math.max(1, Math.ceil(words / 200)), // Minimal Mistakes words_per_minute: 200
+    ...r,
+  };
+}
+
 export const posts: Post[] = Object.entries(postFiles)
-  .map(([path, raw]) => {
-    const file = (path.split("/").pop() ?? "").replace(/\.md$/, "");
-    const slug = file.replace(/^\d{4}-\d\d-\d\d-/, "");
-    const { data, body } = splitFrontMatter(raw);
-    const date = parseJekyllDate(data.date ?? file.slice(0, 10));
-    const [y, m, d] = utcDateParts(date); // GitHub Pages builds in UTC
-    const r = render(body);
-    const words = r.text.split(/\s+/).filter(Boolean).length;
-    return {
-      slug,
-      url: `${BASE}/${y}/${m}/${d}/${slug}.html`,
-      title: String(data.title),
-      excerpt: String(data.excerpt ?? ""),
-      date: date.toISOString(),
-      tags: (data.tags ?? []) as string[],
-      series: data.series,
-      teaser: data.header?.teaser ? rehostedImage(data.header.teaser) : undefined,
-      originalUrl:
-        typeof data.original_url === "string" && /^https:\/\//.test(data.original_url)
-          ? data.original_url
-          : undefined,
-      readingTime: Math.max(1, Math.ceil(words / 200)), // Minimal Mistakes words_per_minute: 200
-      ...r,
-    } satisfies Post;
-  })
+  .map(([path, raw]) => buildPost(path, raw))
   .sort((a, b) => b.date.localeCompare(a.date));
 
 export const pages: Record<string, Page> = Object.fromEntries(

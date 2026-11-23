@@ -14,6 +14,8 @@ import { Route as SiteIndexRouteImport } from './routes/_site.index'
 import { Route as SiteAboutRouteImport } from './routes/_site.about'
 import { Route as SiteContactRouteImport } from './routes/_site.contact'
 import { Route as SiteTermsRouteImport } from './routes/_site.terms'
+import { Route as SiteDraftsIndexRouteImport } from './routes/_site.drafts.index'
+import { Route as SiteDraftsSlugRouteImport } from './routes/_site.drafts.$slug'
 import { Route as SiteSeriesSeriesRouteImport } from './routes/_site.series.$series'
 import { Route as SiteTagsTagRouteImport } from './routes/_site.tags.$tag'
 import { Route as SiteYearMonthDayFileRouteImport } from './routes/_site.$year.$month.$day.$file'
@@ -42,6 +44,16 @@ const SiteTermsRoute = SiteTermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteDraftsIndexRoute = SiteDraftsIndexRouteImport.update({
+  id: '/drafts/',
+  path: '/drafts/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteDraftsSlugRoute = SiteDraftsSlugRouteImport.update({
+  id: '/drafts/$slug',
+  path: '/drafts/$slug',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteSeriesSeriesRoute = SiteSeriesSeriesRouteImport.update({
   id: '/series/$series',
   path: '/series/$series',
@@ -63,8 +75,10 @@ export interface FileRoutesByFullPath {
   '/about': typeof SiteAboutRoute
   '/contact': typeof SiteContactRoute
   '/terms': typeof SiteTermsRoute
+  '/drafts/$slug': typeof SiteDraftsSlugRoute
   '/series/$series': typeof SiteSeriesSeriesRoute
   '/tags/$tag': typeof SiteTagsTagRoute
+  '/drafts/': typeof SiteDraftsIndexRoute
   '/$year/$month/$day/$file': typeof SiteYearMonthDayFileRoute
 }
 export interface FileRoutesByTo {
@@ -72,8 +86,10 @@ export interface FileRoutesByTo {
   '/contact': typeof SiteContactRoute
   '/terms': typeof SiteTermsRoute
   '/': typeof SiteIndexRoute
+  '/drafts/$slug': typeof SiteDraftsSlugRoute
   '/series/$series': typeof SiteSeriesSeriesRoute
   '/tags/$tag': typeof SiteTagsTagRoute
+  '/drafts': typeof SiteDraftsIndexRoute
   '/$year/$month/$day/$file': typeof SiteYearMonthDayFileRoute
 }
 export interface FileRoutesById {
@@ -83,8 +99,10 @@ export interface FileRoutesById {
   '/_site/contact': typeof SiteContactRoute
   '/_site/terms': typeof SiteTermsRoute
   '/_site/': typeof SiteIndexRoute
+  '/_site/drafts/$slug': typeof SiteDraftsSlugRoute
   '/_site/series/$series': typeof SiteSeriesSeriesRoute
   '/_site/tags/$tag': typeof SiteTagsTagRoute
+  '/_site/drafts/': typeof SiteDraftsIndexRoute
   '/_site/$year/$month/$day/$file': typeof SiteYearMonthDayFileRoute
 }
 export interface FileRouteTypes {
@@ -94,8 +112,10 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/terms'
+    | '/drafts/$slug'
     | '/series/$series'
     | '/tags/$tag'
+    | '/drafts/'
     | '/$year/$month/$day/$file'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -103,8 +123,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/terms'
     | '/'
+    | '/drafts/$slug'
     | '/series/$series'
     | '/tags/$tag'
+    | '/drafts'
     | '/$year/$month/$day/$file'
   id:
     | '__root__'
@@ -113,8 +135,10 @@ export interface FileRouteTypes {
     | '/_site/contact'
     | '/_site/terms'
     | '/_site/'
+    | '/_site/drafts/$slug'
     | '/_site/series/$series'
     | '/_site/tags/$tag'
+    | '/_site/drafts/'
     | '/_site/$year/$month/$day/$file'
   fileRoutesById: FileRoutesById
 }
@@ -159,6 +183,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteTermsRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/drafts/': {
+      id: '/_site/drafts/'
+      path: '/drafts'
+      fullPath: '/drafts/'
+      preLoaderRoute: typeof SiteDraftsIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/drafts/$slug': {
+      id: '/_site/drafts/$slug'
+      path: '/drafts/$slug'
+      fullPath: '/drafts/$slug'
+      preLoaderRoute: typeof SiteDraftsSlugRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/series/$series': {
       id: '/_site/series/$series'
       path: '/series/$series'
@@ -188,8 +226,10 @@ interface SiteRouteChildren {
   SiteContactRoute: typeof SiteContactRoute
   SiteTermsRoute: typeof SiteTermsRoute
   SiteIndexRoute: typeof SiteIndexRoute
+  SiteDraftsSlugRoute: typeof SiteDraftsSlugRoute
   SiteSeriesSeriesRoute: typeof SiteSeriesSeriesRoute
   SiteTagsTagRoute: typeof SiteTagsTagRoute
+  SiteDraftsIndexRoute: typeof SiteDraftsIndexRoute
   SiteYearMonthDayFileRoute: typeof SiteYearMonthDayFileRoute
 }
 
@@ -198,8 +238,10 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteContactRoute: SiteContactRoute,
   SiteTermsRoute: SiteTermsRoute,
   SiteIndexRoute: SiteIndexRoute,
+  SiteDraftsSlugRoute: SiteDraftsSlugRoute,
   SiteSeriesSeriesRoute: SiteSeriesSeriesRoute,
   SiteTagsTagRoute: SiteTagsTagRoute,
+  SiteDraftsIndexRoute: SiteDraftsIndexRoute,
   SiteYearMonthDayFileRoute: SiteYearMonthDayFileRoute,
 }
 

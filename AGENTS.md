@@ -7,6 +7,7 @@ The site is being migrated from Jekyll to a fully prerendered static React site 
 - Markdown in `_posts/`, `_pages/` and `_data/comments/` is authoritative. Never rewrite article prose. Preserve front matter, tags, series and images.
 - Comment data is kept in `_data/comments/` but is intentionally **not rendered**; there is no comment form and no Staticman integration.
 - Analytics are intentionally absent (follow-up #65).
+- `_drafts/*.md` is an unlisted, `noindex` preview at `/weblog/drafts/` (#92). It is public to anyone with the URL, is never part of `posts`, the sitemap, feed or search, and a file starting with `_` is not built. Publishing is a `git mv` into `_posts/`.
 - Branch model: child branches `redesign/<issue>-<slug>` → integration branch `redesign/weblog-static` → `master`. Each child PR needs two completed independent reviews before merge.
 - Never commit generated output (`dist/`, `.output/`, caches) or secrets.
 

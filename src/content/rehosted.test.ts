@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { readdirSync, readFileSync } from "node:fs";
 import { posts, rehostedImage } from "./content";
 

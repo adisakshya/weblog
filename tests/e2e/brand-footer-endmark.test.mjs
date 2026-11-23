@@ -195,9 +195,8 @@ const markInfo = (page) =>
       baselineGap,
       ownLine,
       parentTag: parent?.tagName,
-      lastBlockIsParent: ownLine
-        ? prose.lastElementChild === parent
-        : prose.lastElementChild === parent,
+      // the mark is in the last block (a post can end in a blockquote whose last paragraph holds it)
+      lastBlockIsParent: prose.lastElementChild.contains(parent),
       insideCode: !!m?.closest(".code-block, pre, code"),
       precededBy: before?.textContent?.slice(-12) ?? null,
       markLeft: m?.getBoundingClientRect().left,

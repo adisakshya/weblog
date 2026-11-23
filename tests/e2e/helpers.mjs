@@ -7,6 +7,9 @@ export const ROUTES = [
   "/weblog/2021/07/30/extension-pack-for-vscode-and-code-server.html",
   "/weblog/2022/02/01/introduction-to-api-gateway.html",
   "/weblog/2022/07/16/setting-up-an-api-ateway-for-your-microservices.html",
+  // imported from HackerNoon (#39)
+  "/weblog/2024/08/29/how-to-send-detailed-slack-notifications-from-github-actions.html",
+  "/weblog/2024/08/30/understanding-python-memory-efficiency-tuples-vs-lists.html",
   "/weblog/about/",
   "/weblog/contact/",
   "/weblog/terms/",

@@ -81,6 +81,7 @@ describe("structure and names (every route)", () => {
             e.getAttribute("aria-label") ||
             e.getAttribute("aria-labelledby") ||
             e.textContent ||
+            e.querySelector("img[alt]")?.getAttribute("alt") || // a link that holds only an image is named by its alt
             e.getAttribute("title") ||
             (e.labels && e.labels[0] && e.labels[0].textContent) ||
             ""

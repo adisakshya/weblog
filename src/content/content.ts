@@ -1,3 +1,4 @@
+import rehosted from "./rehosted-images.json";
 // Content loader. Reads the authoritative Markdown in this repository (_posts/, _pages/) at build time.
 // Prose is never edited here. Comment records in _data/comments/ are intentionally not loaded or rendered.
 import { Marked, type Tokens } from "marked";
@@ -38,6 +39,8 @@ export type Post = {
   tags: string[];
   series?: string | undefined;
   teaser?: string | undefined;
+  /** Where the article was first published (front matter `original_url`); it is the canonical URL when present. */
+  originalUrl?: string | undefined;
   html: string;
   text: string;
   headings: Heading[];
@@ -60,6 +63,7 @@ type FrontMatter = {
   tags?: string[];
   series?: string | undefined;
   header?: { teaser?: string };
+  original_url?: string;
   [key: string]: unknown;
 };
 
@@ -247,7 +251,7 @@ function render(source: string) {
         return `<div class="table-wrap" tabindex="0"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
       },
       image({ href, title, text }: Tokens.Image) {
-        return `<img src="${href}" alt="${escapeHtml(text)}"${title ? ` title="${escapeHtml(title)}"` : ""} loading="lazy" decoding="async" class="zoomable" />`;
+        return `<img src="${rehostedImage(href)}" alt="${escapeHtml(text)}"${title ? ` title="${escapeHtml(title)}"` : ""} loading="lazy" decoding="async" class="zoomable" />`;
       },
       link({ href, title, tokens }: Tokens.Link) {
         const inner = this.parser.parseInline(tokens);
@@ -265,6 +269,18 @@ function render(source: string) {
     .replace(/\s+/g, " ")
     .trim();
   return { html, text, headings };
+}
+
+/** An imported post's authored image URL (hackernoon.imgix.net) resolved to the owner's own hosting; anything else is unchanged. */
+export function rehostedImage(url: string): string {
+  try {
+    const u = new URL(url);
+    if (u.hostname === "hackernoon.imgix.net")
+      return (rehosted.images as Record<string, string>)[u.pathname] ?? url;
+  } catch {
+    // a relative or malformed URL is left as authored
+  }
+  return url;
 }
 
 function utcDateParts(d: Date) {
@@ -298,7 +314,11 @@ export const posts: Post[] = Object.entries(postFiles)
       date: date.toISOString(),
       tags: (data.tags ?? []) as string[],
       series: data.series,
-      teaser: data.header?.teaser,
+      teaser: data.header?.teaser ? rehostedImage(data.header.teaser) : undefined,
+      originalUrl:
+        typeof data.original_url === "string" && /^https:\/\//.test(data.original_url)
+          ? data.original_url
+          : undefined,
       readingTime: Math.max(1, Math.ceil(words / 200)), // Minimal Mistakes words_per_minute: 200
       ...r,
     } satisfies Post;

@@ -42,6 +42,8 @@ The approved design already existed as React components. Reusing them gives exac
 4. Open a pull request. CI runs every check; merging to `master` publishes.
 5. A new curated book/video: copy the cover image to `public/curated/`, add an entry to `_data/curated-content.json` (`cover`/`thumbnail` = the file name). No code change and no test edit — the unit, browser, live-check and visual gates derive their expectations from the data, and this exact path (a new article with a new tag **and** a new book) is run through all of them by `tests/publish-path.test.mjs`.
 
+A post first published elsewhere (for example HackerNoon) keeps its authored text exactly and adds `original_url: "https://…"` to the front matter: the page's `<link rel="canonical">` then points at that URL, and the text should say "Originally published on …". Its `header.teaser` image is shown on the home page and tag/series cards (only the three original posts have hand-made cover artwork).
+
 Raw HTML in Markdown is sanitized: only `<video>`/`<source>` and Markdown's own output survive; scripts, event handlers, iframes and `javascript:` URLs are removed (`sanitizePostHtml` in `content.ts`). To allow another tag, extend the allowlist there on purpose.
 
 ## 5. Commands

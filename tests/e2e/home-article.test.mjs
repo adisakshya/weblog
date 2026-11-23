@@ -22,6 +22,17 @@ const section = (page) =>
     ["latest", "subjects-h", "index-h"].find((id) => document.getElementById(id)),
   );
 
+// Focus must come back to the element that opened the lightbox. Radix restores it in a setTimeout(0) after the dialog is
+// removed, so poll briefly; a focus that never returns still fails the test.
+async function focusReturnedTo(page, locator, message = "focus returns to the image") {
+  const handle = await locator.elementHandle();
+  try {
+    await page.waitForFunction((el) => el === document.activeElement, handle, { timeout: 2000 });
+  } catch {
+    assert.fail(message);
+  }
+}
+
 describe("home views", () => {
   const views = [
     ["", "Posts", "latest"],
@@ -135,7 +146,8 @@ describe("article", () => {
     await box.waitFor();
     await page.keyboard.press("Escape");
     await box.waitFor({ state: "hidden" });
-    assert.equal(await img.evaluate((e) => e === document.activeElement), true);
+    // Radix returns focus in a setTimeout(0) after the dialog unmounts, so wait for it rather than reading it instantly
+    await focusReturnedTo(page, img);
     await ctx.close();
   });
   it("the lightbox traps keyboard focus (Tab / Shift+Tab never reach the page behind) and isolates the background", async () => {
@@ -165,7 +177,8 @@ describe("article", () => {
     );
     await page.keyboard.press("Escape");
     await box.waitFor({ state: "hidden" });
-    assert.equal(await img.evaluate((e) => e === document.activeElement), true);
+    // Radix returns focus in a setTimeout(0) after the dialog unmounts, so wait for it rather than reading it instantly
+    await focusReturnedTo(page, img);
     await ctx.close();
   });
   it("copy buttons and image handlers survive opening/closing the lightbox (the article DOM is not re-created)", async () => {
@@ -179,11 +192,7 @@ describe("article", () => {
       await page.getByRole("dialog", { name: "Enlarged image" }).waitFor();
       await page.keyboard.press("Escape");
       await page.getByRole("dialog").waitFor({ state: "hidden" });
-      assert.equal(
-        await img.evaluate((e) => e === document.activeElement),
-        true,
-        `focus returns on round ${i + 1}`,
-      );
+      await focusReturnedTo(page, img, `focus returns on round ${i + 1}`);
     }
     assert.equal(await page.locator(".copy-btn").count(), before);
     assert.equal(

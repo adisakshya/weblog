@@ -62,7 +62,9 @@ class Feeds(unittest.TestCase):
             self.assertRegex(e.find(AT + "published").text, r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d")
             body = e.find(AT + "content").text
             self.assertIn("<p>", body)
-            self.assertNotIn("{{", body)  # Liquid must be resolved
+            # Liquid must be resolved. Only Liquid variables/tags count: a post may legitimately show GitHub Actions
+            # expressions such as ${{ github.repository }} in a code block.
+            self.assertNotRegex(body, r"\{\{\s*(site|page|paginator|content|include)\b|\{%")
             self.assertNotRegex(body, r"(?i)<script|onerror=|javascript:")
 
     def test_feed_has_published_dates_matching_permalinks(self):

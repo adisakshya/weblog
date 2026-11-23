@@ -106,6 +106,8 @@ function Home() {
               <PostLink post={lead} className="plain block">
                 <Cover
                   slug={lead.slug}
+                  title={lead.title}
+                  teaser={lead.teaser}
                   className="transition-transform duration-200 group-hover:-translate-y-0.5"
                 />
               </PostLink>
@@ -132,7 +134,7 @@ function Home() {
                   className="group grid grid-cols-[8rem_1fr] gap-4 sm:grid-cols-[11rem_1fr]"
                 >
                   <PostLink post={p} className="plain">
-                    <Cover slug={p.slug} />
+                    <Cover slug={p.slug} title={p.title} teaser={p.teaser} />
                   </PostLink>
                   <div>
                     <h3 className="text-xl font-bold leading-snug">

@@ -8,13 +8,12 @@ describe("Cover", () => {
     expect(container.querySelector("svg")).not.toBeNull();
   });
 
-  it("never shows another post's artwork: an imported post uses its own teaser, resized", () => {
+  it("never shows another post's artwork: an imported post uses its own teaser (served from Cloudinary)", () => {
     const p = posts.find((x) => x.slug.startsWith("understanding-python-memory"))!;
     const { container } = render(<Cover slug={p.slug} title={p.title} teaser={p.teaser} />);
     expect(container.querySelector("svg")).toBeNull();
     const img = screen.getByRole("img", { name: /Understanding Python Memory/ });
-    expect(img.getAttribute("src")).toMatch(/^https:\/\/hackernoon\.imgix\.net\/.*w=1280/);
-    expect(img.getAttribute("src")).not.toContain("w=3840");
+    expect(img.getAttribute("src")).toMatch(/^https:\/\/res\.cloudinary\.com\/adisakshya\//);
   });
 
   it("falls back to a titled tile, not to artwork, when a post has no image", () => {

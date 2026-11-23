@@ -2,6 +2,7 @@
 // the text, show their own image (never another post's artwork) on the home page, and do not show the image twice.
 import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { openPage, start } from "./helpers.mjs";
 
 const SLACK =
@@ -26,7 +27,7 @@ after(async () => {
 });
 const open = async (route) => {
   const o = await openPage(env, null);
-  await o.ctx.route(/hackernoon\.imgix\.net/, (r) =>
+  await o.ctx.route(/res\.cloudinary\.com/, (r) =>
     r.fulfill({ body: PNG, contentType: "image/png" }),
   );
   await o.page.goto(env.base + (route ?? "/weblog/"), { waitUntil: "networkidle" });
@@ -58,6 +59,17 @@ describe("imported posts", () => {
     });
   }
 
+  it("no built page loads anything from hackernoon.imgix.net (AGENTS.md: no third-party runtime dependency)", () => {
+    for (const f of [
+      "dist/client/index.html",
+      "dist/client/2024/08/29/how-to-send-detailed-slack-notifications-from-github-actions.html",
+      "dist/client/2024/08/30/understanding-python-memory-efficiency-tuples-vs-lists.html",
+      "dist/client/tags/python/index.html",
+      "dist/client/feed.xml",
+    ])
+      assert.ok(!readFileSync(f, "utf8").includes("hackernoon.imgix.net"), f);
+  });
+
   it("the UTC date of 12:00 +0530 is the same calendar day (the URL carries it)", async () => {
     const { ctx, page } = await open(SLACK);
     assert.match(
@@ -76,7 +88,7 @@ describe("imported posts", () => {
       const card = page.locator("article", { has: page.getByRole("heading", { name: title }) });
       assert.equal(await card.locator("svg[role=img]").count(), 0, `${title}: no artwork`);
       const src = await card.locator("img").first().getAttribute("src");
-      assert.match(src, /^https:\/\/hackernoon\.imgix\.net\/.*w=1280/);
+      assert.match(src, /^https:\/\/res\.cloudinary\.com\/adisakshya\//);
     }
     const ids = await page.evaluate(() => [...document.querySelectorAll("[id]")].map((e) => e.id));
     assert.deepEqual(

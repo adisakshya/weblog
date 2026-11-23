@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import rehosted from "../../src/content/rehosted-images.json" with { type: "json" };
 import { ARTICLES, ROUTES, start } from "./helpers.mjs";
 
 let env;
@@ -140,10 +141,12 @@ describe("share image per route", () => {
     Object.fromEntries(
       readdirSync("_posts").map((f) => {
         const md = readFileSync(`_posts/${f}`, "utf8");
-        return [
-          f.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, ""),
-          md.match(/^\s*teaser:\s*"?([^\s"]+)"?/m)?.[1] ?? null,
-        ];
+        const teaser = md.match(/^\s*teaser:\s*"?([^\s"]+)"?/m)?.[1] ?? null;
+        // an imported post's authored HackerNoon image is served from the owner's Cloudinary (rehosted-images.json)
+        const u = teaser && new URL(teaser);
+        const own =
+          u && u.hostname === "hackernoon.imgix.net" ? rehosted.images[u.pathname] : teaser;
+        return [f.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, ""), own ?? null];
       }),
     );
 

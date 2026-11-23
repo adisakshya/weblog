@@ -5,10 +5,6 @@ type Props = { slug: string; className?: string; title?: string; teaser?: string
 
 // The three original posts have hand-made artwork below. Any other post shows its own teaser image (front matter
 // `header.teaser`, e.g. an imported HackerNoon post), never another post's artwork.
-// imgix serves a resized copy for ?w=; a 3840px-wide teaser is far larger than any card needs
-const cardImage = (url: string) =>
-  /^https:\/\/hackernoon\.imgix\.net\//.test(url) ? url.replace(/([?&]w=)\d+/, "$11280") : url;
-
 const C = {
   ink: "#14123a",
   indigo: "#4338ca",
@@ -24,7 +20,7 @@ export function Cover({ slug, className = "", title, teaser }: Props) {
     if (teaser?.startsWith("https://"))
       return (
         <img
-          src={cardImage(teaser)}
+          src={teaser}
           alt={title ? `Cover image: ${title}` : ""}
           width={640}
           height={360}

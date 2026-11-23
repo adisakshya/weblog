@@ -1,0 +1,8 @@
+{
+  "comment": "Images of posts imported from HackerNoon (#39), served from the owner's Cloudinary instead of hackernoon.imgix.net (AGENTS.md: no third-party runtime dependency). Key: the original image path on hackernoon.imgix.net. The posts' Markdown and front matter keep the original URLs unchanged; content.ts resolves them through this map when rendering.",
+  "images": {
+    "/images/Za3QtTvBFDSxRQKeQkur9mQWXt83-hu13yrd.png": "https://res.cloudinary.com/adisakshya/image/upload/v1795459354/Za3QtTvBFDSxRQKeQkur9mQWXt83-hu13yrd_siuus9.avif",
+    "/images/Za3QtTvBFDSxRQKeQkur9mQWXt83-pm43xym.png": "https://res.cloudinary.com/adisakshya/image/upload/v1795459353/Za3QtTvBFDSxRQKeQkur9mQWXt83-pm43xym_jmb0ap.avif",
+    "/images/Za3QtTvBFDSxRQKeQkur9mQWXt83-t503ymb.png": "https://res.cloudinary.com/adisakshya/image/upload/v1795459354/Za3QtTvBFDSxRQKeQkur9mQWXt83-t503ymb_g350ha.avif"
+  }
+}

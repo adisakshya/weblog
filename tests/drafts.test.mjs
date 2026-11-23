@@ -139,3 +139,25 @@ test("with no drafts the page still builds and says so", { timeout: 900_000 }, (
   assert.match(list, /name="robots" content="noindex,nofollow"/);
   assert.doesNotMatch(readFileSync(join(dist, "sitemap.xml"), "utf8"), /drafts/);
 });
+
+test(
+  "two drafts with the same slug fail the build with a clear error",
+  { timeout: 900_000 },
+  (t) => {
+    const tmp = mkdtempSync(join(tmpdir(), "weblog-dupdrafts-"));
+    t.after(() => rmSync(tmp, { recursive: true, force: true }));
+    copyRepo(tmp);
+    mkdirSync(join(tmp, "_drafts"));
+    for (const day of ["20", "23"])
+      writeFileSync(
+        join(tmp, `_drafts/2099-02-${day}-update.md`),
+        `---\ntitle: "Update ${day}"\ndate: 2099-02-${day} 10:00:00 +0530\n---\n\nBody ${day}.\n`,
+      );
+    const vite = spawnSync(process.execPath, ["node_modules/vite/bin/vite.js", "build"], {
+      cwd: tmp,
+      encoding: "utf8",
+    });
+    assert.notEqual(vite.status, 0, "the build must fail");
+    assert.match(vite.stdout + vite.stderr, /duplicate draft slug 'update'/);
+  },
+);

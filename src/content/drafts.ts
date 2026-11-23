@@ -37,8 +37,25 @@ export function buildDraft(path: string, raw: string): Draft {
   };
 }
 
-export const drafts: Draft[] = Object.entries(draftFiles)
-  .map(([path, raw]) => buildDraft(path, raw))
-  .sort((a, b) => b.date.localeCompare(a.date));
+/** Two drafts that differ only by date share a URL (the date is not part of it), so one would be unreachable. Fail the build instead. */
+export function assertUniqueSlugs(list: Pick<Draft, "slug" | "file">[]) {
+  const seen = new Map<string, string>();
+  for (const d of list) {
+    const other = seen.get(d.slug);
+    if (other)
+      throw new Error(
+        `duplicate draft slug '${d.slug}': ${other} and ${d.file} both map to ${draftUrl(d.slug)}. Rename one of them.`,
+      );
+    seen.set(d.slug, d.file);
+  }
+}
+
+export const drafts: Draft[] = (() => {
+  const list = Object.entries(draftFiles)
+    .map(([path, raw]) => buildDraft(path, raw))
+    .sort((a, b) => b.date.localeCompare(a.date));
+  assertUniqueSlugs(list);
+  return list;
+})();
 
 export const findDraft = (slug: string) => drafts.find((d) => d.slug === slug);

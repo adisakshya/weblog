@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildDraft, draftUrl } from "./drafts";
+import { assertUniqueSlugs, buildDraft, draftUrl } from "./drafts";
 
 const raw = (front: string) => `---\n${front}\n---\n\nBody text here.\n`;
 
@@ -26,5 +26,21 @@ describe("buildDraft", () => {
     expect(d.url).toBe(draftUrl("my-post"));
     expect(d.url).toBe("/weblog/drafts/my-post/");
     expect(d.file).toBe("_drafts/2026-11-20-my-post.md");
+  });
+});
+
+describe("assertUniqueSlugs", () => {
+  it("throws, naming both files, when two drafts differ only by date", () => {
+    const a = buildDraft("/_drafts/2026-11-20-update.md", raw("title: A\ndate: 2026-11-20"));
+    const b = buildDraft("/_drafts/2026-11-23-update.md", raw("title: B\ndate: 2026-11-23"));
+    expect(() => assertUniqueSlugs([a, b])).toThrow(
+      /duplicate draft slug 'update'.*2026-11-20-update\.md.*2026-11-23-update\.md/,
+    );
+  });
+
+  it("accepts distinct slugs", () => {
+    const a = buildDraft("/_drafts/2026-11-20-one.md", raw("title: A\ndate: 2026-11-20"));
+    const b = buildDraft("/_drafts/2026-11-20-two.md", raw("title: B\ndate: 2026-11-20"));
+    expect(() => assertUniqueSlugs([a, b])).not.toThrow();
   });
 });

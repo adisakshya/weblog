@@ -50,6 +50,7 @@ Put an unfinished post in `_drafts/YYYY-MM-DD-your-title.md` (same front matter 
 - **Publish it:** `git mv _drafts/2026-12-01-your-title.md _posts/2026-12-01-your-title.md`. Nothing else changes.
 - **It is not private.** The page is unlisted, `noindex,nofollow`, has no canonical, and is absent from the home page, tags, series, search, `sitemap.xml` and `feed.xml`, but GitHub Pages has no access control: anyone with the URL can read it, and `_drafts/` is visible in the repository. Keep secrets out of drafts.
 - **Hold a file back completely:** start its name with `_` (`_2026-12-01-idea.md`). It is not built or bundled.
+- A draft's slug is its file name without the date, so two drafts with the same slug (`2026-11-20-update.md`, `2026-11-23-update.md`) fail the build; rename one.
 - Tags on a draft are plain labels (they do not create tag pages). `tests/drafts.test.mjs` guards all of this.
 
 Raw HTML in Markdown is sanitized: only `<video>`/`<source>` and Markdown's own output survive; scripts, event handlers, iframes and `javascript:` URLs are removed (`sanitizePostHtml` in `content.ts`). To allow another tag, extend the allowlist there on purpose.

@@ -1,0 +1,27 @@
+{
+  "name": "Weblog (TanStack Start + Bun)",
+  // Node 22 matches CI (.github/workflows/ci.yml); Bun is pinned to the same version CI installs.
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "features": {
+    // python3 runs the content-preservation and feed checks (tests/*.py, scripts/*.py)
+    "ghcr.io/devcontainers/features/python:1": { "version": "os-provided", "installTools": false }
+  },
+  "onCreateCommand": "npm install --global bun@1.4.4",
+  // The browser step is allowed to fail: a Codespace must still open, and `bun run test:e2e` tells you what is missing.
+  "postCreateCommand": "bun install --frozen-lockfile && (bunx playwright install --with-deps chromium || echo 'Chromium install failed: run `bunx playwright install --with-deps chromium` before bun run test:e2e')",
+  "forwardPorts": [5173, 4300],
+  "portsAttributes": {
+    "5173": { "label": "Dev server: open /weblog/ (bun run dev)", "onAutoForward": "notify" },
+    "4300": { "label": "Built site: open /weblog/ (bun run preview)", "onAutoForward": "silent" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
+    }
+  }
+}

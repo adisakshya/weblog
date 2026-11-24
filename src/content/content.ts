@@ -382,6 +382,19 @@ export const groupings = [
     description: "Editors, remote coding setups and the workflows around them.",
     tags: ["vscode", "code-server", "github", "ci-cd", "travis"],
   },
+  {
+    label: "Programming",
+    description: "Language features, performance and the habits behind clean code.",
+    tags: [
+      "python",
+      "python-programming",
+      "python-tips",
+      "programming",
+      "programming-tips",
+      "memory-optimisation",
+      "code-optimization",
+    ],
+  },
 ]
   .map((g) => ({ ...g, posts: posts.filter((p) => p.tags.some((t) => g.tags.includes(t))) }))
   .filter((g) => g.posts.length);
